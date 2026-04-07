@@ -37,7 +37,7 @@ public static class DbInitialize
                 Feeling TEXT NOT NULL
                 FOREIGN KEY (PersonId) REFERENCES Person (Id)
             );
-            CREATE TABLE IF NOT EXISTS Medicine(
+            CREATE TABLE IF NOT EXISTS Medicine (
                 Id INTEGER PRIMARY KEY AUTOINCREMENT
                 Name TEXT NOT NULL UNIQUE
                 Description TEXT NOT NULL
@@ -46,7 +46,8 @@ public static class DbInitialize
             );
             CREATE TABLE IF NOT EXISTS Person (
                 Id INTEGER PRIMARY KEY AUTOINCREMENT
-                Name TEXT NOT NULL
+                FirstName TEXT NOT NULL
+                LastName TEXT NOT NULL
                 MedicineList TEXT
             );
             """;

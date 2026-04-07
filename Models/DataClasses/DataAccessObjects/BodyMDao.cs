@@ -5,9 +5,9 @@ using Microsoft.Data.Sqlite;
 
 namespace MEMOMed.Models.DataClasses.DataAccessObjects;
 
-public class HeartMDao : IMeasurementDao<HeartMeasurement>
+public class BodyMDao : IMeasurementDao<BodyMeasurement>
 {
-    public void InsertRecord(HeartMeasurement record)
+    public void InsertRecord(BodyMeasurement record)
     {
         try
         {
@@ -15,15 +15,12 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
             conn.Open();
             using var cmd = conn.CreateCommand();
             cmd.CommandText = """
-                              INSERT INTO HeartMeasurements
-                              VALUES (NULL, @PersonId, @Datetime, @Sys, @Dia, @HRhythm, @IsArrhythmia)
+                              INSERT INTO BodyMeasurements
+                              VALUES (NULL, @PersonId, @Datetime, @Temperature)
                               """;
             cmd.Parameters.AddWithValue("@PersonId", record.PersonId);
             cmd.Parameters.AddWithValue("@Datetime", record.Datetime);
-            cmd.Parameters.AddWithValue("@Sys", record.Sys);
-            cmd.Parameters.AddWithValue("@Dia", record.Dia);
-            cmd.Parameters.AddWithValue("@HRhythm", record.HRhythm);
-            cmd.Parameters.AddWithValue("@IsArrhythmia", record.IsArrhythmia);
+            cmd.Parameters.AddWithValue("@Temperature", record.Temperature);
 
             cmd.ExecuteNonQuery();
         }
@@ -33,9 +30,9 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
         }
     }
 
-    public HeartMeasurement? GrabRecordById(int id)
+    public BodyMeasurement? GrabRecordById(int id)
     {
-        HeartMeasurement record = new();
+        BodyMeasurement record = new();
         try
         {
             using var conn = new SqliteConnection(Constants.DbPath);
@@ -43,7 +40,7 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
             using var cmd = conn.CreateCommand();
             cmd.CommandText = """
                               SELECT * 
-                              FROM HeartMeasurements
+                              FROM BodyMeasurements
                               WHERE Id = @id
                               """;
             cmd.Parameters.AddWithValue("@id", id);
@@ -55,10 +52,7 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
                     record.Id = reader.GetInt32(0);
                     record.PersonId = reader.GetInt32(1);
                     record.Datetime = reader.GetString(2);
-                    record.Sys = reader.GetInt32(3);
-                    record.Dia = reader.GetInt32(4);
-                    record.HRhythm = reader.GetInt32(5);
-                    record.IsArrhythmia = reader.GetInt32(6);
+                    record.Temperature = reader.GetDouble(3);
                 }
             }
             else
@@ -75,9 +69,9 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
         }
     }
 
-    public List<HeartMeasurement>? GrabRecordsByPersonId(int personId)
+    public List<BodyMeasurement>? GrabRecordsByPersonId(int personId)
     {
-        var hmList = new List<HeartMeasurement>();
+        var bmList = new List<BodyMeasurement>();
         try
         {
             using var conn = new SqliteConnection(Constants.DbPath);
@@ -85,7 +79,7 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
             using var cmd = conn.CreateCommand();
             cmd.CommandText = """
                               SELECT * 
-                              FROM HeartMeasurements
+                              FROM BodyMeasurements
                               WHERE PersonId = @PersonId
                               """;
             cmd.Parameters.AddWithValue("@PersonId", personId);
@@ -94,17 +88,14 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
             {
                 while (reader.Read())
                 {
-                    HeartMeasurement record = new()
+                    BodyMeasurement record = new()
                     {
                         Id = reader.GetInt32(0),
                         PersonId = reader.GetInt32(1),
                         Datetime = reader.GetString(2),
-                        Sys = reader.GetInt32(3),
-                        Dia = reader.GetInt32(4),
-                        HRhythm = reader.GetInt32(5),
-                        IsArrhythmia = reader.GetInt32(6)
+                        Temperature = reader.GetDouble(3)
                     };
-                    hmList.Add(record);
+                    bmList.Add(record);
                 }
             }
             else
@@ -112,7 +103,7 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
                 throw new Exception("Record not found");
             }
 
-            return hmList;
+            return bmList;
         }
         catch (SqliteException e)
         {
@@ -121,9 +112,9 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
         }
     }
 
-    public List<HeartMeasurement>? GrabRecordsByDate(string date)
+    public List<BodyMeasurement>? GrabRecordsByDate(string date)
     {
-        var hmList = new List<HeartMeasurement>();
+        var bmList = new List<BodyMeasurement>();
         try
         {
             using var conn = new SqliteConnection(Constants.DbPath);
@@ -131,7 +122,7 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
             using var cmd = conn.CreateCommand();
             cmd.CommandText = """
                               SELECT * 
-                              FROM HeartMeasurements
+                              FROM BodyMeasurements
                               WHERE DateTime = @Datetime
                               """;
             cmd.Parameters.AddWithValue("@Datetime", date);
@@ -140,17 +131,14 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
             {
                 while (reader.Read())
                 {
-                    HeartMeasurement record = new()
+                    BodyMeasurement record = new()
                     {
                         Id = reader.GetInt32(0),
                         PersonId = reader.GetInt32(1),
                         Datetime = reader.GetString(2),
-                        Sys = reader.GetInt32(3),
-                        Dia = reader.GetInt32(4),
-                        HRhythm = reader.GetInt32(5),
-                        IsArrhythmia = reader.GetInt32(6)
+                        Temperature = reader.GetDouble(3)
                     };
-                    hmList.Add(record);
+                    bmList.Add(record);
                 }
             }
             else
@@ -158,7 +146,7 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
                 throw new Exception("Record not found");
             }
 
-            return hmList;
+            return bmList;
         }
         catch (SqliteException e)
         {
@@ -167,7 +155,7 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
         }
     }
 
-    public void UpdateRecord(HeartMeasurement newRecord, int oldId)
+    public void UpdateRecord(BodyMeasurement newRecord, int oldId)
     {
         try
         {
@@ -175,21 +163,14 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
             conn.Open();
             using var cmd = conn.CreateCommand();
             cmd.CommandText = """
-                              UPDATE HeartMeasurements
+                              UPDATE BodyMeasurements
                               SET Datetime = @Datetime,
-                                  Sys = @Sys,
-                                  Dia = @Dia,
-                                  HRhythm = @HRhythm,
-                                  IsArrhythmia = @IsArrhythmia
+                                  Temperature = @Temperature,
                               WHERE Id = @id
                               """;
             cmd.Parameters.AddWithValue("@Datetime", newRecord.Datetime);
-            cmd.Parameters.AddWithValue("@Sys", newRecord.Sys);
-            cmd.Parameters.AddWithValue("@Dia", newRecord.Dia);
-            cmd.Parameters.AddWithValue("@HRhythm", newRecord.HRhythm);
-            cmd.Parameters.AddWithValue("@IsArrhythmia", newRecord.IsArrhythmia);
-            cmd.Parameters.AddWithValue("@id", oldId);
-            
+            cmd.Parameters.AddWithValue("@Temperature", newRecord.Temperature);
+
             cmd.ExecuteNonQuery();
         }
         catch (SqliteException e)
@@ -206,11 +187,11 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
             conn.Open();
             using var cmd = conn.CreateCommand();
             cmd.CommandText = """
-                              DELETE FROM HeartMeasurements
+                              DELETE FROM BodyMeasurements
                               WHERE Id = @id
                               """;
             cmd.Parameters.AddWithValue("@id", id);
-            
+
             cmd.ExecuteNonQuery();
         }
         catch (SqliteException e)

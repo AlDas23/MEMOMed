@@ -2,8 +2,8 @@ namespace MEMOMed.Models.DataClasses;
 
 public class HeartMeasurement : Measurement
 {
-    private int Sys { get; set; }
-    private int Dia { get; set; }
-    private int HRhythm { get; set; }
-    private int IsArrhythmia { get; set; }
+    public int Sys { get; set; }
+    public int Dia { get; set; }
+    public int HRhythm { get; set; }
+    public int IsArrhythmia { get; set; }
 }

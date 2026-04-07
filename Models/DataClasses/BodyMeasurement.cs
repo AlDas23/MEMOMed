@@ -2,5 +2,5 @@ namespace MEMOMed.Models.DataClasses;
 
 public class BodyMeasurement : Measurement
 {
-    private double Temperature { get; set; }
+    public double Temperature { get; set; }
 }
