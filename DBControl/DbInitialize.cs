@@ -48,8 +48,15 @@ public static class DbInitialize
                 Id INTEGER PRIMARY KEY AUTOINCREMENT
                 FirstName TEXT NOT NULL
                 LastName TEXT NOT NULL
-                MedicineList TEXT
             );
+            CREATE TABLE IF NOT EXISTS PersonMedicine (
+                PersonId INTEGER NOT NULL
+                MedicineId INTEGER NOT NULL
+                FOREIGN KEY (PersonId) REFERENCES Person (Id)
+                ON DELETE CASCADE
+                FOREIGN KEY (MedicineId) REFERENCES Medicine (Id)
+                ON DELETE CASCADE
+            )
             """;
         await cmd.ExecuteNonQueryAsync();
     }
