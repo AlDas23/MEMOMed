@@ -12,7 +12,7 @@ sealed class Program
     [STAThread]
     public static void Main(string[] args)
     {
-        DbInitialize.InitializeAsync(Constants.DbPath).GetAwaiter().GetResult();
+        DbInitialize.InitializeAsync(Constants.DbConnectionString).GetAwaiter().GetResult();
         
         BuildAvaloniaApp()
             .StartWithClassicDesktopLifetime(args);

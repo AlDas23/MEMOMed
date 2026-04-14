@@ -11,7 +11,7 @@ public class FeelingMDao : IMeasurementDao<FeelingMeasurement>
     {
         try
         {
-            using var conn = new SqliteConnection(Constants.DbPath);
+            using var conn = new SqliteConnection(Constants.DbConnectionString);
             conn.Open();
             using var cmd = conn.CreateCommand();
             cmd.CommandText = """
@@ -36,7 +36,7 @@ public class FeelingMDao : IMeasurementDao<FeelingMeasurement>
         var record = new FeelingMeasurement();
         try
         {
-            using var conn = new SqliteConnection(Constants.DbPath);
+            using var conn = new SqliteConnection(Constants.DbConnectionString);
             conn.Open();
             using var cmd = conn.CreateCommand();
             cmd.CommandText = """
@@ -76,7 +76,7 @@ public class FeelingMDao : IMeasurementDao<FeelingMeasurement>
         var fmList = new List<FeelingMeasurement>();
         try
         {
-            using var conn = new SqliteConnection(Constants.DbPath);
+            using var conn = new SqliteConnection(Constants.DbConnectionString);
             conn.Open();
             using var cmd = conn.CreateCommand();
             cmd.CommandText = """
@@ -120,7 +120,7 @@ public class FeelingMDao : IMeasurementDao<FeelingMeasurement>
         var fmList = new List<FeelingMeasurement>();
         try
         {
-            using var conn = new SqliteConnection(Constants.DbPath);
+            using var conn = new SqliteConnection(Constants.DbConnectionString);
             conn.Open();
             using var cmd = conn.CreateCommand();
             cmd.CommandText = """
@@ -163,7 +163,7 @@ public class FeelingMDao : IMeasurementDao<FeelingMeasurement>
     {
         try
         {
-            using var conn = new SqliteConnection(Constants.DbPath);
+            using var conn = new SqliteConnection(Constants.DbConnectionString);
             conn.Open();
             using var cmd = conn.CreateCommand();
             cmd.CommandText = """
@@ -189,7 +189,7 @@ public class FeelingMDao : IMeasurementDao<FeelingMeasurement>
     {
         try
         {
-            using var conn = new SqliteConnection(Constants.DbPath);
+            using var conn = new SqliteConnection(Constants.DbConnectionString);
             conn.Open();
             using var cmd = conn.CreateCommand();
             cmd.CommandText = """

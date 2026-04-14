@@ -11,7 +11,7 @@ public class MedicineDao : IGenericDao<Medicine>
     {
         try
         {
-            using var conn = new SqliteConnection(Constants.DbPath);
+            using var conn = new SqliteConnection(Constants.DbConnectionString);
             conn.Open();
             using var cmd = conn.CreateCommand();
             cmd.CommandText = """
@@ -36,7 +36,7 @@ public class MedicineDao : IGenericDao<Medicine>
         var entity = new Medicine();
         try
         {
-            using var conn = new SqliteConnection(Constants.DbPath);
+            using var conn = new SqliteConnection(Constants.DbConnectionString);
             conn.Open();
             using var cmd = conn.CreateCommand();
             cmd.CommandText = """
@@ -71,12 +71,51 @@ public class MedicineDao : IGenericDao<Medicine>
         }
     }
 
+    public List<Medicine>? GetAllEntities()
+    {
+        List<Medicine> entityList = [];
+        using var conn = new SqliteConnection(Constants.DbConnectionString);
+        conn.Open();
+        try
+        {
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = """
+                              SELECT * 
+                              FROM Medicine
+                              """;
+            using var reader = cmd.ExecuteReader();
+
+            if (reader.Read())
+            {
+                while (reader.Read())
+                {
+                    Medicine medicine = new Medicine()
+                    {
+                        Id = reader.GetInt32(0),
+                        Name = reader.GetString(1),
+                        Description = reader.GetString(2),
+                    };
+                        medicine.SetDayScheduleFromString(reader.GetString(3));
+                        medicine.SetTimeScheduleFromString(reader.GetString(4));
+                    entityList.Add(medicine);
+                }
+            }
+            
+            return entityList;
+        }
+        catch (SqliteException e)
+        {
+            Console.WriteLine(e.Message);
+            return null;
+        }
+    }
+
     public List<Medicine>? GrabAllEntities()
     {
         var entityList = new List<Medicine>();
         try
         {
-            using var conn = new SqliteConnection(Constants.DbPath);
+            using var conn = new SqliteConnection(Constants.DbConnectionString);
             conn.Open();
             using var cmd = conn.CreateCommand();
             cmd.CommandText = """
@@ -117,7 +156,7 @@ public class MedicineDao : IGenericDao<Medicine>
     {
         try
         {
-            using var conn = new SqliteConnection(Constants.DbPath);
+            using var conn = new SqliteConnection(Constants.DbConnectionString);
             conn.Open();
             using var cmd = conn.CreateCommand();
             cmd.CommandText = """
@@ -146,7 +185,7 @@ public class MedicineDao : IGenericDao<Medicine>
     {
         try
         {
-            using var conn = new SqliteConnection(Constants.DbPath);
+            using var conn = new SqliteConnection(Constants.DbConnectionString);
             conn.Open();
             using var cmd = conn.CreateCommand();
             cmd.CommandText = """

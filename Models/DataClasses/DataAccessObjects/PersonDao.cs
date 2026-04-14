@@ -11,7 +11,7 @@ public class PersonDao : IGenericDao<Person>
     {
         try
         {
-            using var conn = new SqliteConnection(Constants.DbPath);
+            using var conn = new SqliteConnection(Constants.DbConnectionString);
             conn.Open();
             using var cmd = conn.CreateCommand();
             cmd.CommandText = """
@@ -34,7 +34,7 @@ public class PersonDao : IGenericDao<Person>
         Person entity = new Person();
         try
         {
-            using var conn = new SqliteConnection(Constants.DbPath);
+            using var conn = new SqliteConnection(Constants.DbConnectionString);
             conn.Open();
             using var cmd = conn.CreateCommand();
             cmd.CommandText = """
@@ -85,11 +85,49 @@ public class PersonDao : IGenericDao<Person>
         }
     }
 
+    public List<Person>? GetAllEntities()
+    {
+        List<Person> entityList = [];
+        using var conn = new SqliteConnection(Constants.DbConnectionString);
+        conn.Open();
+        try
+        {
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = """
+                              SELECT * 
+                              FROM Person
+                              """;
+            using var reader = cmd.ExecuteReader();
+
+            if (reader.Read())
+            {
+                while (reader.Read())
+                {
+                    Person person = new Person()
+                    {
+                        Id = reader.GetInt32(0),
+                        FirstName = reader.GetString(1),
+                        LastName = reader.GetString(2)
+                    };
+                    entityList.Add(person);
+                }
+            }
+            
+            return entityList;
+        }
+        catch (SqliteException e)
+        {
+            Console.WriteLine(e.Message);
+            return null;
+        }
+    }
+
+
     public void UpdateEntity(Person newEntity, int oldId)
     {
         try
         {
-            using var conn = new SqliteConnection(Constants.DbPath);
+            using var conn = new SqliteConnection(Constants.DbConnectionString);
             conn.Open();
             using var cmd = conn.CreateCommand();
             cmd.CommandText = """
@@ -110,7 +148,7 @@ public class PersonDao : IGenericDao<Person>
 
     public void UpdateEntityMedicineList(int personId, List<int> medicineIds)
     {
-        using var conn = new SqliteConnection(Constants.DbPath);
+        using var conn = new SqliteConnection(Constants.DbConnectionString);
         conn.Open();
         using var tran = conn.BeginTransaction();
         try
@@ -130,14 +168,14 @@ public class PersonDao : IGenericDao<Person>
                                """;
             var personParam = cmd2.Parameters.AddWithValue("@PersonId", System.Data.DbType.Int32);
             var medicineParam = cmd2.Parameters.AddWithValue("@MedicineId", System.Data.DbType.Int32);
-            
+
             personParam.Value = personId;
             foreach (var medicineId in medicineIds)
             {
                 medicineParam.Value = medicineId;
                 cmd2.ExecuteNonQuery();
             }
-            
+
             tran.Commit();
         }
         catch (SqliteException e)
@@ -149,7 +187,7 @@ public class PersonDao : IGenericDao<Person>
 
     public void DeleteEntity(int id)
     {
-        using var conn = new SqliteConnection(Constants.DbPath);
+        using var conn = new SqliteConnection(Constants.DbConnectionString);
         conn.Open();
         try
         {

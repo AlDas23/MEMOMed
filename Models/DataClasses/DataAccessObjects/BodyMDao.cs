@@ -11,7 +11,7 @@ public class BodyMDao : IMeasurementDao<BodyMeasurement>
     {
         try
         {
-            using var conn = new SqliteConnection(Constants.DbPath);
+            using var conn = new SqliteConnection(Constants.DbConnectionString);
             conn.Open();
             using var cmd = conn.CreateCommand();
             cmd.CommandText = """
@@ -35,7 +35,7 @@ public class BodyMDao : IMeasurementDao<BodyMeasurement>
         BodyMeasurement record = new();
         try
         {
-            using var conn = new SqliteConnection(Constants.DbPath);
+            using var conn = new SqliteConnection(Constants.DbConnectionString);
             conn.Open();
             using var cmd = conn.CreateCommand();
             cmd.CommandText = """
@@ -74,7 +74,7 @@ public class BodyMDao : IMeasurementDao<BodyMeasurement>
         var bmList = new List<BodyMeasurement>();
         try
         {
-            using var conn = new SqliteConnection(Constants.DbPath);
+            using var conn = new SqliteConnection(Constants.DbConnectionString);
             conn.Open();
             using var cmd = conn.CreateCommand();
             cmd.CommandText = """
@@ -117,7 +117,7 @@ public class BodyMDao : IMeasurementDao<BodyMeasurement>
         var bmList = new List<BodyMeasurement>();
         try
         {
-            using var conn = new SqliteConnection(Constants.DbPath);
+            using var conn = new SqliteConnection(Constants.DbConnectionString);
             conn.Open();
             using var cmd = conn.CreateCommand();
             cmd.CommandText = """
@@ -159,7 +159,7 @@ public class BodyMDao : IMeasurementDao<BodyMeasurement>
     {
         try
         {
-            using var conn = new SqliteConnection(Constants.DbPath);
+            using var conn = new SqliteConnection(Constants.DbConnectionString);
             conn.Open();
             using var cmd = conn.CreateCommand();
             cmd.CommandText = """
@@ -183,7 +183,7 @@ public class BodyMDao : IMeasurementDao<BodyMeasurement>
     {
         try
         {
-            using var conn = new SqliteConnection(Constants.DbPath);
+            using var conn = new SqliteConnection(Constants.DbConnectionString);
             conn.Open();
             using var cmd = conn.CreateCommand();
             cmd.CommandText = """

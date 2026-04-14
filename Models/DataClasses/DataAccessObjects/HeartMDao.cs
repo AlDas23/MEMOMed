@@ -11,7 +11,7 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
     {
         try
         {
-            using var conn = new SqliteConnection(Constants.DbPath);
+            using var conn = new SqliteConnection(Constants.DbConnectionString);
             conn.Open();
             using var cmd = conn.CreateCommand();
             cmd.CommandText = """
@@ -38,7 +38,7 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
         HeartMeasurement record = new();
         try
         {
-            using var conn = new SqliteConnection(Constants.DbPath);
+            using var conn = new SqliteConnection(Constants.DbConnectionString);
             conn.Open();
             using var cmd = conn.CreateCommand();
             cmd.CommandText = """
@@ -80,7 +80,7 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
         var hmList = new List<HeartMeasurement>();
         try
         {
-            using var conn = new SqliteConnection(Constants.DbPath);
+            using var conn = new SqliteConnection(Constants.DbConnectionString);
             conn.Open();
             using var cmd = conn.CreateCommand();
             cmd.CommandText = """
@@ -126,7 +126,7 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
         var hmList = new List<HeartMeasurement>();
         try
         {
-            using var conn = new SqliteConnection(Constants.DbPath);
+            using var conn = new SqliteConnection(Constants.DbConnectionString);
             conn.Open();
             using var cmd = conn.CreateCommand();
             cmd.CommandText = """
@@ -171,7 +171,7 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
     {
         try
         {
-            using var conn = new SqliteConnection(Constants.DbPath);
+            using var conn = new SqliteConnection(Constants.DbConnectionString);
             conn.Open();
             using var cmd = conn.CreateCommand();
             cmd.CommandText = """
@@ -202,7 +202,7 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
     {
         try
         {
-            using var conn = new SqliteConnection(Constants.DbPath);
+            using var conn = new SqliteConnection(Constants.DbConnectionString);
             conn.Open();
             using var cmd = conn.CreateCommand();
             cmd.CommandText = """

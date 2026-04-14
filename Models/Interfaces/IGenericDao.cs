@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace MEMOMed.Models.Interfaces;
 
 public interface IGenericDao<T>
@@ -6,6 +8,7 @@ public interface IGenericDao<T>
     void InsertEntity(T entity);
     // Read
     T? GrabEntityById(int id);
+    List<T>? GetAllEntities();
     // Update
     void UpdateEntity(T newEntity, int oldId);
     // Delete
