@@ -1,0 +1,32 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:MEMOMed.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="520"
+        x:Class="MEMOMed.Views.LoginView"
+        x:DataType="vm:LoginViewModel"
+        Title="MEMOMed"
+        Width="400"
+        Height="520">
+
+    <Design.DataContext>
+        <vm:LoginViewModel />
+    </Design.DataContext>
+
+    <StackPanel HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Spacing="20">
+        <TextBlock HorizontalAlignment="Center" FontSize="24">MEMOMed</TextBlock>
+        <StackPanel Orientation="Horizontal"
+                    VerticalAlignment="Top">
+            <TextBlock Margin="20, 5" FontSize="15">Select profile: </TextBlock>
+            <ComboBox ItemsSource="{Binding Profiles}"
+                      SelectedItem="{Binding SelectedProfile}"
+                      MinWidth="90">
+            </ComboBox>
+        </StackPanel>
+        <Button HorizontalAlignment="Center" FontSize="15" Command="{Binding SelectProfileCommand}">Sign in</Button>
+        <Button HorizontalAlignment="Center" FontSize="15" Command="{Binding CreateProfileCommand}">Create profile</Button>
+    </StackPanel>
+</Window>

@@ -1,12 +1,13 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using MEMOMed.ViewModels;
 
 namespace MEMOMed.Views;
 
-public partial class ProfileCreate : Window
+public partial class LoginView : Window
 {
-    public ProfileCreate()
+    public LoginView()
     {
         InitializeComponent();
     }

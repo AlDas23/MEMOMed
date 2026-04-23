@@ -7,14 +7,19 @@ namespace MEMOMed.Models.DataClasses;
 
 public class Medicine
 {
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public string Description { get; set; }
-    public List<EWeekday> DaySchedule { get; set; }
-    public List<EDayTime> TimeSchedule { get; set; }
+    public int? Id { get; set; }
+    public string? Name { get; set; }
+    public string? Description { get; set; }
+    public List<EWeekday>? DaySchedule { get; set; }
+    public List<EDayTime>? TimeSchedule { get; set; }
 
     public string GetDayScheduleString()
     {
+        if (DaySchedule == null || DaySchedule.Count == 0)
+        {
+            return string.Empty;
+        }
+
         var result = new StringBuilder();
         for (int i = 0; i < DaySchedule.Count; i++)
         {
@@ -31,6 +36,10 @@ public class Medicine
 
     public string GetTimeScheduleString()
     {
+        if (TimeSchedule == null || TimeSchedule.Count == 0)
+        {
+            return string.Empty;
+        }
         var result = new StringBuilder();
         for (int i = 0; i < TimeSchedule.Count; i++)
         {
@@ -61,7 +70,7 @@ public class Medicine
             DaySchedule.Add(Enum.Parse<EWeekday>(day));
         }
     }
-    
+
     public void SetTimeScheduleFromString(string scheduleString)
     {
         TimeSchedule = new List<EDayTime>();

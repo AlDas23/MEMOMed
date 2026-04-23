@@ -8,20 +8,23 @@ namespace MEMOMed.ViewModels;
 
 public partial class ProfileCreateViewModel : ViewModelBase
 {
-    [ObservableProperty]
-    private string _firstName;
-    [ObservableProperty]
-    private string _lastName;
+    private readonly MainWindowViewModel _mainViewModel;
+    [ObservableProperty] private string _firstName =  string.Empty;
+    [ObservableProperty] private string _lastName = string.Empty;
+    [ObservableProperty] private string _errorMessage =  string.Empty;
+    [ObservableProperty] private bool _showErrorPopup;
 
     [RelayCommand]
     private void CreateProfile()
     {
         const string regex = @"([a-zA-Z]+)";
+        ErrorMessage = string.Empty;
+        ShowErrorPopup = false;
         var personDao = new PersonDao();
 
-        if (Regex.IsMatch(FirstName, regex))
+        if (Regex.IsMatch(FirstName, regex) && FirstName != string.Empty)
         {
-            if (Regex.IsMatch(LastName, regex))
+            if (Regex.IsMatch(LastName, regex) && LastName != string.Empty)
             {
                 Person person = new Person()
                 {
@@ -29,15 +32,26 @@ public partial class ProfileCreateViewModel : ViewModelBase
                     LastName = LastName
                 };
                 personDao.InsertEntity(person);
+                _mainViewModel.NavigateToLoginPage();
             }
             else
             {
-                // Give warning
+                ErrorMessage = "Illegal first or last name";
+                ShowErrorPopup = true;
             }
         }
         else
         {
-            // Give warning
+            ErrorMessage = "Illegal first or last name";
+            ShowErrorPopup = true;
         }
+    }
+
+    [RelayCommand]
+    private void CloseError() => ShowErrorPopup = false;
+
+    public ProfileCreateViewModel(MainWindowViewModel mainViewModel)
+    {
+        _mainViewModel = mainViewModel;
     }
 }
