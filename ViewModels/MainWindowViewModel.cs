@@ -24,4 +24,8 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         CurrentViewModel = new MenuViewModel(this);
     }
+    public void NavigateToMeasurementsPage()
+    {
+        CurrentViewModel = new AddMeasurementsViewModel(this);
+    }
 }

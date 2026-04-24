@@ -20,7 +20,7 @@ public partial class MenuViewModel : ViewModelBase
     [RelayCommand]
     private void SwitchToAddMeasurements()
     {
-        // switch to measurement page
+        _mainWindowViewModel.NavigateToMeasurementsPage();
     }
     [RelayCommand]
     private void SwitchToViewMeasurements()

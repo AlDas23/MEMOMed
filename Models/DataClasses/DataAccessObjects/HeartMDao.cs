@@ -58,7 +58,7 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
                     record.Sys = reader.GetInt32(3);
                     record.Dia = reader.GetInt32(4);
                     record.HRhythm = reader.GetInt32(5);
-                    record.IsArrhythmia = reader.GetInt32(6);
+                    record.IsArrhythmia = reader.GetBoolean(6);
                 }
             }
             else
@@ -102,7 +102,7 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
                         Sys = reader.GetInt32(3),
                         Dia = reader.GetInt32(4),
                         HRhythm = reader.GetInt32(5),
-                        IsArrhythmia = reader.GetInt32(6)
+                        IsArrhythmia = reader.GetBoolean(6)
                     };
                     hmList.Add(record);
                 }
@@ -148,7 +148,7 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
                         Sys = reader.GetInt32(3),
                         Dia = reader.GetInt32(4),
                         HRhythm = reader.GetInt32(5),
-                        IsArrhythmia = reader.GetInt32(6)
+                        IsArrhythmia = reader.GetBoolean(6)
                     };
                     hmList.Add(record);
                 }

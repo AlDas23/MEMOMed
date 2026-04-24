@@ -12,5 +12,5 @@ public static class Constants
 
     public static readonly string DbConnectionString = $"Data Source={DbPath}";
     
-    public static Person? SelectedPerson;
+    public static int? SelectedPersonId;
 }

@@ -15,8 +15,8 @@ public partial class LoginViewModel : ViewModelBase
     [RelayCommand]
     private void SelectProfile()
     {
-        Constants.SelectedPerson = SelectedProfile;
-        // _mainViewModel.CurrentViewModel = new ViewModel for menu page
+        Constants.SelectedPersonId = SelectedProfile?.Id;
+        _mainViewModel.NavigateToMenuPage();
     }
 
     [RelayCommand]
