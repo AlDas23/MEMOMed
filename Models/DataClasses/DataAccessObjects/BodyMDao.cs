@@ -19,7 +19,7 @@ public class BodyMDao : IMeasurementDao<BodyMeasurement>
                               VALUES (NULL, @PersonId, @Datetime, @Temperature)
                               """;
             cmd.Parameters.AddWithValue("@PersonId", record.PersonId);
-            cmd.Parameters.AddWithValue("@Datetime", record.Datetime);
+            cmd.Parameters.AddWithValue("@Datetime", record.Date);
             cmd.Parameters.AddWithValue("@Temperature", record.Temperature);
 
             cmd.ExecuteNonQuery();
@@ -51,7 +51,7 @@ public class BodyMDao : IMeasurementDao<BodyMeasurement>
                 {
                     record.Id = reader.GetInt32(0);
                     record.PersonId = reader.GetInt32(1);
-                    record.Datetime = reader.GetString(2);
+                    record.Date = reader.GetString(2);
                     record.Temperature = reader.GetDouble(3);
                 }
             }
@@ -92,7 +92,7 @@ public class BodyMDao : IMeasurementDao<BodyMeasurement>
                     {
                         Id = reader.GetInt32(0),
                         PersonId = reader.GetInt32(1),
-                        Datetime = reader.GetString(2),
+                        Date = reader.GetString(2),
                         Temperature = reader.GetDouble(3)
                     };
                     bmList.Add(record);
@@ -135,7 +135,7 @@ public class BodyMDao : IMeasurementDao<BodyMeasurement>
                     {
                         Id = reader.GetInt32(0),
                         PersonId = reader.GetInt32(1),
-                        Datetime = reader.GetString(2),
+                        Date = reader.GetString(2),
                         Temperature = reader.GetDouble(3)
                     };
                     bmList.Add(record);
@@ -168,7 +168,7 @@ public class BodyMDao : IMeasurementDao<BodyMeasurement>
                                   Temperature = @Temperature,
                               WHERE Id = @id
                               """;
-            cmd.Parameters.AddWithValue("@Datetime", newRecord.Datetime);
+            cmd.Parameters.AddWithValue("@Datetime", newRecord.Date);
             cmd.Parameters.AddWithValue("@Temperature", newRecord.Temperature);
 
             cmd.ExecuteNonQuery();

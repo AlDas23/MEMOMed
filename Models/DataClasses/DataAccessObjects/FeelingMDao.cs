@@ -19,7 +19,7 @@ public class FeelingMDao : IMeasurementDao<FeelingMeasurement>
                               VALUES (NULL, @PersonId, @Datetime, @Medication, @Feeling)
                               """;
             cmd.Parameters.AddWithValue("@PersonId", record.PersonId);
-            cmd.Parameters.AddWithValue("@Datetime", record.Datetime);
+            cmd.Parameters.AddWithValue("@Datetime", record.Date);
             cmd.Parameters.AddWithValue("@Medication", record.Medication);
             cmd.Parameters.AddWithValue("@Feeling", record.Feeling);
 
@@ -52,7 +52,7 @@ public class FeelingMDao : IMeasurementDao<FeelingMeasurement>
                 {
                     record.Id = reader.GetInt32(0);
                     record.PersonId = reader.GetInt32(1);
-                    record.Datetime = reader.GetString(2);
+                    record.Date = reader.GetString(2);
                     record.Medication = reader.GetString(3);
                     record.Feeling = reader.GetString(4);
                 }
@@ -94,7 +94,7 @@ public class FeelingMDao : IMeasurementDao<FeelingMeasurement>
                     {
                         Id = reader.GetInt32(0),
                         PersonId = reader.GetInt32(1),
-                        Datetime = reader.GetString(2),
+                        Date = reader.GetString(2),
                         Medication = reader.GetString(3),
                         Feeling = reader.GetString(4)
                     };
@@ -138,7 +138,7 @@ public class FeelingMDao : IMeasurementDao<FeelingMeasurement>
                     {
                         Id = reader.GetInt32(0),
                         PersonId = reader.GetInt32(1),
-                        Datetime = reader.GetString(2),
+                        Date = reader.GetString(2),
                         Medication = reader.GetString(3),
                         Feeling = reader.GetString(4)
                     };
@@ -173,7 +173,7 @@ public class FeelingMDao : IMeasurementDao<FeelingMeasurement>
                                   Feeling = @Feeling
                               WHERE Id = @id
                               """;
-            cmd.Parameters.AddWithValue("@Datetime", newRecord.Datetime);
+            cmd.Parameters.AddWithValue("@Datetime", newRecord.Date);
             cmd.Parameters.AddWithValue("@Medication", newRecord.Medication);
             cmd.Parameters.AddWithValue("@Feeling", newRecord.Feeling);
 

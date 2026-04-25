@@ -36,13 +36,13 @@ public partial class ProfileCreateViewModel : ViewModelBase
             }
             else
             {
-                ErrorMessage = "Illegal first or last name";
+                ErrorMessage = "Illegal last name";
                 ShowErrorPopup = true;
             }
         }
         else
         {
-            ErrorMessage = "Illegal first or last name";
+            ErrorMessage = "Illegal first name";
             ShowErrorPopup = true;
         }
     }

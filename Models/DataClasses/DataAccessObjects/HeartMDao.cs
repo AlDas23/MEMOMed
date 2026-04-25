@@ -19,7 +19,7 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
                               VALUES (NULL, @PersonId, @Datetime, @Sys, @Dia, @HRhythm, @IsArrhythmia)
                               """;
             cmd.Parameters.AddWithValue("@PersonId", record.PersonId);
-            cmd.Parameters.AddWithValue("@Datetime", record.Datetime);
+            cmd.Parameters.AddWithValue("@Datetime", record.Date);
             cmd.Parameters.AddWithValue("@Sys", record.Sys);
             cmd.Parameters.AddWithValue("@Dia", record.Dia);
             cmd.Parameters.AddWithValue("@HRhythm", record.HRhythm);
@@ -54,7 +54,7 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
                 {
                     record.Id = reader.GetInt32(0);
                     record.PersonId = reader.GetInt32(1);
-                    record.Datetime = reader.GetString(2);
+                    record.Date = reader.GetString(2);
                     record.Sys = reader.GetInt32(3);
                     record.Dia = reader.GetInt32(4);
                     record.HRhythm = reader.GetInt32(5);
@@ -98,7 +98,7 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
                     {
                         Id = reader.GetInt32(0),
                         PersonId = reader.GetInt32(1),
-                        Datetime = reader.GetString(2),
+                        Date = reader.GetString(2),
                         Sys = reader.GetInt32(3),
                         Dia = reader.GetInt32(4),
                         HRhythm = reader.GetInt32(5),
@@ -144,7 +144,7 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
                     {
                         Id = reader.GetInt32(0),
                         PersonId = reader.GetInt32(1),
-                        Datetime = reader.GetString(2),
+                        Date = reader.GetString(2),
                         Sys = reader.GetInt32(3),
                         Dia = reader.GetInt32(4),
                         HRhythm = reader.GetInt32(5),
@@ -183,7 +183,7 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
                                   IsArrhythmia = @IsArrhythmia
                               WHERE Id = @id
                               """;
-            cmd.Parameters.AddWithValue("@Datetime", newRecord.Datetime);
+            cmd.Parameters.AddWithValue("@Datetime", newRecord.Date);
             cmd.Parameters.AddWithValue("@Sys", newRecord.Sys);
             cmd.Parameters.AddWithValue("@Dia", newRecord.Dia);
             cmd.Parameters.AddWithValue("@HRhythm", newRecord.HRhythm);

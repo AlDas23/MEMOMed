@@ -1,0 +1,94 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:MEMOMed.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="500"
+        x:Class="MEMOMed.Views.AddMeasurementsView"
+        x:DataType="vm:AddMeasurementsViewModel"
+        Title="Add Measurements"
+        Width="600"
+        Height="500"
+        Padding="20">
+
+    <Design.DataContext>
+        <vm:AddMeasurementsViewModel />
+    </Design.DataContext>
+
+    <DockPanel>
+        <!-- Top Navigation Bar -->
+        <DockPanel DockPanel.Dock="Top" Margin="0,0,0,20">
+            <Button Content="Go back"
+                    DockPanel.Dock="Left"
+                    Command="{Binding GoBackCommand}"
+                    Margin="4" />
+
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" Margin="4">
+                <Button Content="Body measurement"
+                        Command="{Binding BodyMChangeCommand}"
+                        Margin="4,0" />
+                <Button Content="Heart measurement"
+                        Command="{Binding HeartMChangeCommand}"
+                        Margin="4,0" />
+                <Button Content="Feeling measurement"
+                        Command="{Binding FeelMChangeCommand}"
+                        Margin="4,0" />
+            </StackPanel>
+        </DockPanel>
+
+        <!-- Form & Submit Area -->
+        <Grid RowDefinitions="Auto,Auto">
+            <Grid Grid.Row="0"
+                  Margin="0,0,0,16"
+                  RowDefinitions="Auto,Auto,Auto,Auto, Auto"
+                  ColumnDefinitions="Auto,*">
+
+                <!-- DatePicker -->
+                <TextBlock Text="Date:"
+                           Grid.Row="0" Grid.Column="0"
+                           VerticalAlignment="Center"
+                           Margin="0,0,8,8" />
+                <DatePicker Grid.Row="0" Grid.Column="1"
+                            SelectedDate="{Binding SelectedDate}"
+                            Margin="0,0,0,8" />
+
+                <TextBlock Text="DIA"
+                           Grid.Row="1" Grid.Column="0"
+                           VerticalAlignment="Center"
+                           Margin="0,0,8,8">
+                </TextBlock>
+                <TextBox Grid.Row="1" Grid.Column="1"
+                         Text="{Binding TextField1}"
+                         Margin="0,0,0,8" />
+
+                <TextBlock Text="Notes / Details:"
+                           Grid.Row="2" Grid.Column="0"
+                           VerticalAlignment="Center"
+                           Margin="0,0,8,8" />
+                <TextBox Grid.Row="2" Grid.Column="1"
+                         Text="{Binding TextField2}"
+                         Margin="0,0,0,8" />
+                
+                <TextBlock Text="Notes / Details:"
+                           Grid.Row="3" Grid.Column="0"
+                           VerticalAlignment="Center"
+                           Margin="0,0,8,8" />
+                <TextBox Grid.Row="3" Grid.Column="1"
+                         Text="{Binding TextField3}"
+                         Margin="0,0,0,8" />
+
+                <CheckBox Grid.Row="4" Grid.Column="1"
+                          Content="Arrhythmia?"
+                          IsChecked="{Binding IsArrhythmiaCheckBox}"
+                          Margin="0,4,0,0" />
+            </Grid>
+
+            <Button Grid.Row="1"
+                    Content="Submit"
+                    Command="{Binding SubmitRecordCommand}"
+                    HorizontalAlignment="Right"
+                    Padding="30,10"
+                    Margin="0,16,0,0" />
+        </Grid>
+    </DockPanel>
+</Window>

@@ -23,6 +23,11 @@ public partial class MenuViewModel : ViewModelBase
         _mainWindowViewModel.NavigateToMeasurementsPage();
     }
     [RelayCommand]
+    private void SwitchToMedicineConfiguration()
+    {
+        // switch to medicine configuration page
+    }
+    [RelayCommand]
     private void SwitchToViewMeasurements()
     {
         // switch to view measurement page

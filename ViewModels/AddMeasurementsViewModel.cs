@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MEMOMed.Models.DataClasses;
@@ -12,22 +11,11 @@ public partial class AddMeasurementsViewModel : ViewModelBase
 {
     private readonly MainWindowViewModel _mainWindowViewModel;
     [ObservableProperty] private EPageType _pageType;
-    [ObservableProperty] private string _datetime;
+    [ObservableProperty] private string _selectedDate;
     [ObservableProperty] private string? _textField1;
     [ObservableProperty] private string? _textField2;
     [ObservableProperty] private string? _textField3;
-    [ObservableProperty] private bool? _arrhythmiaCheckBox;
-    [ObservableProperty] private bool _isMorningSelected;
-    [ObservableProperty] private bool _isAfternoonSelected;
-    [ObservableProperty] private bool _isEveningSelected;
-    [ObservableProperty] private bool _isNightSelected;
-    [ObservableProperty] private bool _isMondaySelected;
-    [ObservableProperty] private bool _isTuesdaySelected;
-    [ObservableProperty] private bool _isWednesdaySelected;
-    [ObservableProperty] private bool _isThursdaySelected;
-    [ObservableProperty] private bool _isFridaySelected;
-    [ObservableProperty] private bool _isSaturdaySelected;
-    [ObservableProperty] private bool _isSundaySelected;
+    [ObservableProperty] private bool? _isArrhythmiaCheckBox;
     [ObservableProperty] private bool _isError;
     [ObservableProperty] private string _errorMessage;
 
@@ -36,7 +24,7 @@ public partial class AddMeasurementsViewModel : ViewModelBase
     {
         PageType = EPageType.HeartMeasurement;
         IsError = false;
-        ArrhythmiaCheckBox = false;
+        IsArrhythmiaCheckBox = false;
         _mainWindowViewModel = null;
     }
 
@@ -44,7 +32,7 @@ public partial class AddMeasurementsViewModel : ViewModelBase
     {
         PageType = EPageType.HeartMeasurement;
         IsError = false;
-        ArrhythmiaCheckBox = false;
+        IsArrhythmiaCheckBox = false;
         _mainWindowViewModel = mainWindowViewModel;
     }
 
@@ -53,38 +41,10 @@ public partial class AddMeasurementsViewModel : ViewModelBase
         PageType = pageType;
     }
 
-    private List<EDayTime> TimeSchedule
-    {
-        get
-        {
-            var selected = new List<EDayTime>();
-            if (IsMorningSelected) selected.Add(EDayTime.Morning);
-            if (IsAfternoonSelected) selected.Add(EDayTime.Afternoon);
-            if (IsEveningSelected) selected.Add(EDayTime.Evening);
-            if (IsNightSelected) selected.Add(EDayTime.Night);
-            return selected;
-        }
-    }
-
-    private List<EWeekday> DaySchedule
-    {
-        get
-        {
-            var selected = new List<EWeekday>();
-            if (IsMondaySelected) selected.Add(EWeekday.Monday);
-            if (IsTuesdaySelected) selected.Add(EWeekday.Tuesday);
-            if (IsWednesdaySelected) selected.Add(EWeekday.Wednesday);
-            if (IsThursdaySelected) selected.Add(EWeekday.Thursday);
-            if (IsFridaySelected) selected.Add(EWeekday.Friday);
-            if (IsSaturdaySelected) selected.Add(EWeekday.Saturday);
-            if (IsSundaySelected) selected.Add(EWeekday.Sunday);
-            return selected;
-        }
-    }
 
     private void SubmitHeartMeasurement()
     {
-        if (string.IsNullOrEmpty(Datetime))
+        if (string.IsNullOrEmpty(SelectedDate))
         {
             var em = "Invalid Heart Measurement: Error in field \"DATETIME\"!";
             throw new Exception(em);
@@ -108,7 +68,7 @@ public partial class AddMeasurementsViewModel : ViewModelBase
             throw new Exception(em);
         }
 
-        if (ArrhythmiaCheckBox == null)
+        if (IsArrhythmiaCheckBox == null)
         {
             var em = "Invalid Heart Measurement: Error in checkbox \"Arrhythmia\"!";
             throw new Exception(em);
@@ -118,11 +78,11 @@ public partial class AddMeasurementsViewModel : ViewModelBase
         {
             Id = null,
             PersonId = Constants.SelectedPersonId,
-            Datetime = Datetime,
+            Date = SelectedDate,
             Sys = int.Parse(TextField1),
             Dia = int.Parse(TextField2),
             HRhythm = int.Parse(TextField3),
-            IsArrhythmia = ArrhythmiaCheckBox
+            IsArrhythmia = IsArrhythmiaCheckBox
         };
 
         HeartMDao hmdao = new HeartMDao();
@@ -131,7 +91,7 @@ public partial class AddMeasurementsViewModel : ViewModelBase
 
     private void SubmitBodyMeasurements()
     {
-        if (string.IsNullOrEmpty(Datetime))
+        if (string.IsNullOrEmpty(SelectedDate))
         {
             var em = "Invalid Body Measurement: Error in field \"DATETIME\"!";
             throw new Exception(em);
@@ -146,7 +106,7 @@ public partial class AddMeasurementsViewModel : ViewModelBase
         BodyMeasurement bodyMeasurement = new BodyMeasurement()
         {
             Id = null,
-            Datetime = Datetime,
+            Date = SelectedDate,
             PersonId = Constants.SelectedPersonId,
             Temperature = double.Parse(TextField1)
         };
@@ -157,7 +117,7 @@ public partial class AddMeasurementsViewModel : ViewModelBase
 
     private void SubmitFeelingMeasurements()
     {
-        if (string.IsNullOrEmpty(Datetime))
+        if (string.IsNullOrEmpty(SelectedDate))
         {
             var em = "Invalid Feeling Measurement: Error in field \"DATETIME\"!";
             throw new Exception(em);
@@ -167,7 +127,7 @@ public partial class AddMeasurementsViewModel : ViewModelBase
         {
             Id = null,
             PersonId = Constants.SelectedPersonId,
-            Datetime = Datetime,
+            Date = SelectedDate,
             Medication = string.IsNullOrEmpty(TextField1) ? string.Empty : TextField1,
             Feeling = string.IsNullOrEmpty(TextField2) ? string.Empty : TextField2
         };
@@ -176,62 +136,22 @@ public partial class AddMeasurementsViewModel : ViewModelBase
         feelingMDao.InsertRecord(feelingMeasurement);
     }
 
-    private void SubmitMedicine()
-    {
-        if (string.IsNullOrEmpty(TextField1))
-        {
-            var em = "Invalid Medicine Data: Error in field \"NAME\"!";
-            throw new Exception(em);
-        }
-
-        if (string.IsNullOrEmpty(TextField2))
-        {
-            var em = "Invalid Medicine Data: Error in field \"DESCRIPTION\"!";
-            throw new Exception(em);
-        }
-
-        var timeSchedule = TimeSchedule;
-        var daySchedule = DaySchedule;
-
-        Medicine medicine = new Medicine()
-        {
-            Id = null,
-            Name = TextField1,
-            Description = TextField2,
-            DaySchedule = daySchedule,
-            TimeSchedule = timeSchedule
-        };
-        MedicineDao medicineDao = new MedicineDao();
-        medicineDao.InsertEntity(medicine);
-    }
-
-    private void SubmitMedicineAssign()
-    {
-        //TODO Implement medicine assignment page. User should be able to assign which medicine (from all) is assigned to him.
-    }
-
     [RelayCommand]
     private void BodyMChange()
     {
         ChangePage(EPageType.BodyMeasurement);
+    }
+    
+    [RelayCommand]
+    private void HeartMChange()
+    {
+        ChangePage(EPageType.HeartMeasurement);
     }
 
     [RelayCommand]
     private void FeelMChange()
     {
         ChangePage(EPageType.FeelingMeasurement);
-    }
-
-    [RelayCommand]
-    private void MedicineChange()
-    {
-        ChangePage(EPageType.Medicine);
-    }
-
-    [RelayCommand]
-    private void MedicineAssignChange()
-    {
-        ChangePage(EPageType.MedicineAssign);
     }
 
     [RelayCommand]
@@ -287,49 +207,17 @@ public partial class AddMeasurementsViewModel : ViewModelBase
                 }
 
                 goto default;
-            case EPageType.Medicine:
-                try
-                {
-                    SubmitMedicine();
-                }
-                catch (Exception ex)
-                {
-                    ErrorMessage = ex.Message;
-                    IsError = true;
-                }
-
-                goto default;
-            case EPageType.MedicineAssign:
-                try
-                {
-                    SubmitMedicineAssign();
-                }
-                catch (Exception ex)
-                {
-                    ErrorMessage = ex.Message;
-                    IsError = true;
-                }
-
-                goto default;
             default:
-                Datetime = string.Empty;
+                SelectedDate = string.Empty;
                 TextField1 = string.Empty;
                 TextField2 = string.Empty;
                 TextField3 = string.Empty;
-                ArrhythmiaCheckBox = false;
-                IsMorningSelected = false;
-                IsAfternoonSelected = false;
-                IsEveningSelected = false;
-                IsNightSelected = false;
-                IsMondaySelected = false;
-                IsTuesdaySelected = false;
-                IsWednesdaySelected = false;
-                IsThursdaySelected = false;
-                IsFridaySelected = false;
-                IsSaturdaySelected = false;
-                IsSundaySelected = false;
+                IsArrhythmiaCheckBox = false;
                 ErrorMessage = string.Empty;
                 break;
         }
     }
+    
+    [RelayCommand]
+    private void CloseError() => IsError = false;
 }
