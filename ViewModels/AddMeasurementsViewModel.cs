@@ -1,4 +1,5 @@
 using System;
+using Avalonia.Data;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MEMOMed.Models.DataClasses;
@@ -11,18 +12,25 @@ public partial class AddMeasurementsViewModel : ViewModelBase
 {
     private readonly MainWindowViewModel _mainWindowViewModel;
     [ObservableProperty] private EPageType _pageType;
-    [ObservableProperty] private string _selectedDate;
+    [ObservableProperty] private DateTimeOffset? _selectedDate;
     [ObservableProperty] private string? _textField1;
+    [ObservableProperty] private string? _textField1Name;
     [ObservableProperty] private string? _textField2;
+    [ObservableProperty] private string? _textField2Name;
+    [ObservableProperty] private bool _isTextField2Visible;
     [ObservableProperty] private string? _textField3;
-    [ObservableProperty] private bool? _isArrhythmiaCheckBox;
+    [ObservableProperty] private string? _textField3Name;
+    [ObservableProperty] private bool _isTextField3Visible;
+    [ObservableProperty] private bool _isArrhythmiaCheckBox;
+    [ObservableProperty] private bool _isVisibleArrhythmiaCheckBox;
     [ObservableProperty] private bool _isError;
     [ObservableProperty] private string _errorMessage;
 
     // For designer ONLY
     public AddMeasurementsViewModel()
     {
-        PageType = EPageType.HeartMeasurement;
+        HeartMChange();
+        SelectedDate = DateTime.Now.Date;
         IsError = false;
         IsArrhythmiaCheckBox = false;
         _mainWindowViewModel = null;
@@ -30,7 +38,8 @@ public partial class AddMeasurementsViewModel : ViewModelBase
 
     public AddMeasurementsViewModel(MainWindowViewModel mainWindowViewModel)
     {
-        PageType = EPageType.HeartMeasurement;
+        HeartMChange();
+        SelectedDate = DateTime.Now.Date;
         IsError = false;
         IsArrhythmiaCheckBox = false;
         _mainWindowViewModel = mainWindowViewModel;
@@ -44,7 +53,7 @@ public partial class AddMeasurementsViewModel : ViewModelBase
 
     private void SubmitHeartMeasurement()
     {
-        if (string.IsNullOrEmpty(SelectedDate))
+        if (string.IsNullOrEmpty(SelectedDate.ToString()) || DateTime.TryParse(SelectedDate.ToString(), out _))
         {
             var em = "Invalid Heart Measurement: Error in field \"DATETIME\"!";
             throw new Exception(em);
@@ -68,17 +77,11 @@ public partial class AddMeasurementsViewModel : ViewModelBase
             throw new Exception(em);
         }
 
-        if (IsArrhythmiaCheckBox == null)
-        {
-            var em = "Invalid Heart Measurement: Error in checkbox \"Arrhythmia\"!";
-            throw new Exception(em);
-        }
-
         HeartMeasurement hMeasurement = new HeartMeasurement()
         {
             Id = null,
             PersonId = Constants.SelectedPersonId,
-            Date = SelectedDate,
+            Date = SelectedDate.ToString(),
             Sys = int.Parse(TextField1),
             Dia = int.Parse(TextField2),
             HRhythm = int.Parse(TextField3),
@@ -91,7 +94,7 @@ public partial class AddMeasurementsViewModel : ViewModelBase
 
     private void SubmitBodyMeasurements()
     {
-        if (string.IsNullOrEmpty(SelectedDate))
+        if (string.IsNullOrEmpty(SelectedDate.ToString()) || DateTime.TryParse(SelectedDate.ToString(), out _))
         {
             var em = "Invalid Body Measurement: Error in field \"DATETIME\"!";
             throw new Exception(em);
@@ -106,7 +109,7 @@ public partial class AddMeasurementsViewModel : ViewModelBase
         BodyMeasurement bodyMeasurement = new BodyMeasurement()
         {
             Id = null,
-            Date = SelectedDate,
+            Date = SelectedDate.ToString(),
             PersonId = Constants.SelectedPersonId,
             Temperature = double.Parse(TextField1)
         };
@@ -117,7 +120,7 @@ public partial class AddMeasurementsViewModel : ViewModelBase
 
     private void SubmitFeelingMeasurements()
     {
-        if (string.IsNullOrEmpty(SelectedDate))
+        if (string.IsNullOrEmpty(SelectedDate.ToString()) || DateTime.TryParse(SelectedDate.ToString(), out _))
         {
             var em = "Invalid Feeling Measurement: Error in field \"DATETIME\"!";
             throw new Exception(em);
@@ -127,7 +130,7 @@ public partial class AddMeasurementsViewModel : ViewModelBase
         {
             Id = null,
             PersonId = Constants.SelectedPersonId,
-            Date = SelectedDate,
+            Date = SelectedDate.ToString(),
             Medication = string.IsNullOrEmpty(TextField1) ? string.Empty : TextField1,
             Feeling = string.IsNullOrEmpty(TextField2) ? string.Empty : TextField2
         };
@@ -140,18 +143,36 @@ public partial class AddMeasurementsViewModel : ViewModelBase
     private void BodyMChange()
     {
         ChangePage(EPageType.BodyMeasurement);
+        TextField1Name = "Temperature";
+        IsTextField2Visible = false;
+        TextField2Name = " ";
+        IsTextField3Visible = false;
+        TextField2Name = " ";
+        IsVisibleArrhythmiaCheckBox = false;
     }
-    
+
     [RelayCommand]
     private void HeartMChange()
     {
         ChangePage(EPageType.HeartMeasurement);
+        TextField1Name = "Sys";
+        IsTextField2Visible = true;
+        TextField2Name = "Dia";
+        IsTextField3Visible = true;
+        TextField3Name = "Heart rate";
+        IsVisibleArrhythmiaCheckBox = true;
     }
 
     [RelayCommand]
     private void FeelMChange()
     {
         ChangePage(EPageType.FeelingMeasurement);
+        TextField1Name = "Medication";
+        IsTextField2Visible = true;
+        TextField2Name = "Feeling";
+        IsTextField3Visible = false;
+        TextField2Name = " ";
+        IsVisibleArrhythmiaCheckBox = false;
     }
 
     [RelayCommand]
@@ -167,6 +188,12 @@ public partial class AddMeasurementsViewModel : ViewModelBase
         {
             Console.WriteLine("No Person Selected. Returning to Login page...");
             _mainWindowViewModel.NavigateToLoginPage();
+        }
+
+        if (IsError)
+        {
+            IsError = false;
+            return;
         }
 
         switch (PageType)
@@ -208,7 +235,7 @@ public partial class AddMeasurementsViewModel : ViewModelBase
 
                 goto default;
             default:
-                SelectedDate = string.Empty;
+                SelectedDate = DateTime.Now.Date;
                 TextField1 = string.Empty;
                 TextField2 = string.Empty;
                 TextField3 = string.Empty;
@@ -217,7 +244,4 @@ public partial class AddMeasurementsViewModel : ViewModelBase
                 break;
         }
     }
-    
-    [RelayCommand]
-    private void CloseError() => IsError = false;
 }

@@ -52,7 +52,7 @@
                             SelectedDate="{Binding SelectedDate}"
                             Margin="0,0,0,8" />
 
-                <TextBlock Text="DIA"
+                <TextBlock Text="{Binding TextField1Name}"
                            Grid.Row="1" Grid.Column="0"
                            VerticalAlignment="Center"
                            Margin="0,0,8,8">
@@ -61,34 +61,56 @@
                          Text="{Binding TextField1}"
                          Margin="0,0,0,8" />
 
-                <TextBlock Text="Notes / Details:"
+                <TextBlock Text="{Binding TextField2Name}"
                            Grid.Row="2" Grid.Column="0"
+                           IsVisible="{Binding IsTextField2Visible}"
                            VerticalAlignment="Center"
                            Margin="0,0,8,8" />
                 <TextBox Grid.Row="2" Grid.Column="1"
+                         IsVisible="{Binding IsTextField2Visible}"
                          Text="{Binding TextField2}"
                          Margin="0,0,0,8" />
-                
-                <TextBlock Text="Notes / Details:"
+
+                <TextBlock Text="{Binding TextField3Name}"
                            Grid.Row="3" Grid.Column="0"
+                           IsVisible="{Binding IsTextField3Visible}"
                            VerticalAlignment="Center"
                            Margin="0,0,8,8" />
                 <TextBox Grid.Row="3" Grid.Column="1"
+                         IsVisible="{Binding IsTextField3Visible}"
                          Text="{Binding TextField3}"
                          Margin="0,0,0,8" />
 
                 <CheckBox Grid.Row="4" Grid.Column="1"
                           Content="Arrhythmia?"
+                          IsVisible="{Binding IsVisibleArrhythmiaCheckBox}"
                           IsChecked="{Binding IsArrhythmiaCheckBox}"
                           Margin="0,4,0,0" />
             </Grid>
 
-            <Button Grid.Row="1"
-                    Content="Submit"
+            <StackPanel Grid.Row="1" HorizontalAlignment="Right" Spacing="10" Orientation="Horizontal">
+                <StackPanel.Styles>
+                    <Style Selector="Button">
+                        <Setter Property="Content" Value="Submit" />
+                    </Style>
+
+                    <Style Selector="Button.is-error">
+                        <Setter Property="Content" Value="OK" />
+                    </Style>
+                </StackPanel.Styles>
+                <TextBlock Padding="30" FontSize="16"
+                           Foreground="Red" FontWeight="Bold"
+                           IsVisible="{Binding IsError}"
+                           Text="{Binding ErrorMessage}">
+                </TextBlock>
+                <Button
                     Command="{Binding SubmitRecordCommand}"
+                    Classes.is-error="{Binding IsError}" 
                     HorizontalAlignment="Right"
                     Padding="30,10"
-                    Margin="0,16,0,0" />
+                    Margin="0,10,0,0" />
+            </StackPanel>
         </Grid>
+
     </DockPanel>
 </Window>
