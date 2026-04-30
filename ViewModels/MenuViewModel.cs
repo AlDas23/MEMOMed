@@ -25,7 +25,7 @@ public partial class MenuViewModel : ViewModelBase
     [RelayCommand]
     private void SwitchToMedicineConfiguration()
     {
-        // switch to medicine configuration page
+        _mainWindowViewModel.NavigateToMedicinePage();
     }
     [RelayCommand]
     private void SwitchToViewMeasurements()

@@ -1,5 +1,4 @@
 using System;
-using Avalonia.Data;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MEMOMed.Models.DataClasses;
@@ -24,17 +23,17 @@ public partial class AddMeasurementsViewModel : ViewModelBase
     [ObservableProperty] private bool _isArrhythmiaCheckBox;
     [ObservableProperty] private bool _isVisibleArrhythmiaCheckBox;
     [ObservableProperty] private bool _isError;
-    [ObservableProperty] private string _errorMessage;
+    [ObservableProperty] private string? _errorMessage;
 
     // For designer ONLY
-    public AddMeasurementsViewModel()
-    {
-        HeartMChange();
-        SelectedDate = DateTime.Now.Date;
-        IsError = false;
-        IsArrhythmiaCheckBox = false;
-        _mainWindowViewModel = null;
-    }
+    // public AddMeasurementsViewModel()
+    // {
+    //     HeartMChange();
+    //     SelectedDate = DateTime.Now.Date;
+    //     IsError = false;
+    //     IsArrhythmiaCheckBox = false;
+    //     _mainWindowViewModel = null;
+    // }
 
     public AddMeasurementsViewModel(MainWindowViewModel mainWindowViewModel)
     {

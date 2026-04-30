@@ -33,7 +33,6 @@ public class MedicineDao : IGenericDao<Medicine>
 
     public Medicine? GrabEntityById(int id)
     {
-        var entity = new Medicine();
         try
         {
             using var conn = new SqliteConnection(Constants.DbConnectionString);
@@ -46,13 +45,12 @@ public class MedicineDao : IGenericDao<Medicine>
                               """;
             cmd.Parameters.AddWithValue("@id", id);
             using var reader = cmd.ExecuteReader();
+            Medicine? entity = null;
             if (reader.HasRows)
             {
                 while (reader.Read())
                 {
-                    entity.Id = reader.GetInt32(0);
-                    entity.Name = reader.GetString(1);
-                    entity.Description = reader.GetString(2);
+                    entity = new Medicine(reader.GetString(1), reader.GetString(2));
                     entity.SetDayScheduleFromString(reader.GetString(3));
                     entity.SetTimeScheduleFromString(reader.GetString(4));
                 }
@@ -89,18 +87,14 @@ public class MedicineDao : IGenericDao<Medicine>
             {
                 while (reader.Read())
                 {
-                    Medicine medicine = new Medicine()
-                    {
-                        Id = reader.GetInt32(0),
-                        Name = reader.GetString(1),
-                        Description = reader.GetString(2),
-                    };
-                        medicine.SetDayScheduleFromString(reader.GetString(3));
-                        medicine.SetTimeScheduleFromString(reader.GetString(4));
+                    Medicine medicine = new Medicine(reader.GetString(1), reader.GetString(2));
+                    medicine.Id = reader.GetInt32(0);
+                    medicine.SetDayScheduleFromString(reader.GetString(3));
+                    medicine.SetTimeScheduleFromString(reader.GetString(4));
                     entityList.Add(medicine);
                 }
             }
-            
+
             return entityList;
         }
         catch (SqliteException e)
@@ -127,12 +121,9 @@ public class MedicineDao : IGenericDao<Medicine>
             {
                 while (reader.Read())
                 {
-                    var entity = new Medicine()
-                    {
-                        Id = reader.GetInt32(0),
-                        Name = reader.GetString(1),
-                        Description = reader.GetString(2),
-                    };
+                    var entity = new Medicine(reader.GetString(1), reader.GetString(2));
+
+                    entity.Id = reader.GetInt32(0);
                     entity.SetDayScheduleFromString(reader.GetString(3));
                     entity.SetTimeScheduleFromString(reader.GetString(4));
                     entityList.Add(entity);
@@ -151,7 +142,7 @@ public class MedicineDao : IGenericDao<Medicine>
             return null;
         }
     }
-    
+
     public void UpdateEntity(Medicine newEntity, int oldId)
     {
         try

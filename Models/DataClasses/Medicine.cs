@@ -8,10 +8,30 @@ namespace MEMOMed.Models.DataClasses;
 public class Medicine
 {
     public int? Id { get; set; }
-    public string? Name { get; set; }
-    public string? Description { get; set; }
+    public string Name { get; init; }
+    public string Description { get; init; }
     public List<EWeekday>? DaySchedule { get; set; }
     public List<EDayTime>? TimeSchedule { get; set; }
+
+    // Full constructor
+    public Medicine(int? id, string name, string description, List<EWeekday>? daySchedule, List<EDayTime>? timeSchedule)
+    {
+        this.Id = id;
+        this.Name = name;
+        this.Description = description;
+        this.DaySchedule = daySchedule;
+        this.TimeSchedule = timeSchedule;
+    }
+
+    // Only name + description constructor
+    public Medicine(string name, string description)
+    {
+        this.Id = null;
+        this.Name = name;
+        this.Description = description;
+        this.DaySchedule = null;
+        this.TimeSchedule = null;
+    }
 
     public string GetDayScheduleString()
     {
@@ -40,6 +60,7 @@ public class Medicine
         {
             return string.Empty;
         }
+
         var result = new StringBuilder();
         for (int i = 0; i < TimeSchedule.Count; i++)
         {

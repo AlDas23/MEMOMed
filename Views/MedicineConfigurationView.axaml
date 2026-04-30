@@ -1,0 +1,127 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:MEMOMed.ViewModels"
+        xmlns:dataWrapperVm="clr-namespace:MEMOMed.ViewModels.DataWrapperVM"
+        mc:Ignorable="d" d:DesignWidth="550" d:DesignHeight="600"
+        x:Class="MEMOMed.Views.MedicineConfigurationView"
+        x:DataType="vm:MedicineConfigurationViewModel"
+        Title="Configure medicine"
+        Width="550"
+        Height="600"
+        Padding="20">
+
+    <Design.DataContext>
+        <vm:MedicineConfigurationViewModel />
+    </Design.DataContext>
+
+    <DockPanel LastChildFill="True">
+       
+        <!-- Top Button Bar -->
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="10" Margin="10">
+            <Button Name="BtnGoBack" Content="Go Back"
+                    Width="80"
+                    Command="{Binding GoBackCommand}" />
+            <Button Name="BtnAddMedicine" Content="Add Medicine"
+                    Width="110"
+                    Command="{Binding MedicineChangeCommand}" />
+            <Button Name="BtnAssignMedicine" Content="Assign Medicine"
+                    Width="130"
+                    Command="{Binding MedicineAssignChangeCommand}" />
+        </StackPanel>
+
+        <!-- State 1: Add Medicine Panel -->
+        <StackPanel Name="PanelAddMedicine" Margin="20" IsVisible="{Binding IsCreateMedicinePage}">
+            <TextBlock Text="Add New Medicine" FontSize="18" FontWeight="Bold" Margin="0,0,0,15" />
+
+            <!-- Name Field -->
+            <StackPanel Margin="0,5">
+                <TextBlock Text="Name:" />
+                <TextBox Name="TxtMedicineName" Watermark="Enter medicine name"
+                         Margin="0,5,0,10"
+                         Text="{Binding NameField}" />
+            </StackPanel>
+
+            <!-- Description Field -->
+            <StackPanel Margin="0,5">
+                <TextBlock Text="Description:" />
+                <TextBox Name="TxtMedicineDescription" Watermark="Enter description" AcceptsReturn="True" Height="80"
+                         Margin="0,5,0,10"
+                         Text="{Binding DescriptionField}" />
+            </StackPanel>
+
+            <!-- Time Schedule Checkboxes -->
+            <Border BorderBrush="Gray" BorderThickness="1" Padding="10" Margin="0,10">
+                <StackPanel>
+                    <TextBlock Text="Time Schedule:" FontWeight="SemiBold" Margin="0,0,0,5" />
+                    <WrapPanel Orientation="Horizontal" ItemSpacing="10">
+                        <CheckBox Content="Morning" IsChecked="{Binding IsMorningSelected}" />
+                        <CheckBox Content="Afternoon" IsChecked="{Binding IsAfternoonSelected}" />
+                        <CheckBox Content="Evening" IsChecked="{Binding IsEveningSelected}" />
+                        <CheckBox Content="Night" IsChecked="{Binding IsNightSelected}" />
+                    </WrapPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Day Schedule Checkboxes -->
+            <Border BorderBrush="Gray" BorderThickness="1" Padding="10" Margin="0,10">
+                <StackPanel>
+                    <TextBlock Text="Day Schedule:" FontWeight="SemiBold" Margin="0,0,0,5" />
+                    <WrapPanel Orientation="Horizontal" ItemSpacing="10">
+                        <CheckBox Content="Mon" IsChecked="{Binding IsMondaySelected}" />
+                        <CheckBox Content="Tue" IsChecked="{Binding IsTuesdaySelected}" />
+                        <CheckBox Content="Wed" IsChecked="{Binding IsWednesdaySelected}" />
+                        <CheckBox Content="Thu" IsChecked="{Binding IsThursdaySelected}" />
+                        <CheckBox Content="Fri" IsChecked="{Binding IsFridaySelected}" />
+                        <CheckBox Content="Sat" IsChecked="{Binding IsSaturdaySelected}" />
+                        <CheckBox Content="Sun" IsChecked="{Binding IsSundaySelected}" />
+                    </WrapPanel>
+                </StackPanel>
+            </Border>
+
+            <Button Content="Save Medicine" HorizontalAlignment="Right"
+                    Width="120" Margin="0,10,0,0"
+                    Command="{Binding SubmitFormCommand}" />
+        </StackPanel>
+
+        <!-- State 2: Assign Medicine Panel -->
+        <Grid Name="PanelAssignMedicine" Margin="20"
+              IsVisible="{Binding IsAssignMedicinePage}"
+              RowDefinitions="Auto,*"
+              ColumnDefinitions="*,100">
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Existing Medicines" FontWeight="Bold" Margin="0,0,0,10" />
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="Assigned?" FontWeight="Bold" Margin="0,0,0,10"
+                       HorizontalAlignment="Center" />
+
+            <!-- List of Medicines (Static example items) -->
+            <StackPanel Grid.Row="1" Grid.Column="0" Spacing="10" Orientation="Vertical">
+                <ListBox ItemsSource="{Binding Medicine}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="dataWrapperVm:MedicineWrapperViewModel">
+                            <StackPanel Orientation="Vertical" Spacing="10">
+                                <TextBlock Text="{Binding Medicine.Name}" FontSize="16"
+                                           Width="60" />
+                                <TextBlock Text="{Binding Medicine.Description}"
+                                           FontSize="12"
+                                           Width="60" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Grid.Column="1" Spacing="10" Orientation="Vertical">
+                <ListBox ItemsSource="{Binding Medicine}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="dataWrapperVm:MedicineWrapperViewModel">
+                            <CheckBox IsChecked="{Binding IsSelected}" Width="20" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+        </Grid>
+
+    </DockPanel>
+</Window>

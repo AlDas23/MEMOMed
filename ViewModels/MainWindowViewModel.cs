@@ -28,4 +28,8 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         CurrentViewModel = new AddMeasurementsViewModel(this);
     }
+    public void NavigateToMedicinePage()
+    {
+        CurrentViewModel = new MedicineConfigurationViewModel(this);
+    }
 }
