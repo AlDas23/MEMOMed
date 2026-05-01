@@ -36,23 +36,23 @@ public partial class MedicineConfigurationViewModel : ViewModelBase
     [ObservableProperty] private string? _errorMessage;
 
     // For designer ONLY
-    public MedicineConfigurationViewModel()
-    {
-        _mainWindowViewModel = null;
-        _medicineDao = new MedicineDao();
-        var medicineList = _medicineDao.GetAllEntities();
-        if (medicineList != null)
-        {
-            Medicine = new ObservableCollection<MedicineWrapperViewModel>(
-                medicineList.Select(m => new MedicineWrapperViewModel(m))
-            );
-        }
-        else
-        {
-            Console.WriteLine("No Medicine Data");
-        }
-        ChangePage(EPageType.Medicine);
-    }
+    // public MedicineConfigurationViewModel()
+    // {
+    //     _mainWindowViewModel = null;
+    //     _medicineDao = new MedicineDao();
+    //     var medicineList = _medicineDao.GetAllEntities();
+    //     if (medicineList != null)
+    //     {
+    //         Medicine = new ObservableCollection<MedicineWrapperViewModel>(
+    //             medicineList.Select(m => new MedicineWrapperViewModel(m))
+    //         );
+    //     }
+    //     else
+    //     {
+    //         Console.WriteLine("No Medicine Data");
+    //     }
+    //     ChangePage(EPageType.Medicine);
+    // }
 
     public MedicineConfigurationViewModel(MainWindowViewModel mainWindowViewModel)
     {
@@ -141,7 +141,23 @@ public partial class MedicineConfigurationViewModel : ViewModelBase
 
     private void SubmitMedicineAssign()
     {
-        //TODO Implement medicine assignment page. User should be able to assign which medicine (from all) is assigned to him.
+        if (Medicine is null)
+        {
+            Console.WriteLine("Medicine is Empty");
+            return;
+        }
+
+        List<int> medicineId = [];
+        foreach (var med in Medicine)
+        {
+            if (med.IsSelected)
+            {
+                var medId = med.Medicine.Id;
+                medicineId.Add(medId.Value);
+            }
+        }        
+        var personDao =  new PersonDao();
+        personDao.UpdateEntityMedicineList(Constants.SelectedPersonId.Value, medicineId);
     }
 
     [RelayCommand]

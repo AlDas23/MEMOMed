@@ -17,7 +17,7 @@
     </Design.DataContext>
 
     <DockPanel LastChildFill="True">
-       
+
         <!-- Top Button Bar -->
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="10" Margin="10">
             <Button Name="BtnGoBack" Content="Go Back"
@@ -88,7 +88,7 @@
         <!-- State 2: Assign Medicine Panel -->
         <Grid Name="PanelAssignMedicine" Margin="20"
               IsVisible="{Binding IsAssignMedicinePage}"
-              RowDefinitions="Auto,*"
+              RowDefinitions="Auto,*, Auto"
               ColumnDefinitions="*,100">
 
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Existing Medicines" FontWeight="Bold" Margin="0,0,0,10" />
@@ -121,6 +121,9 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </StackPanel>
+            <Button Grid.Row="2" Grid.Column="1" Content="Submit" HorizontalAlignment="Right"
+                    Width="120" Margin="0,10,0,0"
+                    Command="{Binding SubmitFormCommand}" />
         </Grid>
 
     </DockPanel>
