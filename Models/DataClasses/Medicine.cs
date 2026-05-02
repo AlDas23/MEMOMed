@@ -10,11 +10,13 @@ public class Medicine
     public int? Id { get; set; }
     public string Name { get; init; }
     public string Description { get; init; }
-    public List<EWeekday>? DaySchedule { get; set; }
-    public List<EDayTime>? TimeSchedule { get; set; }
+    private List<EWeekday>? DaySchedule { get; }
+    public string DayScheduleString => GetDayScheduleString();
+    private List<EDayTime>? TimeSchedule { get; }
+    public string TimeScheduleString => GetTimeScheduleString();
 
     // Full constructor
-    public Medicine(int? id, string name, string description, List<EWeekday>? daySchedule, List<EDayTime>? timeSchedule)
+    public Medicine(int? id, string name, string description, List<EDayTime> timeSchedule, List<EWeekday> daySchedule)
     {
         this.Id = id;
         this.Name = name;
@@ -75,37 +77,29 @@ public class Medicine
         return result.ToString();
     }
 
-    public void SetDayScheduleFromString(string scheduleString)
+    public static List<EWeekday> DayScheduleFromString(string scheduleString)
     {
-        DaySchedule = new List<EWeekday>();
-
-        if (string.IsNullOrEmpty(scheduleString))
-        {
-            return;
-        }
-
-        string[] days = scheduleString.Split('|');
+        var daySchedule = new List<EWeekday>();
+        var days = scheduleString.Split('|');
 
         foreach (string day in days)
         {
-            DaySchedule.Add(Enum.Parse<EWeekday>(day));
+            daySchedule.Add(Enum.Parse<EWeekday>(day));
         }
+
+        return daySchedule;
     }
 
-    public void SetTimeScheduleFromString(string scheduleString)
+    public static List<EDayTime> TimeScheduleFromString(string scheduleString)
     {
-        TimeSchedule = new List<EDayTime>();
-
-        if (string.IsNullOrEmpty(scheduleString))
-        {
-            return;
-        }
-
-        string[] timeslots = scheduleString.Split('|');
+        var timeSchedule = new List<EDayTime>();
+        var timeslots = scheduleString.Split('|');
 
         foreach (string time in timeslots)
         {
-            TimeSchedule.Add(Enum.Parse<EDayTime>(time));
+            timeSchedule.Add(Enum.Parse<EDayTime>(time));
         }
+
+        return timeSchedule;
     }
 }

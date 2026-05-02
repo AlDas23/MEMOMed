@@ -33,7 +33,7 @@ public class FeelingMDao : IMeasurementDao<FeelingMeasurement>
 
     public FeelingMeasurement? GrabRecordById(int id)
     {
-        var record = new FeelingMeasurement();
+        FeelingMeasurement? record = null;
         try
         {
             using var conn = new SqliteConnection(Constants.DbConnectionString);
@@ -49,13 +49,14 @@ public class FeelingMDao : IMeasurementDao<FeelingMeasurement>
             if (reader.HasRows)
             {
                 while (reader.Read())
-                {
-                    record.Id = reader.GetInt32(0);
-                    record.PersonId = reader.GetInt32(1);
-                    record.Date = reader.GetString(2);
-                    record.Medication = reader.GetString(3);
-                    record.Feeling = reader.GetString(4);
-                }
+
+                    record = new FeelingMeasurement(
+                        reader.GetInt32(0),
+                        reader.GetInt32(1),
+                        reader.GetString(2),
+                        reader.GetString(3),
+                        reader.GetString(4)
+                    );
             }
             else
             {
@@ -90,14 +91,13 @@ public class FeelingMDao : IMeasurementDao<FeelingMeasurement>
             {
                 while (reader.Read())
                 {
-                    FeelingMeasurement record = new()
-                    {
-                        Id = reader.GetInt32(0),
-                        PersonId = reader.GetInt32(1),
-                        Date = reader.GetString(2),
-                        Medication = reader.GetString(3),
-                        Feeling = reader.GetString(4)
-                    };
+                    FeelingMeasurement record = new(
+                        reader.GetInt32(0),
+                        reader.GetInt32(1),
+                        reader.GetString(2),
+                        reader.GetString(3),
+                        reader.GetString(4)
+                    );
                     fmList.Add(record);
                 }
             }
@@ -134,14 +134,13 @@ public class FeelingMDao : IMeasurementDao<FeelingMeasurement>
             {
                 while (reader.Read())
                 {
-                    FeelingMeasurement record = new()
-                    {
-                        Id = reader.GetInt32(0),
-                        PersonId = reader.GetInt32(1),
-                        Date = reader.GetString(2),
-                        Medication = reader.GetString(3),
-                        Feeling = reader.GetString(4)
-                    };
+                    FeelingMeasurement record = new(
+                        reader.GetInt32(0),
+                        reader.GetInt32(1),
+                        reader.GetString(2),
+                        reader.GetString(3),
+                        reader.GetString(4)
+                    );
                     fmList.Add(record);
                 }
             }

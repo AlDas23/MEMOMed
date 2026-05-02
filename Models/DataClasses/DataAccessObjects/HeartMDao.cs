@@ -35,7 +35,7 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
 
     public HeartMeasurement? GrabRecordById(int id)
     {
-        HeartMeasurement record = new();
+        HeartMeasurement? record = null;
         try
         {
             using var conn = new SqliteConnection(Constants.DbConnectionString);
@@ -51,15 +51,16 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
             if (reader.HasRows)
             {
                 while (reader.Read())
-                {
-                    record.Id = reader.GetInt32(0);
-                    record.PersonId = reader.GetInt32(1);
-                    record.Date = reader.GetString(2);
-                    record.Sys = reader.GetInt32(3);
-                    record.Dia = reader.GetInt32(4);
-                    record.HRhythm = reader.GetInt32(5);
-                    record.IsArrhythmia = reader.GetBoolean(6);
-                }
+
+                    record = new HeartMeasurement(
+                        reader.GetInt32(0),
+                        reader.GetInt32(1),
+                        reader.GetString(2),
+                        reader.GetInt32(3),
+                        reader.GetInt32(4),
+                        reader.GetInt32(5),
+                        reader.GetBoolean(6)
+                    );
             }
             else
             {
@@ -94,16 +95,15 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
             {
                 while (reader.Read())
                 {
-                    HeartMeasurement record = new()
-                    {
-                        Id = reader.GetInt32(0),
-                        PersonId = reader.GetInt32(1),
-                        Date = reader.GetString(2),
-                        Sys = reader.GetInt32(3),
-                        Dia = reader.GetInt32(4),
-                        HRhythm = reader.GetInt32(5),
-                        IsArrhythmia = reader.GetBoolean(6)
-                    };
+                    HeartMeasurement record = new(
+                        reader.GetInt32(0),
+                        reader.GetInt32(1),
+                        reader.GetString(2),
+                        reader.GetInt32(3),
+                        reader.GetInt32(4),
+                        reader.GetInt32(5),
+                        reader.GetBoolean(6)
+                    );
                     hmList.Add(record);
                 }
             }
@@ -140,16 +140,15 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
             {
                 while (reader.Read())
                 {
-                    HeartMeasurement record = new()
-                    {
-                        Id = reader.GetInt32(0),
-                        PersonId = reader.GetInt32(1),
-                        Date = reader.GetString(2),
-                        Sys = reader.GetInt32(3),
-                        Dia = reader.GetInt32(4),
-                        HRhythm = reader.GetInt32(5),
-                        IsArrhythmia = reader.GetBoolean(6)
-                    };
+                    HeartMeasurement record = new(
+                        reader.GetInt32(0),
+                        reader.GetInt32(1),
+                        reader.GetString(2),
+                        reader.GetInt32(3),
+                        reader.GetInt32(4),
+                        reader.GetInt32(5),
+                        reader.GetBoolean(6)
+                    );
                     hmList.Add(record);
                 }
             }
@@ -189,7 +188,7 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
             cmd.Parameters.AddWithValue("@HRhythm", newRecord.HRhythm);
             cmd.Parameters.AddWithValue("@IsArrhythmia", newRecord.IsArrhythmia);
             cmd.Parameters.AddWithValue("@id", oldId);
-            
+
             cmd.ExecuteNonQuery();
         }
         catch (SqliteException e)
@@ -210,7 +209,7 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
                               WHERE Id = @id
                               """;
             cmd.Parameters.AddWithValue("@id", id);
-            
+
             cmd.ExecuteNonQuery();
         }
         catch (SqliteException e)

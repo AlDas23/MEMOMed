@@ -16,8 +16,8 @@
         <StackPanel Spacing="15"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
-            <TextBox Text="{Binding FirstName}" Watermark="First Name" />
-            <TextBox Text="{Binding LastName}" Watermark="Last Name" />
+            <TextBox Text="{Binding FirstName}" PlaceholderText="First Name" />
+            <TextBox Text="{Binding LastName}" PlaceholderText="Last Name" />
             <Button Command="{Binding CreateProfile}"
                     HorizontalAlignment="Stretch">
                 Submit

@@ -38,7 +38,7 @@
             <!-- Name Field -->
             <StackPanel Margin="0,5">
                 <TextBlock Text="Name:" />
-                <TextBox Name="TxtMedicineName" Watermark="Enter medicine name"
+                <TextBox Name="TxtMedicineName" PlaceholderText="Enter medicine name"
                          Margin="0,5,0,10"
                          Text="{Binding NameField}" />
             </StackPanel>
@@ -46,7 +46,7 @@
             <!-- Description Field -->
             <StackPanel Margin="0,5">
                 <TextBlock Text="Description:" />
-                <TextBox Name="TxtMedicineDescription" Watermark="Enter description" AcceptsReturn="True" Height="80"
+                <TextBox Name="TxtMedicineDescription" PlaceholderText="Enter description" AcceptsReturn="True" Height="80"
                          Margin="0,5,0,10"
                          Text="{Binding DescriptionField}" />
             </StackPanel>

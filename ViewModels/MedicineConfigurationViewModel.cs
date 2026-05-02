@@ -70,6 +70,7 @@ public partial class MedicineConfigurationViewModel : ViewModelBase
             Console.WriteLine("No Medicine Data");
             _mainWindowViewModel.NavigateToMenuPage();
         }
+
         ChangePage(EPageType.Medicine);
     }
 
@@ -134,7 +135,7 @@ public partial class MedicineConfigurationViewModel : ViewModelBase
         var timeSchedule = TimeSchedule;
         var daySchedule = DaySchedule;
 
-        Medicine medicine = new Medicine(null, NameField, DescriptionField, daySchedule, timeSchedule);
+        Medicine medicine = new Medicine(null, NameField, DescriptionField, timeSchedule, daySchedule);
         _medicineDao = new MedicineDao();
         _medicineDao.InsertEntity(medicine);
     }
@@ -155,8 +156,9 @@ public partial class MedicineConfigurationViewModel : ViewModelBase
                 var medId = med.Medicine.Id;
                 medicineId.Add(medId.Value);
             }
-        }        
-        var personDao =  new PersonDao();
+        }
+
+        var personDao = new PersonDao();
         personDao.UpdateEntityMedicineList(Constants.SelectedPersonId.Value, medicineId);
     }
 

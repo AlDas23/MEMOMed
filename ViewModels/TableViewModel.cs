@@ -25,7 +25,14 @@ public partial class TableViewModel : ViewModelBase
     public TableViewModel()
     {
         _mainWindowViewModel = null;
-
+        HeartMeasurements =
+            new ObservableCollection<HeartMeasurement>([new HeartMeasurement(2, 1, "2020-12-12", 120, 80, 75, true)]);
+        BodyMeasurements =
+            new ObservableCollection<BodyMeasurement>([new BodyMeasurement(4, 2, "2020-12-12", 36.6)]);
+        FeelingMeasurements =
+            new ObservableCollection<FeelingMeasurement>([
+                new FeelingMeasurement(4, 2, "2020-12-12", "80 pills", "Good")
+            ]);
         HeartPChange();
     }
 
@@ -37,6 +44,7 @@ public partial class TableViewModel : ViewModelBase
             Console.WriteLine("No Person Selected. Returning to Login...");
             _mainWindowViewModel.NavigateToLoginPage();
         }
+
         var medDao = new MedicineDao();
         var heartDao = new HeartMDao();
         var bodyDao = new BodyMDao();
@@ -44,15 +52,17 @@ public partial class TableViewModel : ViewModelBase
 
         HeartMeasurements =
             new ObservableCollection<HeartMeasurement>(
-                heartDao.GrabRecordsByPersonId(Constants.SelectedPersonId.Value));
+                heartDao.GrabRecordsByPersonId(Constants.SelectedPersonId.Value) ?? []);
         BodyMeasurements =
-            new ObservableCollection<BodyMeasurement>(bodyDao.GrabRecordsByPersonId(Constants.SelectedPersonId.Value) ??
-                                                      new List<BodyMeasurement>());
+            new ObservableCollection<BodyMeasurement>(
+                bodyDao.GrabRecordsByPersonId(Constants.SelectedPersonId.Value) ?? []);
         FeelingMeasurements =
             new ObservableCollection<FeelingMeasurement>(
-                feelDao.GrabRecordsByPersonId(Constants.SelectedPersonId.Value) ?? new List<FeelingMeasurement>());
-        Medicines = new ObservableCollection<Medicine>(medDao.GrabAllEntities() ?? new List<Medicine>());
-        
+                feelDao.GrabRecordsByPersonId(Constants.SelectedPersonId.Value) ?? []);
+        Medicines =
+            new ObservableCollection<Medicine>(
+                medDao.GrabAllEntities() ?? []);
+
         HeartPChange();
     }
 

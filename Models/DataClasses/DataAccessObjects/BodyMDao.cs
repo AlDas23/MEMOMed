@@ -32,7 +32,6 @@ public class BodyMDao : IMeasurementDao<BodyMeasurement>
 
     public BodyMeasurement? GrabRecordById(int id)
     {
-        BodyMeasurement record = new();
         try
         {
             using var conn = new SqliteConnection(Constants.DbConnectionString);
@@ -45,14 +44,16 @@ public class BodyMDao : IMeasurementDao<BodyMeasurement>
                               """;
             cmd.Parameters.AddWithValue("@id", id);
             using var reader = cmd.ExecuteReader();
+            BodyMeasurement? record = null;
             if (reader.HasRows)
             {
                 while (reader.Read())
                 {
-                    record.Id = reader.GetInt32(0);
-                    record.PersonId = reader.GetInt32(1);
-                    record.Date = reader.GetString(2);
-                    record.Temperature = reader.GetDouble(3);
+                    record = new BodyMeasurement(
+                        reader.GetInt32(0),
+                        reader.GetInt32(1),
+                        reader.GetString(2),
+                        reader.GetDouble(3));
                 }
             }
             else
@@ -88,13 +89,11 @@ public class BodyMDao : IMeasurementDao<BodyMeasurement>
             {
                 while (reader.Read())
                 {
-                    BodyMeasurement record = new()
-                    {
-                        Id = reader.GetInt32(0),
-                        PersonId = reader.GetInt32(1),
-                        Date = reader.GetString(2),
-                        Temperature = reader.GetDouble(3)
-                    };
+                    BodyMeasurement record = new(
+                        reader.GetInt32(0),
+                        reader.GetInt32(1),
+                        reader.GetString(2),
+                        reader.GetDouble(3));
                     bmList.Add(record);
                 }
             }
@@ -131,13 +130,12 @@ public class BodyMDao : IMeasurementDao<BodyMeasurement>
             {
                 while (reader.Read())
                 {
-                    BodyMeasurement record = new()
-                    {
-                        Id = reader.GetInt32(0),
-                        PersonId = reader.GetInt32(1),
-                        Date = reader.GetString(2),
-                        Temperature = reader.GetDouble(3)
-                    };
+                    BodyMeasurement record = new(
+                        reader.GetInt32(0),
+                        reader.GetInt32(1),
+                        reader.GetString(2),
+                        reader.GetDouble(3)
+                    );
                     bmList.Add(record);
                 }
             }

@@ -50,9 +50,12 @@ public class MedicineDao : IGenericDao<Medicine>
             {
                 while (reader.Read())
                 {
-                    entity = new Medicine(reader.GetString(1), reader.GetString(2));
-                    entity.SetDayScheduleFromString(reader.GetString(3));
-                    entity.SetTimeScheduleFromString(reader.GetString(4));
+                    entity = new Medicine(
+                        null,
+                        reader.GetString(1),
+                        reader.GetString(2),
+                        Medicine.TimeScheduleFromString(reader.GetString(3)),
+                        Medicine.DayScheduleFromString(reader.GetString(4)));
                 }
             }
             else
@@ -87,10 +90,12 @@ public class MedicineDao : IGenericDao<Medicine>
             {
                 while (reader.Read())
                 {
-                    Medicine medicine = new Medicine(reader.GetString(1), reader.GetString(2));
-                    medicine.Id = reader.GetInt32(0);
-                    medicine.SetDayScheduleFromString(reader.GetString(3));
-                    medicine.SetTimeScheduleFromString(reader.GetString(4));
+                    var medicine = new Medicine(
+                        reader.GetInt32(0),
+                        reader.GetString(1),
+                        reader.GetString(2),
+                        Medicine.TimeScheduleFromString(reader.GetString(3)),
+                        Medicine.DayScheduleFromString(reader.GetString(4)));
                     entityList.Add(medicine);
                 }
             }
@@ -121,11 +126,13 @@ public class MedicineDao : IGenericDao<Medicine>
             {
                 while (reader.Read())
                 {
-                    var entity = new Medicine(reader.GetString(1), reader.GetString(2));
-
-                    entity.Id = reader.GetInt32(0);
-                    entity.SetDayScheduleFromString(reader.GetString(3));
-                    entity.SetTimeScheduleFromString(reader.GetString(4));
+                    var entity = new Medicine(
+                        reader.GetInt32(0),
+                        reader.GetString(1),
+                        reader.GetString(2),
+                        Medicine.TimeScheduleFromString(reader.GetString(3)),
+                        Medicine.DayScheduleFromString(reader.GetString(4))
+                    );
                     entityList.Add(entity);
                 }
             }

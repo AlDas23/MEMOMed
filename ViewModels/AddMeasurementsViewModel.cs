@@ -76,16 +76,14 @@ public partial class AddMeasurementsViewModel : ViewModelBase
             throw new Exception(em);
         }
 
-        HeartMeasurement hMeasurement = new HeartMeasurement()
-        {
-            Id = null,
-            PersonId = Constants.SelectedPersonId,
-            Date = SelectedDate.ToString(),
-            Sys = int.Parse(TextField1),
-            Dia = int.Parse(TextField2),
-            HRhythm = int.Parse(TextField3),
-            IsArrhythmia = IsArrhythmiaCheckBox
-        };
+        HeartMeasurement hMeasurement = new HeartMeasurement(
+            Constants.SelectedPersonId.Value,
+            SelectedDate.ToString(),
+            int.Parse(TextField1),
+            int.Parse(TextField2),
+            int.Parse(TextField3),
+            IsArrhythmiaCheckBox
+        );
 
         HeartMDao hmdao = new HeartMDao();
         hmdao.InsertRecord(hMeasurement);
@@ -105,13 +103,11 @@ public partial class AddMeasurementsViewModel : ViewModelBase
             throw new Exception(em);
         }
 
-        BodyMeasurement bodyMeasurement = new BodyMeasurement()
-        {
-            Id = null,
-            Date = SelectedDate.ToString(),
-            PersonId = Constants.SelectedPersonId,
-            Temperature = double.Parse(TextField1)
-        };
+        BodyMeasurement bodyMeasurement = new BodyMeasurement(
+            Constants.SelectedPersonId.Value,
+            SelectedDate.ToString(),
+            double.Parse(TextField1)
+        );
 
         BodyMDao bodyMDao = new BodyMDao();
         bodyMDao.InsertRecord(bodyMeasurement);
@@ -125,14 +121,12 @@ public partial class AddMeasurementsViewModel : ViewModelBase
             throw new Exception(em);
         }
 
-        FeelingMeasurement feelingMeasurement = new FeelingMeasurement()
-        {
-            Id = null,
-            PersonId = Constants.SelectedPersonId,
-            Date = SelectedDate.ToString(),
-            Medication = string.IsNullOrEmpty(TextField1) ? string.Empty : TextField1,
-            Feeling = string.IsNullOrEmpty(TextField2) ? string.Empty : TextField2
-        };
+        FeelingMeasurement feelingMeasurement = new FeelingMeasurement(
+            Constants.SelectedPersonId.Value,
+            SelectedDate.ToString(),
+            TextField1,
+            TextField2
+        );
 
         FeelingMDao feelingMDao = new FeelingMDao();
         feelingMDao.InsertRecord(feelingMeasurement);
