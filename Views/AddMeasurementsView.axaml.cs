@@ -4,7 +4,7 @@ using Avalonia.Markup.Xaml;
 
 namespace MEMOMed.Views;
 
-public partial class AddMeasurementsView : Window
+public partial class AddMeasurementsView : UserControl
 {
     public AddMeasurementsView()
     {

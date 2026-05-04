@@ -1,12 +1,11 @@
-<Window xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:vm="clr-namespace:MEMOMed.ViewModels"
-        mc:Ignorable="d" d:DesignWidth="420" d:DesignHeight="520"
-        x:Class="MEMOMed.Views.ProfileCreateView"
-        x:DataType="vm:ProfileCreateViewModel"
-        Title="Profile Creation">
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:MEMOMed.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="420" d:DesignHeight="520"
+             x:Class="MEMOMed.Views.ProfileCreateView"
+             x:DataType="vm:ProfileCreateViewModel">
 
     <Design.DataContext>
         <vm:ProfileCreateViewModel />
@@ -16,9 +15,9 @@
         <StackPanel Spacing="15"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
-            <TextBox Text="{Binding FirstName}" PlaceholderText="First Name" />
-            <TextBox Text="{Binding LastName}" PlaceholderText="Last Name" />
-            <Button Command="{Binding CreateProfile}"
+            <TextBox Text="{Binding FirstName}" PlaceholderText="First Name" MinWidth="80" />
+            <TextBox Text="{Binding LastName}" PlaceholderText="Last Name" MinWidth="80" />
+            <Button Command="{Binding CreateProfileCommand}"
                     HorizontalAlignment="Stretch">
                 Submit
             </Button>
@@ -28,18 +27,18 @@
               ZIndex="10"
               Background="Black">
             <Border Background="White"
-                CornerRadius="8"
+                    CornerRadius="8"
                     Padding="20"
                     Margin="40"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
                 <StackPanel Spacing="15">
                     <TextBlock Text="{Binding ErrorMessage}"
-                               Foreground="Red" TextWrapping="Wrap" FontSize="20"/>
-                    <Button Command="{Binding CloseError}" HorizontalAlignment="Right" Content="OK"/>
+                               Foreground="Red" TextWrapping="Wrap" FontSize="20" />
+                    <Button Command="{Binding CloseError}" HorizontalAlignment="Right" Content="OK" />
                 </StackPanel>
             </Border>
         </Grid>
     </Grid>
 
-</Window>
+</UserControl>

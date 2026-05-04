@@ -4,7 +4,7 @@ using Avalonia.Markup.Xaml;
 
 namespace MEMOMed.Views;
 
-public partial class MedicineConfigurationView : Window
+public partial class MedicineConfigurationView : UserControl
 {
     public MedicineConfigurationView()
     {

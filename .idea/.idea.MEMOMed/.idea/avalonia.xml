@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="App.axaml" value="MEMOMed.csproj" />
+        <entry key="ViewModels/ProfileCreateViewModel.axaml" value="MEMOMed.csproj" />
+        <entry key="Views/AddMeasurementsView.axaml" value="MEMOMed.csproj" />
+        <entry key="Views/LoginView.axaml" value="MEMOMed.csproj" />
+        <entry key="Views/MainWindow.axaml" value="MEMOMed.csproj" />
+        <entry key="Views/MedicineConfigurationView.axaml" value="MEMOMed.csproj" />
+        <entry key="Views/MenuView.axaml" value="MEMOMed.csproj" />
+        <entry key="Views/ProfileCreate.axaml" value="MEMOMed.csproj" />
+        <entry key="Views/ProfileCreateView.axaml" value="MEMOMed.csproj" />
+        <entry key="Views/ProfileCreateViewModel.axaml" value="MEMOMed.csproj" />
+        <entry key="Views/TableView.axaml" value="MEMOMed.csproj" />
+        <entry key="Views/test.axaml" value="MEMOMed.csproj" />
+      </map>
+    </option>
+  </component>
+</project>

@@ -11,7 +11,7 @@ public partial class AddMeasurementsViewModel : ViewModelBase
 {
     private readonly MainWindowViewModel _mainWindowViewModel;
     [ObservableProperty] private EPageType _pageType;
-    [ObservableProperty] private DateTimeOffset? _selectedDate;
+    [ObservableProperty] private DateTimeOffset _selectedDate;
     [ObservableProperty] private string? _textField1;
     [ObservableProperty] private string? _textField1Name;
     [ObservableProperty] private string? _textField2;
@@ -52,7 +52,7 @@ public partial class AddMeasurementsViewModel : ViewModelBase
 
     private void SubmitHeartMeasurement()
     {
-        if (string.IsNullOrEmpty(SelectedDate.ToString()) || DateTime.TryParse(SelectedDate.ToString(), out _))
+        if (string.IsNullOrEmpty(SelectedDate.ToString()) || !DateTime.TryParse(SelectedDate.ToString(), out _))
         {
             var em = "Invalid Heart Measurement: Error in field \"DATETIME\"!";
             throw new Exception(em);
@@ -78,7 +78,7 @@ public partial class AddMeasurementsViewModel : ViewModelBase
 
         HeartMeasurement hMeasurement = new HeartMeasurement(
             Constants.SelectedPersonId.Value,
-            SelectedDate.ToString(),
+            SelectedDate.ToString("yyyy'/'MM'/'dd"),
             int.Parse(TextField1),
             int.Parse(TextField2),
             int.Parse(TextField3),
@@ -91,7 +91,7 @@ public partial class AddMeasurementsViewModel : ViewModelBase
 
     private void SubmitBodyMeasurements()
     {
-        if (string.IsNullOrEmpty(SelectedDate.ToString()) || DateTime.TryParse(SelectedDate.ToString(), out _))
+        if (string.IsNullOrEmpty(SelectedDate.ToString()) || !DateTime.TryParse(SelectedDate.ToString(), out _))
         {
             var em = "Invalid Body Measurement: Error in field \"DATETIME\"!";
             throw new Exception(em);
@@ -105,7 +105,7 @@ public partial class AddMeasurementsViewModel : ViewModelBase
 
         BodyMeasurement bodyMeasurement = new BodyMeasurement(
             Constants.SelectedPersonId.Value,
-            SelectedDate.ToString(),
+            SelectedDate.ToString("yyyy'/'MM'/'dd"),
             double.Parse(TextField1)
         );
 
@@ -115,7 +115,7 @@ public partial class AddMeasurementsViewModel : ViewModelBase
 
     private void SubmitFeelingMeasurements()
     {
-        if (string.IsNullOrEmpty(SelectedDate.ToString()) || DateTime.TryParse(SelectedDate.ToString(), out _))
+        if (string.IsNullOrEmpty(SelectedDate.ToString()) || !DateTime.TryParse(SelectedDate.ToString(), out _))
         {
             var em = "Invalid Feeling Measurement: Error in field \"DATETIME\"!";
             throw new Exception(em);
@@ -123,7 +123,7 @@ public partial class AddMeasurementsViewModel : ViewModelBase
 
         FeelingMeasurement feelingMeasurement = new FeelingMeasurement(
             Constants.SelectedPersonId.Value,
-            SelectedDate.ToString(),
+            SelectedDate.ToString("yyyy'/'MM'/'dd"),
             TextField1,
             TextField2
         );
@@ -164,7 +164,7 @@ public partial class AddMeasurementsViewModel : ViewModelBase
         IsTextField2Visible = true;
         TextField2Name = "Feeling";
         IsTextField3Visible = false;
-        TextField2Name = " ";
+        TextField3Name = " ";
         IsVisibleArrhythmiaCheckBox = false;
     }
 

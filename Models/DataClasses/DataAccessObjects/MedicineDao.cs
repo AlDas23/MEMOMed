@@ -111,7 +111,7 @@ public class MedicineDao : IGenericDao<Medicine>
 
     public List<Medicine>? GrabAllEntities()
     {
-        var entityList = new List<Medicine>();
+        List<Medicine>? entityList = null;
         try
         {
             using var conn = new SqliteConnection(Constants.DbConnectionString);
@@ -124,6 +124,7 @@ public class MedicineDao : IGenericDao<Medicine>
             using var reader = cmd.ExecuteReader();
             if (reader.HasRows)
             {
+                entityList = [];
                 while (reader.Read())
                 {
                     var entity = new Medicine(
@@ -135,10 +136,6 @@ public class MedicineDao : IGenericDao<Medicine>
                     );
                     entityList.Add(entity);
                 }
-            }
-            else
-            {
-                throw new Exception("Record not found");
             }
 
             return entityList;

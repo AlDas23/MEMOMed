@@ -72,7 +72,7 @@ public class BodyMDao : IMeasurementDao<BodyMeasurement>
 
     public List<BodyMeasurement>? GrabRecordsByPersonId(int personId)
     {
-        var bmList = new List<BodyMeasurement>();
+        List<BodyMeasurement>? bmList = null;
         try
         {
             using var conn = new SqliteConnection(Constants.DbConnectionString);
@@ -87,6 +87,7 @@ public class BodyMDao : IMeasurementDao<BodyMeasurement>
             using var reader = cmd.ExecuteReader();
             if (reader.HasRows)
             {
+                bmList = [];
                 while (reader.Read())
                 {
                     BodyMeasurement record = new(
@@ -96,10 +97,6 @@ public class BodyMDao : IMeasurementDao<BodyMeasurement>
                         reader.GetDouble(3));
                     bmList.Add(record);
                 }
-            }
-            else
-            {
-                throw new Exception("Record not found");
             }
 
             return bmList;

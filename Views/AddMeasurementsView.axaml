@@ -1,4 +1,4 @@
-<Window xmlns="https://github.com/avaloniaui"
+<UserControl xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -6,7 +6,6 @@
         mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="500"
         x:Class="MEMOMed.Views.AddMeasurementsView"
         x:DataType="vm:AddMeasurementsViewModel"
-        Title="Add Measurements"
         Width="600"
         Height="500"
         Padding="20">
@@ -88,6 +87,8 @@
                           Margin="0,4,0,0" />
             </Grid>
 
+            
+            <!-- TODO Find out why error is not visible-->
             <StackPanel Grid.Row="1" HorizontalAlignment="Right" Spacing="10" Orientation="Horizontal">
                 <StackPanel.Styles>
                     <Style Selector="Button">
@@ -99,7 +100,7 @@
                     </Style>
                 </StackPanel.Styles>
                 <TextBlock Padding="30" FontSize="16"
-                           Foreground="Red" FontWeight="Bold"
+                           Foreground="Red" FontWeight="Bold" 
                            IsVisible="{Binding IsError}"
                            Text="{Binding ErrorMessage}">
                 </TextBlock>
@@ -113,4 +114,4 @@
         </Grid>
 
     </DockPanel>
-</Window>
+</UserControl>

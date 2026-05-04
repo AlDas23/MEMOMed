@@ -44,15 +44,12 @@ public class PersonDao : IGenericDao<Person>
                               """;
             cmd.Parameters.AddWithValue("@id", id);
             using var reader = cmd.ExecuteReader();
-
-            if (reader.Read())
+            
+            while (reader.Read())
             {
-                while (reader.Read())
-                {
-                    entity.Id = reader.GetInt32(0);
-                    entity.FirstName = reader.GetString(1);
-                    entity.LastName = reader.GetString(2);
-                }
+                entity.Id = reader.GetInt32(0);
+                entity.FirstName = reader.GetString(1);
+                entity.LastName = reader.GetString(2);
             }
 
             using var cmd2 = conn.CreateCommand();
@@ -63,7 +60,6 @@ public class PersonDao : IGenericDao<Person>
                                """;
             cmd2.Parameters.AddWithValue("@id", id);
             using var reader2 = cmd2.ExecuteReader();
-            if (!reader2.Read()) return entity;
             MedicineDao medicineDao = new MedicineDao();
             while (reader2.Read())
             {
@@ -99,26 +95,41 @@ public class PersonDao : IGenericDao<Person>
                               """;
             using var reader = cmd.ExecuteReader();
 
-            if (reader.Read())
+            while (reader.Read())
             {
-                while (reader.Read())
+                Person person = new Person()
                 {
-                    Person person = new Person()
-                    {
-                        Id = reader.GetInt32(0),
-                        FirstName = reader.GetString(1),
-                        LastName = reader.GetString(2)
-                    };
-                    entityList.Add(person);
-                }
+                    Id = reader.GetInt32(0),
+                    FirstName = reader.GetString(1),
+                    LastName = reader.GetString(2)
+                };
+                entityList.Add(person);
             }
-            
+
             return entityList;
         }
         catch (SqliteException e)
         {
             Console.WriteLine(e.Message);
             return null;
+        }
+    }
+
+    public static bool IsEmpty()
+    {
+        using var conn = new SqliteConnection(Constants.DbConnectionString);
+        conn.Open();
+        try
+        {
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = "SELECT * FROM Person";
+            using var reader = cmd.ExecuteReader();
+            return !reader.HasRows;
+        }
+        catch (SqliteException e)
+        {
+            Console.WriteLine(e.Message);
+            return false;
         }
     }
 

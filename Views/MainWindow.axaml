@@ -6,9 +6,10 @@
         mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="520"
         x:Class="MEMOMed.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/MEMOMedIcon.png"
         Title="MEMOMed"
-        Width="400"
-        Height="520">
+        Width="{Binding WindowWidth}"
+        Height="{Binding WindowHeight}">
 
     <Design.DataContext>
         <vm:MainWindowViewModel />

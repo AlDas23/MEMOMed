@@ -4,7 +4,7 @@ using Avalonia.Markup.Xaml;
 
 namespace MEMOMed.Views;
 
-public partial class TableView : Window
+public partial class TableView : UserControl
 {
     public TableView()
     {

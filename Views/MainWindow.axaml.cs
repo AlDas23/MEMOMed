@@ -11,5 +11,13 @@ public partial class MainWindow : Window
                 
         var mainVm = new MainWindowViewModel();
         DataContext = mainVm;
+
+        mainVm.PropertyChanged += (s, e) =>
+        {
+            if (e.PropertyName == nameof(MainWindowViewModel.WindowWidth))
+                Width = mainVm.WindowWidth;
+            if (e.PropertyName == nameof(MainWindowViewModel.WindowHeight))
+                Height = mainVm.WindowHeight;
+        };
     }
 }

@@ -78,7 +78,7 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
 
     public List<HeartMeasurement>? GrabRecordsByPersonId(int personId)
     {
-        var hmList = new List<HeartMeasurement>();
+        List<HeartMeasurement>? hmList = [];
         try
         {
             using var conn = new SqliteConnection(Constants.DbConnectionString);
@@ -93,6 +93,7 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
             using var reader = cmd.ExecuteReader();
             if (reader.HasRows)
             {
+                hmList = [];
                 while (reader.Read())
                 {
                     HeartMeasurement record = new(
@@ -106,10 +107,6 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
                     );
                     hmList.Add(record);
                 }
-            }
-            else
-            {
-                throw new Exception("Record not found");
             }
 
             return hmList;

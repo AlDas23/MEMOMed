@@ -74,7 +74,7 @@ public class FeelingMDao : IMeasurementDao<FeelingMeasurement>
 
     public List<FeelingMeasurement>? GrabRecordsByPersonId(int personId)
     {
-        var fmList = new List<FeelingMeasurement>();
+        List<FeelingMeasurement>? fmList = null;
         try
         {
             using var conn = new SqliteConnection(Constants.DbConnectionString);
@@ -89,6 +89,7 @@ public class FeelingMDao : IMeasurementDao<FeelingMeasurement>
             using var reader = cmd.ExecuteReader();
             if (reader.HasRows)
             {
+                fmList = [];
                 while (reader.Read())
                 {
                     FeelingMeasurement record = new(
@@ -100,10 +101,6 @@ public class FeelingMDao : IMeasurementDao<FeelingMeasurement>
                     );
                     fmList.Add(record);
                 }
-            }
-            else
-            {
-                throw new Exception("Record not found");
             }
 
             return fmList;

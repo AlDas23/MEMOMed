@@ -4,7 +4,7 @@ using Avalonia.Markup.Xaml;
 
 namespace MEMOMed.Views;
 
-public partial class ProfileCreateView : Window
+public partial class ProfileCreateView : UserControl
 {
     public ProfileCreateView()
     {
