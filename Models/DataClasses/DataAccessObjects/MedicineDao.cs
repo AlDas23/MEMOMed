@@ -72,7 +72,7 @@ public class MedicineDao : IGenericDao<Medicine>
         }
     }
 
-    public List<Medicine>? GetAllEntities()
+    public List<Medicine> GetAllEntities()
     {
         List<Medicine> entityList = [];
         using var conn = new SqliteConnection(Constants.DbConnectionString);
@@ -86,21 +86,48 @@ public class MedicineDao : IGenericDao<Medicine>
                               """;
             using var reader = cmd.ExecuteReader();
 
-            if (reader.Read())
+            while (reader.Read())
             {
-                while (reader.Read())
-                {
-                    var medicine = new Medicine(
-                        reader.GetInt32(0),
-                        reader.GetString(1),
-                        reader.GetString(2),
-                        Medicine.TimeScheduleFromString(reader.GetString(3)),
-                        Medicine.DayScheduleFromString(reader.GetString(4)));
-                    entityList.Add(medicine);
-                }
+                var medicine = new Medicine(
+                    reader.GetInt32(0),
+                    reader.GetString(1),
+                    reader.GetString(2),
+                    Medicine.TimeScheduleFromString(reader.GetString(3)),
+                    Medicine.DayScheduleFromString(reader.GetString(4)));
+                entityList.Add(medicine);
             }
 
             return entityList;
+        }
+        catch (SqliteException e)
+        {
+            Console.WriteLine(e.Message);
+            return [];
+        }
+    }
+
+
+    public List<int> GetAllAssignedMedicine(int personId)
+    {
+        List<int> assignedMedicine = [];
+        try
+        {
+            using var conn = new SqliteConnection(Constants.DbConnectionString);
+            conn.Open();
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = """
+                              SELECT MedicineId
+                              FROM PersonMedicine
+                              WHERE PersonId = @personId
+                              """;
+            cmd.Parameters.AddWithValue("@personId", personId);
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                assignedMedicine.Add(reader.GetInt32(0));
+            }
+
+            return assignedMedicine;
         }
         catch (SqliteException e)
         {
@@ -109,9 +136,9 @@ public class MedicineDao : IGenericDao<Medicine>
         }
     }
 
-    public List<Medicine>? GrabAllEntities()
+    public List<Medicine> GrabAllEntities()
     {
-        List<Medicine>? entityList = null;
+        List<Medicine> entityList = [];
         try
         {
             using var conn = new SqliteConnection(Constants.DbConnectionString);
@@ -143,7 +170,7 @@ public class MedicineDao : IGenericDao<Medicine>
         catch (SqliteException e)
         {
             Console.WriteLine(e.Message);
-            return null;
+            return [];
         }
     }
 

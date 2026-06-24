@@ -3,13 +3,8 @@ using MEMOMed.Models.DataClasses;
 
 namespace MEMOMed.ViewModels.DataWrapperVM;
 
-public partial class MedicineWrapperViewModel : ViewModelBase
+public partial class MedicineWrapperViewModel(Medicine medicine, bool isSelected = false) : ViewModelBase
 {
-    public Medicine Medicine { get; }
-    [ObservableProperty] private bool _isSelected;
-
-    public MedicineWrapperViewModel(Medicine medicine)
-    {
-        Medicine = medicine;
-    }
+    public Medicine Medicine { get; } = medicine;
+    [ObservableProperty] private bool _isSelected = isSelected;
 }

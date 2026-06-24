@@ -59,10 +59,14 @@ public partial class MedicineConfigurationViewModel : ViewModelBase
         _mainWindowViewModel = mainWindowViewModel;
         _medicineDao = new MedicineDao();
         var medicineList = _medicineDao.GetAllEntities();
-        if (medicineList != null)
+        if (medicineList.Count != 0)
         {
+            var assignedMedicineIds = _medicineDao.GetAllAssignedMedicine(Constants.SelectedPersonId.Value);
             Medicine = new ObservableCollection<MedicineWrapperViewModel>(
-                medicineList.Select(m => new MedicineWrapperViewModel(m))
+                medicineList.Select(m =>
+                    assignedMedicineIds.Contains((int)m.Id)
+                        ? new MedicineWrapperViewModel(m, true)
+                        : new MedicineWrapperViewModel(m))
             );
         }
         else

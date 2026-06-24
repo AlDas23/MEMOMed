@@ -1,15 +1,15 @@
 <UserControl xmlns="https://github.com/avaloniaui"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:vm="clr-namespace:MEMOMed.ViewModels"
-        xmlns:dataWrapperVm="clr-namespace:MEMOMed.ViewModels.DataWrapperVM"
-        mc:Ignorable="d" d:DesignWidth="550" d:DesignHeight="600"
-        x:Class="MEMOMed.Views.MedicineConfigurationView"
-        x:DataType="vm:MedicineConfigurationViewModel"
-        Width="550"
-        Height="600"
-        Padding="20">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:MEMOMed.ViewModels"
+             xmlns:dataWrapperVm="clr-namespace:MEMOMed.ViewModels.DataWrapperVM"
+             mc:Ignorable="d" d:DesignWidth="550" d:DesignHeight="600"
+             x:Class="MEMOMed.Views.MedicineConfigurationView"
+             x:DataType="vm:MedicineConfigurationViewModel"
+             Width="550"
+             Height="600"
+             Padding="20">
 
     <Design.DataContext>
         <vm:MedicineConfigurationViewModel />
@@ -45,7 +45,8 @@
             <!-- Description Field -->
             <StackPanel Margin="0,5">
                 <TextBlock Text="Description:" />
-                <TextBox Name="TxtMedicineDescription" PlaceholderText="Enter description" AcceptsReturn="True" Height="80"
+                <TextBox Name="TxtMedicineDescription" PlaceholderText="Enter description" AcceptsReturn="True"
+                         Height="80"
                          Margin="0,5,0,10"
                          Text="{Binding DescriptionField}" />
             </StackPanel>
@@ -90,38 +91,62 @@
               RowDefinitions="Auto,*, Auto"
               ColumnDefinitions="*,100">
 
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="Existing Medicines" FontWeight="Bold" Margin="0,0,0,10" />
-            <TextBlock Grid.Row="0" Grid.Column="1" Text="Assigned?" FontWeight="Bold" Margin="0,0,0,10"
+            <!-- Headers -->
+            <TextBlock Grid.Row="0" Grid.Column="0"
+                       Text="Existing Medicines"
+                       FontWeight="Bold"
+                       Margin="0,0,0,10" />
+            <TextBlock Grid.Row="0" Grid.Column="1"
+                       Text="Assigned?"
+                       FontWeight="Bold"
+                       Margin="0,0,0,10"
                        HorizontalAlignment="Center" />
 
-            <!-- List of Medicines (Static example items) -->
-            <StackPanel Grid.Row="1" Grid.Column="0" Spacing="10" Orientation="Vertical">
-                <ListBox ItemsSource="{Binding Medicine}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate DataType="dataWrapperVm:MedicineWrapperViewModel">
-                            <StackPanel Orientation="Vertical" Spacing="10">
-                                <TextBlock Text="{Binding Medicine.Name}" FontSize="16"
-                                           Width="60" />
-                                <TextBlock Text="{Binding Medicine.Description}"
-                                           FontSize="12"
-                                           Width="60" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </StackPanel>
+            <!-- List of Medicines - Left Column -->
+            <ListBox Grid.Row="1" Grid.Column="0"
+                     ItemsSource="{Binding Medicine}"
+                     BorderThickness="0"
+                     Background="Transparent">
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="dataWrapperVm:MedicineWrapperViewModel">
+                        <StackPanel Orientation="Vertical"
+                                    Spacing="5"
+                                    Margin="0,5">
+                            <TextBlock Text="{Binding Medicine.Name}"
+                                       FontSize="16"
+                                       TextWrapping="Wrap" />
+                            <TextBlock Text="{Binding Medicine.Description}"
+                                       FontSize="12"
+                                       Foreground="Gray"
+                                       TextWrapping="Wrap" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
 
-            <StackPanel Grid.Row="1" Grid.Column="1" Spacing="10" Orientation="Vertical">
-                <ListBox ItemsSource="{Binding Medicine}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate DataType="dataWrapperVm:MedicineWrapperViewModel">
-                            <CheckBox IsChecked="{Binding IsSelected}" Width="20" />
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </StackPanel>
-            <Button Grid.Row="2" Grid.Column="1" Content="Submit" HorizontalAlignment="Right"
-                    Width="120" Margin="0,10,0,0"
+            <!-- Checkboxes - Right Column -->
+            <ListBox Grid.Row="1" Grid.Column="1"
+                     ItemsSource="{Binding Medicine}"
+                     BorderThickness="0"
+                     Background="Transparent">
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="dataWrapperVm:MedicineWrapperViewModel">
+                        <CheckBox IsChecked="{Binding IsSelected}"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Width="30"
+                                  Height="30"
+                                  Margin="0,10" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <!-- Submit Button -->
+            <Button Grid.Row="2" Grid.Column="1"
+                    Content="Submit"
+                    HorizontalAlignment="Right"
+                    Width="120"
+                    Margin="0,10,0,0"
                     Command="{Binding SubmitFormCommand}" />
         </Grid>
 
