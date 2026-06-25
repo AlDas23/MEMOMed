@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:MEMOMed.ViewModels"
+             xmlns:components="clr-namespace:MEMOMed.Components"
              xmlns:dataWrapperVm="clr-namespace:MEMOMed.ViewModels.DataWrapperVM"
              mc:Ignorable="d" d:DesignWidth="550" d:DesignHeight="600"
              x:Class="MEMOMed.Views.MedicineConfigurationView"
@@ -80,9 +81,13 @@
                 </StackPanel>
             </Border>
 
-            <Button Content="Save Medicine" HorizontalAlignment="Right"
-                    Width="120" Margin="0,10,0,0"
-                    Command="{Binding SubmitFormCommand}" />
+            <StackPanel Orientation="Horizontal">
+                <components:ErrorMessage Message="{Binding ErrorMessage}"
+                                         IsError="{Binding IsError}"/>
+                <Button Content="Save Medicine" HorizontalAlignment="Right"
+                        Width="120" Margin="0,10,0,0"
+                        Command="{Binding SubmitFormCommand}" />
+            </StackPanel>
         </StackPanel>
 
         <!-- State 2: Assign Medicine Panel -->

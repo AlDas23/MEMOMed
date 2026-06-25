@@ -186,7 +186,6 @@ public partial class AddMeasurementsViewModel : ViewModelBase
         if (IsError)
         {
             IsError = false;
-            return;
         }
 
         switch (PageType)
@@ -195,38 +194,38 @@ public partial class AddMeasurementsViewModel : ViewModelBase
                 try
                 {
                     SubmitHeartMeasurement();
+                    goto default;
                 }
                 catch (Exception ex)
                 {
                     ErrorMessage = ex.Message;
                     IsError = true;
+                    break;
                 }
-
-                goto default;
             case EPageType.BodyMeasurement:
                 try
                 {
                     SubmitBodyMeasurements();
+                    goto default;
                 }
                 catch (Exception ex)
                 {
                     ErrorMessage = ex.Message;
                     IsError = true;
+                    break;
                 }
-
-                goto default;
             case EPageType.FeelingMeasurement:
                 try
                 {
                     SubmitFeelingMeasurements();
+                    goto default;
                 }
                 catch (Exception ex)
                 {
                     ErrorMessage = ex.Message;
                     IsError = true;
+                    break;
                 }
-
-                goto default;
             default:
                 SelectedDate = DateTime.Now.Date;
                 TextField1 = string.Empty;

@@ -80,6 +80,12 @@ public class Medicine
     public static List<EWeekday> DayScheduleFromString(string scheduleString)
     {
         var daySchedule = new List<EWeekday>();
+
+        if (scheduleString == string.Empty)
+        {
+            return daySchedule;
+        }
+
         var days = scheduleString.Split('|');
 
         foreach (string day in days)
@@ -93,6 +99,12 @@ public class Medicine
     public static List<EDayTime> TimeScheduleFromString(string scheduleString)
     {
         var timeSchedule = new List<EDayTime>();
+
+        if (scheduleString == string.Empty)
+        {
+            return timeSchedule;
+        }
+
         var timeslots = scheduleString.Split('|');
 
         foreach (string time in timeslots)

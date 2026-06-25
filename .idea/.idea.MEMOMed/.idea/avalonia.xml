@@ -4,6 +4,8 @@
     <option name="projectPerEditor">
       <map>
         <entry key="App.axaml" value="MEMOMed.csproj" />
+        <entry key="Components/ErrorMessage.axaml" value="MEMOMed.csproj" />
+        <entry key="Components/ErrorText.axaml" value="MEMOMed.csproj" />
         <entry key="ViewModels/ProfileCreateViewModel.axaml" value="MEMOMed.csproj" />
         <entry key="Views/AddMeasurementsView.axaml" value="MEMOMed.csproj" />
         <entry key="Views/LoginView.axaml" value="MEMOMed.csproj" />

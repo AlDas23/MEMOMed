@@ -1,0 +1,26 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="using:MEMOMed.Components">
+    <Design.PreviewWith>
+        <controls:ErrorMessage />
+    </Design.PreviewWith>
+
+    <Style Selector="controls|ErrorMessage">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <TextBlock Text="{TemplateBinding Message}"
+                           Foreground="Red"
+                           FontWeight="Bold"
+                           Margin="3,5, 5, 0" />
+            </ControlTemplate>
+        </Setter>
+    </Style>
+
+    <Style Selector="controls|ErrorMessage[IsError=True]">
+        <Setter Property="IsVisible" Value="True" />
+    </Style>
+
+    <Style Selector="controls|ErrorMessage[IsError=False]">
+        <Setter Property="IsVisible" Value="False" />
+    </Style>
+</Styles>

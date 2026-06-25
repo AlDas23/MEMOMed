@@ -178,7 +178,6 @@ public partial class MedicineConfigurationViewModel : ViewModelBase
         if (IsError)
         {
             IsError = false;
-            return;
         }
 
         switch (_pageType)
@@ -187,26 +186,27 @@ public partial class MedicineConfigurationViewModel : ViewModelBase
                 try
                 {
                     SubmitMedicine();
+                    goto default;
                 }
                 catch (Exception ex)
                 {
                     ErrorMessage = ex.Message;
                     IsError = true;
+                    break;
                 }
 
-                goto default;
             case EPageType.MedicineAssign:
                 try
                 {
                     SubmitMedicineAssign();
+                    goto default;
                 }
                 catch (Exception ex)
                 {
                     ErrorMessage = ex.Message;
                     IsError = true;
+                    break;
                 }
-
-                goto default;
             default:
                 NameField = string.Empty;
                 DescriptionField = string.Empty;
