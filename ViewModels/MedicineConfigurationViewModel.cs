@@ -61,10 +61,10 @@ public partial class MedicineConfigurationViewModel : ViewModelBase
         var medicineList = _medicineDao.GetAllEntities();
         if (medicineList.Count != 0)
         {
-            var assignedMedicineIds = _medicineDao.GetAllAssignedMedicine(Constants.SelectedPersonId.Value);
+            var assignedMedicineIds = _medicineDao.GetAllAssignedMedicine(Constants.SelectedPersonId!.Value);
             Medicine = new ObservableCollection<MedicineWrapperViewModel>(
                 medicineList.Select(m =>
-                    assignedMedicineIds.Contains((int)m.Id)
+                    assignedMedicineIds.Contains((int)m.Id!)
                         ? new MedicineWrapperViewModel(m, true)
                         : new MedicineWrapperViewModel(m))
             );
@@ -153,17 +153,14 @@ public partial class MedicineConfigurationViewModel : ViewModelBase
         }
 
         List<int> medicineId = [];
-        foreach (var med in Medicine)
-        {
-            if (med.IsSelected)
-            {
-                var medId = med.Medicine.Id;
-                medicineId.Add(medId.Value);
-            }
-        }
+        medicineId.AddRange(from med in Medicine
+            where med.IsSelected
+            select med.Medicine.Id
+            into medId
+            select medId.Value);
 
         var personDao = new PersonDao();
-        personDao.UpdateEntityMedicineList(Constants.SelectedPersonId.Value, medicineId);
+        personDao.UpdateEntityMedicineList(Constants.SelectedPersonId!.Value, medicineId);
     }
 
     [RelayCommand]

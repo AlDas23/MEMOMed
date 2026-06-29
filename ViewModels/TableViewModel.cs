@@ -1,11 +1,9 @@
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MEMOMed.Models.DataClasses;
 using MEMOMed.Models.DataClasses.DataAccessObjects;
-using MEMOMed.Models.DataClasses.Enums;
 
 namespace MEMOMed.ViewModels;
 
@@ -53,7 +51,7 @@ public partial class TableViewModel : ViewModelBase
 
         HeartMeasurements =
             new ObservableCollection<HeartMeasurement>(
-                heartDao.GrabRecordsByPersonId(Constants.SelectedPersonId.Value) ?? []);
+                heartDao.GrabRecordsByPersonId(Constants.SelectedPersonId!.Value) ?? []);
         BodyMeasurements =
             new ObservableCollection<BodyMeasurement>(
                 bodyDao.GrabRecordsByPersonId(Constants.SelectedPersonId.Value) ?? []);
@@ -62,7 +60,7 @@ public partial class TableViewModel : ViewModelBase
                 feelDao.GrabRecordsByPersonId(Constants.SelectedPersonId.Value) ?? []);
         Medicines =
             new ObservableCollection<Medicine>(
-                medDao.GrabAllEntities() ?? []);
+                medDao.GrabAllEntities());
 
         HeartPChange();
     }

@@ -1,6 +1,4 @@
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using Avalonia.Threading;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MEMOMed.Models.DataClasses;
@@ -32,6 +30,6 @@ public partial class LoginViewModel : ViewModelBase
         _mainViewModel = mainViewModel;
         var pDao = new PersonDao();
         var data = pDao.GetAllEntities();
-        Profiles = new ObservableCollection<Person>(data);
+        Profiles = new ObservableCollection<Person>(data ?? []);
     }
 }

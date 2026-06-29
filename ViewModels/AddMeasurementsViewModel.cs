@@ -77,7 +77,7 @@ public partial class AddMeasurementsViewModel : ViewModelBase
         }
 
         HeartMeasurement hMeasurement = new HeartMeasurement(
-            Constants.SelectedPersonId.Value,
+            Constants.SelectedPersonId!.Value,
             SelectedDate.ToString("yyyy'/'MM'/'dd"),
             int.Parse(TextField1),
             int.Parse(TextField2),
@@ -104,7 +104,7 @@ public partial class AddMeasurementsViewModel : ViewModelBase
         }
 
         BodyMeasurement bodyMeasurement = new BodyMeasurement(
-            Constants.SelectedPersonId.Value,
+            Constants.SelectedPersonId!.Value,
             SelectedDate.ToString("yyyy'/'MM'/'dd"),
             double.Parse(TextField1)
         );
@@ -122,7 +122,7 @@ public partial class AddMeasurementsViewModel : ViewModelBase
         }
 
         FeelingMeasurement feelingMeasurement = new FeelingMeasurement(
-            Constants.SelectedPersonId.Value,
+            Constants.SelectedPersonId!.Value,
             SelectedDate.ToString("yyyy'/'MM'/'dd"),
             TextField1,
             TextField2

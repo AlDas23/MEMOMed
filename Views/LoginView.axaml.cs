@@ -1,7 +1,4 @@
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
-using MEMOMed.ViewModels;
 
 namespace MEMOMed.Views;
 

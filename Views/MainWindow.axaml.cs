@@ -12,12 +12,17 @@ public partial class MainWindow : Window
         var mainVm = new MainWindowViewModel();
         DataContext = mainVm;
 
-        mainVm.PropertyChanged += (s, e) =>
+        mainVm.PropertyChanged += (_, e) =>
         {
-            if (e.PropertyName == nameof(MainWindowViewModel.WindowWidth))
-                Width = mainVm.WindowWidth;
-            if (e.PropertyName == nameof(MainWindowViewModel.WindowHeight))
-                Height = mainVm.WindowHeight;
+            switch (e.PropertyName)
+            {
+                case nameof(MainWindowViewModel.WindowWidth):
+                    Width = mainVm.WindowWidth;
+                    break;
+                case nameof(MainWindowViewModel.WindowHeight):
+                    Height = mainVm.WindowHeight;
+                    break;
+            }
         };
     }
 }

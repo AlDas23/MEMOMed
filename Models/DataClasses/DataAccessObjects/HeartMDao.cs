@@ -78,7 +78,7 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
 
     public List<HeartMeasurement>? GrabRecordsByPersonId(int personId)
     {
-        List<HeartMeasurement>? hmList = [];
+        List<HeartMeasurement> hmList = [];
         try
         {
             using var conn = new SqliteConnection(Constants.DbConnectionString);

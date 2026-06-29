@@ -132,7 +132,7 @@ public class MedicineDao : IGenericDao<Medicine>
         catch (SqliteException e)
         {
             Console.WriteLine(e.Message);
-            return null;
+            return assignedMedicine;
         }
     }
 

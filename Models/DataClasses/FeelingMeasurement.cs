@@ -1,5 +1,3 @@
-using System;
-
 namespace MEMOMed.Models.DataClasses;
 
 public class FeelingMeasurement : Measurement
