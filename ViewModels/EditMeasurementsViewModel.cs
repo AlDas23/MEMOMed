@@ -22,6 +22,12 @@ public partial class EditMeasurementsViewModel : ViewModelBase
     [ObservableProperty] private string? _textField3;
     [ObservableProperty] private string? _textField3Name;
     [ObservableProperty] private bool _isTextField3Visible;
+    [ObservableProperty] private string? _textField4;
+    [ObservableProperty] private string? _textField4Name;
+    [ObservableProperty] private bool _isTextField4Visible;
+    [ObservableProperty] private string? _textField5;
+    [ObservableProperty] private string? _textField5Name;
+    [ObservableProperty] private bool _isTextField5Visible;
     [ObservableProperty] private bool _isArrhythmiaCheckBox;
     [ObservableProperty] private bool _isVisibleArrhythmiaCheckBox;
     [ObservableProperty] private bool _isError;
@@ -56,27 +62,17 @@ public partial class EditMeasurementsViewModel : ViewModelBase
         IsArrhythmiaCheckBox = heartMeasurement.IsArrhythmia;
     }
 
-    public EditMeasurementsViewModel(MainWindowViewModel mainWindowViewModel, FeelingMeasurement feelingMeasurement)
-    {
-        _pageType = EPageType.FeelingMeasurement;
-        FeelPageInit();
-        IsError = false;
-        _mainWindowViewModel = mainWindowViewModel;
-        _oldId = feelingMeasurement.Id!.Value;
-
-        // Populate fields with received data
-        SelectedDate = DateTimeOffset.Parse(feelingMeasurement.Date ?? string.Empty);
-        TextField1 = feelingMeasurement.Medication;
-        TextField2 = feelingMeasurement.Feeling;
-    }
-
     private void BodyPageInit()
     {
         TextField1Name = "Temperature";
         IsTextField2Visible = false;
-        TextField2Name = " ";
+        TextField2Name = string.Empty;
         IsTextField3Visible = false;
-        TextField2Name = " ";
+        TextField3Name = string.Empty;
+        IsTextField4Visible = false;
+        TextField4Name = string.Empty;
+        IsTextField5Visible = false;
+        TextField5Name = string.Empty;
         IsVisibleArrhythmiaCheckBox = false;
     }
 
@@ -87,18 +83,22 @@ public partial class EditMeasurementsViewModel : ViewModelBase
         TextField2Name = "Dia";
         IsTextField3Visible = true;
         TextField3Name = "Heart rate";
+        IsTextField4Visible = true;
+        TextField4Name = "Feeling";
+        IsTextField5Visible = true;
+        TextField5Name = "Medication";
         IsVisibleArrhythmiaCheckBox = true;
     }
 
-    private void FeelPageInit()
-    {
-        TextField1Name = "Medication";
-        IsTextField2Visible = true;
-        TextField2Name = "Feeling";
-        IsTextField3Visible = false;
-        TextField3Name = " ";
-        IsVisibleArrhythmiaCheckBox = false;
-    }
+    // private void FeelPageInit() TO BE REMOVED
+    // {
+    //     TextField1Name = "Medication";
+    //     IsTextField2Visible = true;
+    //     TextField2Name = "Feeling";
+    //     IsTextField3Visible = false;
+    //     TextField3Name = " ";
+    //     IsVisibleArrhythmiaCheckBox = false;
+    // }
 
     private void SubmitEditBodyMeasurement()
     {
@@ -156,31 +156,51 @@ public partial class EditMeasurementsViewModel : ViewModelBase
             int.Parse(TextField1),
             int.Parse(TextField2),
             int.Parse(TextField3),
+            TextField4,
+            TextField5,
             IsArrhythmiaCheckBox
         );
-        
+
         var heartMDao = new HeartMDao();
         heartMDao.UpdateRecord(hMeasurement, _oldId);
     }
 
-    private void SubmitEditFeelingMeasurement()
+    // private void SubmitEditFeelingMeasurement() TO BE REMOVED
+    // {
+    //     if (string.IsNullOrEmpty(SelectedDate.ToString()) || !DateTime.TryParse(SelectedDate.ToString(), out _))
+    //     {
+    //         var em = "Invalid Feeling Measurement: Error in field \"DATETIME\"!";
+    //         throw new Exception(em);
+    //     }
+    //
+    //     var feelingMeasurement = new FeelingMeasurement(
+    //         Constants.SelectedPersonId!.Value,
+    //         SelectedDate.ToString("yyyy'/'MM'/'dd"),
+    //         TextField1,
+    //         TextField2
+    //     );
+    //
+    //     var feelingMDao = new FeelingMDao();
+    //     feelingMDao.UpdateRecord(feelingMeasurement, _oldId);
+    // }
+
+    private void DeleteBodyMeasurement()
     {
-        if (string.IsNullOrEmpty(SelectedDate.ToString()) || !DateTime.TryParse(SelectedDate.ToString(), out _))
-        {
-            var em = "Invalid Feeling Measurement: Error in field \"DATETIME\"!";
-            throw new Exception(em);
-        }
-
-        var feelingMeasurement = new FeelingMeasurement(
-            Constants.SelectedPersonId!.Value,
-            SelectedDate.ToString("yyyy'/'MM'/'dd"),
-            TextField1,
-            TextField2
-        );
-
-        var feelingMDao = new FeelingMDao();
-        feelingMDao.UpdateRecord(feelingMeasurement, _oldId);
+        var bodyMDao = new BodyMDao();
+        bodyMDao.DeleteRecord(_oldId);
     }
+
+    private void DeleteHeartMeasurement()
+    {
+        var heartMDao = new HeartMDao();
+        heartMDao.DeleteRecord(_oldId);
+    }
+
+    // private void DeleteFeelingMeasurement() TO BE REMOVED
+    // {
+    //     var feelingMDao = new FeelingMDao();
+    //     feelingMDao.DeleteRecord(_oldId);
+    // }
 
     [RelayCommand]
     private void Edit()
@@ -195,10 +215,8 @@ public partial class EditMeasurementsViewModel : ViewModelBase
                 case EPageType.HeartMeasurement:
                     SubmitEditHeartMeasurement();
                     break;
-                case EPageType.FeelingMeasurement:
-                    SubmitEditFeelingMeasurement();
-                    break;
             }
+
             _mainWindowViewModel.NavigateToTablePage();
         }
         catch (Exception e)
@@ -206,5 +224,35 @@ public partial class EditMeasurementsViewModel : ViewModelBase
             ErrorMessage = e.Message;
             IsError = true;
         }
+    }
+
+    [RelayCommand]
+    private void Delete()
+    {
+        try
+        {
+            switch (_pageType)
+            {
+                case EPageType.BodyMeasurement:
+                    DeleteBodyMeasurement();
+                    break;
+                case EPageType.HeartMeasurement:
+                    DeleteHeartMeasurement();
+                    break;
+            }
+
+            _mainWindowViewModel.NavigateToTablePage();
+        }
+        catch (Exception e)
+        {
+            ErrorMessage = e.Message;
+            IsError = true;
+        }
+    }
+
+    [RelayCommand]
+    private void GoBack()
+    {
+        _mainWindowViewModel.NavigateToTablePage();
     }
 }
