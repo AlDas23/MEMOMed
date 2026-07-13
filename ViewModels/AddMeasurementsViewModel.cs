@@ -20,6 +20,12 @@ public partial class AddMeasurementsViewModel : ViewModelBase
     [ObservableProperty] private string? _textField3;
     [ObservableProperty] private string? _textField3Name;
     [ObservableProperty] private bool _isTextField3Visible;
+    [ObservableProperty] private string? _textField4;
+    [ObservableProperty] private string? _textField4Name;
+    [ObservableProperty] private bool _isTextField4Visible;
+    [ObservableProperty] private string? _textField5;
+    [ObservableProperty] private string? _textField5Name;
+    [ObservableProperty] private bool _isTextField5Visible;
     [ObservableProperty] private bool _isArrhythmiaCheckBox;
     [ObservableProperty] private bool _isVisibleArrhythmiaCheckBox;
     [ObservableProperty] private bool _isError;
@@ -76,16 +82,18 @@ public partial class AddMeasurementsViewModel : ViewModelBase
             throw new Exception(em);
         }
 
-        HeartMeasurement hMeasurement = new HeartMeasurement(
+        var hMeasurement = new HeartMeasurement(
             Constants.SelectedPersonId!.Value,
             SelectedDate.ToString("yyyy'/'MM'/'dd"),
             int.Parse(TextField1),
             int.Parse(TextField2),
             int.Parse(TextField3),
+            TextField4,
+            TextField5,
             IsArrhythmiaCheckBox
         );
 
-        HeartMDao hmdao = new HeartMDao();
+        var hmdao = new HeartMDao();
         hmdao.InsertRecord(hMeasurement);
     }
 
@@ -113,7 +121,7 @@ public partial class AddMeasurementsViewModel : ViewModelBase
         bodyMDao.InsertRecord(bodyMeasurement);
     }
 
-    private void SubmitFeelingMeasurements()
+    private void SubmitFeelingMeasurements()  // TO BE REMOVED
     {
         if (string.IsNullOrEmpty(SelectedDate.ToString()) || !DateTime.TryParse(SelectedDate.ToString(), out _))
         {
@@ -138,9 +146,13 @@ public partial class AddMeasurementsViewModel : ViewModelBase
         ChangePage(EPageType.BodyMeasurement);
         TextField1Name = "Temperature";
         IsTextField2Visible = false;
-        TextField2Name = " ";
+        TextField2Name = string.Empty;
         IsTextField3Visible = false;
-        TextField2Name = " ";
+        TextField3Name = string.Empty;
+        IsTextField4Visible = false;
+        TextField4Name = string.Empty;
+        IsTextField5Visible = false;
+        TextField5Name = string.Empty;
         IsVisibleArrhythmiaCheckBox = false;
     }
 
@@ -153,19 +165,23 @@ public partial class AddMeasurementsViewModel : ViewModelBase
         TextField2Name = "Dia";
         IsTextField3Visible = true;
         TextField3Name = "Heart rate";
+        IsTextField4Visible = true;
+        TextField4Name = "Feeling";
+        IsTextField5Visible = true;
+        TextField5Name = "Medication";
         IsVisibleArrhythmiaCheckBox = true;
     }
 
     [RelayCommand]
-    private void FeelMChange()
+    private void FeelMChange() // TO BE REMOVED
     {
-        ChangePage(EPageType.FeelingMeasurement);
-        TextField1Name = "Medication";
-        IsTextField2Visible = true;
-        TextField2Name = "Feeling";
-        IsTextField3Visible = false;
-        TextField3Name = " ";
-        IsVisibleArrhythmiaCheckBox = false;
+        // ChangePage(EPageType.FeelingMeasurement);
+        // TextField1Name = "Medication";
+        // IsTextField2Visible = true;
+        // TextField2Name = "Feeling";
+        // IsTextField3Visible = false;
+        // TextField3Name = " ";
+        // IsVisibleArrhythmiaCheckBox = false;
     }
 
     [RelayCommand]
@@ -206,18 +222,6 @@ public partial class AddMeasurementsViewModel : ViewModelBase
                 try
                 {
                     SubmitBodyMeasurements();
-                    goto default;
-                }
-                catch (Exception ex)
-                {
-                    ErrorMessage = ex.Message;
-                    IsError = true;
-                    break;
-                }
-            case EPageType.FeelingMeasurement:
-                try
-                {
-                    SubmitFeelingMeasurements();
                     goto default;
                 }
                 catch (Exception ex)

@@ -30,9 +30,9 @@
                 <Button Content="Heart measurement"
                         Command="{Binding HeartMChangeCommand}"
                         Margin="4,0" />
-                <Button Content="Feeling measurement"
-                        Command="{Binding FeelMChangeCommand}"
-                        Margin="4,0" />
+                <!-- <Button Content="Feeling measurement" -->
+                <!--         Command="{Binding FeelMChangeCommand}" -->
+                <!--         Margin="4,0" /> TO BE REMOVED -->
             </StackPanel>
         </DockPanel>
 
@@ -40,7 +40,7 @@
         <Grid RowDefinitions="Auto,Auto">
             <Grid Grid.Row="0"
                   Margin="0,0,0,16"
-                  RowDefinitions="Auto,Auto,Auto,Auto, Auto"
+                  RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto"
                   ColumnDefinitions="Auto,*">
 
                 <!-- DatePicker -->
@@ -80,8 +80,29 @@
                          IsVisible="{Binding IsTextField3Visible}"
                          Text="{Binding TextField3}"
                          Margin="0,0,0,8" />
+                
+                <TextBlock Text="{Binding TextField4Name}"
+                           Grid.Row="4" Grid.Column="0"
+                           IsVisible="{Binding IsTextField4Visible}"
+                           VerticalAlignment="Center"
+                           Margin="0,0,8,8" />
+                <TextBox Grid.Row="4" Grid.Column="1"
+                         IsVisible="{Binding IsTextField4Visible}"
+                         Text="{Binding TextField4}"
+                         Margin="0,0,0,8" />
+                
+                <TextBlock Text="{Binding TextField5Name}"
+                           Grid.Row="5" Grid.Column="0"
+                           IsVisible="{Binding IsTextField5Visible}"
+                           VerticalAlignment="Center"
+                           Margin="0,0,8,8" />
+                <TextBox Grid.Row="5" Grid.Column="1"
+                         IsVisible="{Binding IsTextField5Visible}"
+                         Text="{Binding TextField5}"
+                         Margin="0,0,0,8" />
 
-                <CheckBox Grid.Row="4" Grid.Column="1"
+                
+                <CheckBox Grid.Row="6" Grid.Column="1"
                           Content="Arrhythmia?"
                           IsVisible="{Binding IsVisibleArrhythmiaCheckBox}"
                           IsChecked="{Binding IsArrhythmiaCheckBox}"

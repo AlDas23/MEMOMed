@@ -5,7 +5,7 @@ using Microsoft.Data.Sqlite;
 
 namespace MEMOMed.Models.DataClasses.DataAccessObjects;
 
-public class FeelingMDao : IMeasurementDao<FeelingMeasurement>
+public class FeelingMDao : IMeasurementDao<FeelingMeasurement> // TO BE REMOVED
 {
     public void InsertRecord(FeelingMeasurement record)
     {

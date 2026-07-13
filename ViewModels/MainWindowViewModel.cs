@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using MEMOMed.Models.DataClasses;
 using MEMOMed.Models.DataClasses.DataAccessObjects;
 
 namespace MEMOMed.ViewModels;
@@ -22,45 +23,58 @@ public partial class MainWindowViewModel : ViewModelBase
         }
     }
 
+    private void SetWindowSize(double width, double height)
+    {
+        WindowHeight = height;
+        WindowWidth = width;
+    }
+
     public void NavigateToLoginPage()
     {
         CurrentViewModel = new LoginViewModel(this);
-        WindowWidth = 400;
-        WindowHeight = 520;
+        SetWindowSize(400, 520);
     }
 
     public void NavigateToProfileCreatePage()
     {
         CurrentViewModel = new ProfileCreateViewModel(this);
-        WindowWidth = 400;
-        WindowHeight = 520;
+        SetWindowSize(400, 520);
     }
 
     public void NavigateToMenuPage()
     {
         CurrentViewModel = new MenuViewModel(this);
-        WindowWidth = 500;
-        WindowHeight = 600;
+        SetWindowSize(500, 600);
     }
 
     public void NavigateToMeasurementsPage()
     {
         CurrentViewModel = new AddMeasurementsViewModel(this);
-        WindowWidth = 600;
-        WindowHeight = 500;
+        SetWindowSize(600, 500);
     }
 
     public void NavigateToMedicinePage()
     {
         CurrentViewModel = new MedicineConfigurationViewModel(this);
-        WindowWidth = 550;
-        WindowHeight = 600;
+        SetWindowSize(550, 600);
     }
 
     public void NavigateToTablePage()
     {
         CurrentViewModel = new TableViewModel(this);
-        WindowWidth = 800;
-        WindowHeight = 600;
+        SetWindowSize(1000, 700);
     }
+
+    public void NavigateToEditMeasurementsPage(BodyMeasurement measurement)
+    {
+        CurrentViewModel = new EditMeasurementsViewModel(this, measurement);
+        SetWindowSize(600, 500);
+    }
+
+    public void NavigateToEditMeasurementsPage(HeartMeasurement measurement)
+    {
+        CurrentViewModel = new EditMeasurementsViewModel(this, measurement);
+        SetWindowSize(600, 500);
+    }
+    
 }

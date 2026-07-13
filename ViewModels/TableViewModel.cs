@@ -12,7 +12,7 @@ public partial class TableViewModel : ViewModelBase
     private readonly MainWindowViewModel _mainWindowViewModel;
     [ObservableProperty] private ObservableCollection<HeartMeasurement>? _heartMeasurements;
     [ObservableProperty] private ObservableCollection<BodyMeasurement>? _bodyMeasurements;
-    [ObservableProperty] private ObservableCollection<FeelingMeasurement>? _feelingMeasurements;
+    // [ObservableProperty] private ObservableCollection<FeelingMeasurement>? _feelingMeasurements; TO BE REMOVED
     [ObservableProperty] private ObservableCollection<Medicine>? _medicines;
     [ObservableProperty] private string? _title;
     [ObservableProperty] private bool _isHeartPage;
@@ -47,7 +47,6 @@ public partial class TableViewModel : ViewModelBase
         var medDao = new MedicineDao();
         var heartDao = new HeartMDao();
         var bodyDao = new BodyMDao();
-        var feelDao = new FeelingMDao();
 
         HeartMeasurements =
             new ObservableCollection<HeartMeasurement>(
@@ -55,9 +54,6 @@ public partial class TableViewModel : ViewModelBase
         BodyMeasurements =
             new ObservableCollection<BodyMeasurement>(
                 bodyDao.GrabRecordsByPersonId(Constants.SelectedPersonId.Value) ?? []);
-        FeelingMeasurements =
-            new ObservableCollection<FeelingMeasurement>(
-                feelDao.GrabRecordsByPersonId(Constants.SelectedPersonId.Value) ?? []);
         Medicines =
             new ObservableCollection<Medicine>(
                 medDao.GrabAllEntities());
@@ -96,15 +92,15 @@ public partial class TableViewModel : ViewModelBase
         IsMedicinePage = false;
     }
 
-    [RelayCommand]
-    private void FeelingPChange()
-    {
-        Title = "Feeling Measurements";
-        IsBodyPage = false;
-        IsHeartPage = false;
-        IsFeelingPage = true;
-        IsMedicinePage = false;
-    }
+    // [RelayCommand] TO BE REMOVED
+    // private void FeelingPChange()
+    // {
+    //     Title = "Feeling Measurements";
+    //     IsBodyPage = false;
+    //     IsHeartPage = false;
+    //     IsFeelingPage = true;
+    //     IsMedicinePage = false;
+    // }
 
     [RelayCommand]
     private void GoBack()

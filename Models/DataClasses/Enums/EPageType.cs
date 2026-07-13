@@ -4,7 +4,7 @@ public enum EPageType
 {
     BodyMeasurement,
     HeartMeasurement,
-    FeelingMeasurement,
+    // FeelingMeasurement,
     Medicine,
     MedicineAssign
 }

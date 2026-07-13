@@ -17,7 +17,6 @@
             <Button Command="{Binding GoBackCommand}" Content="Go Back" MinWidth="60" />
             <Button Command="{Binding HeartPChangeCommand}" Content="Heart Measurements" MinWidth="100" />
             <Button Command="{Binding BodyPChangeCommand}" Content="Body Measurements" MinWidth="100" />
-            <Button Command="{Binding FeelingPChangeCommand}" Content="Feeling Measurements" MinWidth="100" />
             <Button Command="{Binding MedicinePChangeCommand}" Content="Medicine List" MinWidth="100" />
         </StackPanel>
 
@@ -62,23 +61,7 @@
                 </DataGrid.Columns>
             </DataGrid>
 
-            <!-- STATE 3: Feeling Measurements -->
-            <DataGrid Grid.Row="1"
-                      IsVisible="{Binding IsFeelingPage}"
-                      ItemsSource="{Binding FeelingMeasurements}"
-                      AutoGenerateColumns="False"
-                      VerticalScrollBarVisibility="Auto"
-                      HorizontalScrollBarVisibility="Auto"
-                      CanUserSortColumns="True">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="60" IsReadOnly="True" />
-                    <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="*" IsReadOnly="True" />
-                    <DataGridTextColumn Header="Medication" Binding="{Binding Medication}" Width="*" IsReadOnly="True" />
-                    <DataGridTextColumn Header="Feeling" Binding="{Binding Feeling}" Width="*" IsReadOnly="True" />
-                </DataGrid.Columns>
-            </DataGrid>
-
-            <!-- STATE 4: Medicine -->
+            <!-- STATE 3: Medicine -->
             <DataGrid Grid.Row="1"
                       IsVisible="{Binding IsMedicinePage}"
                       ItemsSource="{Binding Medicines}"

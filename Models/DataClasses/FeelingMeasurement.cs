@@ -1,6 +1,6 @@
 namespace MEMOMed.Models.DataClasses;
 
-public class FeelingMeasurement : Measurement
+public class FeelingMeasurement : Measurement // TO BE REMOVED
 {
     public string Medication { get; init; }
     public string Feeling { get; init; }
