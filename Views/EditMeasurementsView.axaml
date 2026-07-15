@@ -5,15 +5,11 @@
              xmlns:vm="clr-namespace:MEMOMed.ViewModels"
              xmlns:components="clr-namespace:MEMOMed.Components"
              mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="500"
-             x:Class="MEMOMed.Views.AddMeasurementsView"
-             x:DataType="vm:AddMeasurementsViewModel"
+             x:Class="MEMOMed.Views.EditMeasurementsView"
+             x:DataType="vm:EditMeasurementsViewModel"
              Width="600"
              Height="500"
              Padding="20">
-
-    <Design.DataContext>
-        <vm:AddMeasurementsViewModel />
-    </Design.DataContext>
 
     <DockPanel>
         <!-- Top Navigation Bar -->
@@ -22,21 +18,9 @@
                     DockPanel.Dock="Left"
                     Command="{Binding GoBackCommand}"
                     Margin="4" />
-
-            <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" Margin="4">
-                <Button Content="Body measurement"
-                        Command="{Binding BodyMChangeCommand}"
-                        Margin="4,0" />
-                <Button Content="Heart measurement"
-                        Command="{Binding HeartMChangeCommand}"
-                        Margin="4,0" />
-                <!-- <Button Content="Feeling measurement" -->
-                <!--         Command="{Binding FeelMChangeCommand}" -->
-                <!--         Margin="4,0" /> TO BE REMOVED -->
-            </StackPanel>
         </DockPanel>
 
-        <!-- Form & Submit Area -->
+        <!-- Form Area -->
         <Grid RowDefinitions="Auto,Auto">
             <Grid Grid.Row="0"
                   Margin="0,0,0,16"
@@ -80,7 +64,7 @@
                          IsVisible="{Binding IsTextField3Visible}"
                          Text="{Binding TextField3}"
                          Margin="0,0,0,8" />
-                
+
                 <TextBlock Text="{Binding TextField4Name}"
                            Grid.Row="4" Grid.Column="0"
                            IsVisible="{Binding IsTextField4Visible}"
@@ -91,7 +75,7 @@
                          Text="{Binding TextField4}"
                          Height="60"
                          Margin="0,0,0,8" />
-                
+
                 <TextBlock Text="{Binding TextField5Name}"
                            Grid.Row="5" Grid.Column="0"
                            IsVisible="{Binding IsTextField5Visible}"
@@ -103,7 +87,7 @@
                          Height="60"
                          Margin="0,0,0,8" />
 
-                
+
                 <CheckBox Grid.Row="6" Grid.Column="1"
                           Content="Arrhythmia?"
                           IsVisible="{Binding IsVisibleArrhythmiaCheckBox}"
@@ -116,11 +100,19 @@
                 <components:ErrorMessage Message="{Binding ErrorMessage}"
                                          IsError="{Binding IsError}" />
                 <Button
-                    Command="{Binding SubmitRecordCommand}"
-                    Content="Submit"
+                    Command="{Binding EditCommand}"
+                    Content="Update"
                     HorizontalAlignment="Right"
                     Padding="30,10"
-                    Margin="0,10,0,0" />
+                    Margin="0,10,0,0"
+                    Foreground="DeepSkyBlue" />
+                <Button
+                    Command="{Binding DeleteCommand}"
+                    Content="Delete"
+                    HorizontalAlignment="Right"
+                    Padding="30,10"
+                    Margin="0,10,0,0"
+                    Foreground="Crimson" />
             </StackPanel>
         </Grid>
 

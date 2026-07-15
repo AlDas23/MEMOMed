@@ -1,5 +1,6 @@
 using System;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MEMOMed.Models.DataClasses;
@@ -11,7 +12,9 @@ public partial class TableViewModel : ViewModelBase
 {
     private readonly MainWindowViewModel _mainWindowViewModel;
     [ObservableProperty] private ObservableCollection<HeartMeasurement>? _heartMeasurements;
+
     [ObservableProperty] private ObservableCollection<BodyMeasurement>? _bodyMeasurements;
+
     // [ObservableProperty] private ObservableCollection<FeelingMeasurement>? _feelingMeasurements; TO BE REMOVED
     [ObservableProperty] private ObservableCollection<Medicine>? _medicines;
     [ObservableProperty] private string? _title;
@@ -44,6 +47,9 @@ public partial class TableViewModel : ViewModelBase
             _mainWindowViewModel.NavigateToLoginPage();
         }
 
+        SelectHeartMeasurementCommand = new RelayCommand<HeartMeasurement>(OnSelectRecord);
+        SelectBodyMeasurementCommand = new RelayCommand<BodyMeasurement>(OnSelectRecord);
+
         var medDao = new MedicineDao();
         var heartDao = new HeartMDao();
         var bodyDao = new BodyMDao();
@@ -61,6 +67,18 @@ public partial class TableViewModel : ViewModelBase
         HeartPChange();
     }
 
+    public ICommand SelectHeartMeasurementCommand { get; }
+    public ICommand SelectBodyMeasurementCommand { get; }
+
+    private void OnSelectRecord(HeartMeasurement record)
+    {
+        _mainWindowViewModel.NavigateToEditMeasurementsPage(record);
+    }
+
+    private void OnSelectRecord(BodyMeasurement record)
+    {
+        _mainWindowViewModel.NavigateToEditMeasurementsPage(record);
+    }
 
     [RelayCommand]
     private void MedicinePChange()

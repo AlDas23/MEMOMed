@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -14,9 +15,10 @@ public static class DbInitialize
         {
             Directory.CreateDirectory(directory);
         }
-        else if (File.Exists(Constants.DbPath) && !IsDbSchemaCorrect(await GetExistingDbSchema(connectionPath), dbSchema))
+        else if (File.Exists(Constants.DbPath) &&
+                 !IsDbVersionCorrect(await GetExistingDbSchema(connectionPath), Constants.CurrentDbVersion))
         {
-            File.Delete(Constants.DbPath);
+            File.Delete(Constants.DbPath); // Temporary solution
         }
 
         await using var conn = new SqliteConnection(connectionPath);
@@ -27,36 +29,37 @@ public static class DbInitialize
         await cmd.ExecuteNonQueryAsync();
     }
 
-    private static async Task<string> GetExistingDbSchema(string connectionPath)
+    private static async Task<int> GetExistingDbSchema(string connectionPath)
     {
-        await using var conn = new SqliteConnection(connectionPath);
-        await conn.OpenAsync();
-
-        await using var cmd = conn.CreateCommand();
-        cmd.CommandText =
-            "SELECT sql FROM sqlite_master WHERE type='table' OR type='index' OR type='view' OR type='trigger' ORDER BY type, name";
-        await using var reader = await cmd.ExecuteReaderAsync();
-        var schemaParts = new System.Text.StringBuilder();
-        while (await reader.ReadAsync())
+        try
         {
-            var sql = reader.GetString(0);
-            if (!string.IsNullOrWhiteSpace(sql))
-            {
-                schemaParts.AppendLine(sql);
-                schemaParts.AppendLine(";");
-            }
-        }
+            await using var conn = new SqliteConnection(connectionPath);
+            await conn.OpenAsync();
+            await using var cmd = conn.CreateCommand();
+            cmd.CommandText =
+                "SELECT Version FROM System";
 
-        return schemaParts.ToString().Trim();
+            await using var reader = await cmd.ExecuteReaderAsync();
+            var version = string.Empty;
+            while (await reader.ReadAsync())
+            {
+                if (!reader.IsDBNull(0))
+                {
+                    version = reader.GetString(0);
+                }
+            }
+
+            return string.IsNullOrEmpty(version) ? 0 : int.Parse(version);
+        }
+        catch (SqliteException ex)
+        {
+            Console.WriteLine(ex.Message);
+            return 0;
+        }
     }
 
-    private static bool IsDbSchemaCorrect(string existingDbSchema, string dbSchema)
+    private static bool IsDbVersionCorrect(int existingDbVersion, int requiredDbVersion)
     {
-        var normalizedExistingSchema = Regex.Replace(existingDbSchema, @"\s+", " ");
-        normalizedExistingSchema = Regex.Replace(normalizedExistingSchema, @"^\s+|\s+$", "", RegexOptions.Multiline);
-        var normalizedSchema = Regex.Replace(dbSchema, @"\s+", " ");
-        normalizedSchema = Regex.Replace(normalizedSchema, @"^\s+|\s+$", "", RegexOptions.Multiline);
-
-        return normalizedSchema == normalizedExistingSchema;
+        return existingDbVersion >= requiredDbVersion;
     }
 }

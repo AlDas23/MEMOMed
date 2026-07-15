@@ -59,6 +59,8 @@ public partial class EditMeasurementsViewModel : ViewModelBase
         TextField1 = heartMeasurement.Sys.ToString();
         TextField2 = heartMeasurement.Dia.ToString();
         TextField3 = heartMeasurement.HRhythm.ToString();
+        TextField4 = heartMeasurement.Feeling;
+        TextField5 = heartMeasurement.Medication;
         IsArrhythmiaCheckBox = heartMeasurement.IsArrhythmia;
     }
 

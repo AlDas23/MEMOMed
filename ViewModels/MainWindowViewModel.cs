@@ -62,7 +62,7 @@ public partial class MainWindowViewModel : ViewModelBase
     public void NavigateToTablePage()
     {
         CurrentViewModel = new TableViewModel(this);
-        SetWindowSize(1000, 700);
+        SetWindowSize(1100, 800);
     }
 
     public void NavigateToEditMeasurementsPage(BodyMeasurement measurement)
