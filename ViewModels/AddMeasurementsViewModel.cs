@@ -12,6 +12,7 @@ public partial class AddMeasurementsViewModel : ViewModelBase
     private readonly MainWindowViewModel _mainWindowViewModel;
     [ObservableProperty] private EPageType _pageType;
     [ObservableProperty] private DateTimeOffset _selectedDate;
+    [ObservableProperty] private TimeSpan _selectedTime;
     [ObservableProperty] private string? _textField1;
     [ObservableProperty] private string? _textField1Name;
     [ObservableProperty] private string? _textField2;
@@ -26,6 +27,9 @@ public partial class AddMeasurementsViewModel : ViewModelBase
     [ObservableProperty] private string? _textField5;
     [ObservableProperty] private string? _textField5Name;
     [ObservableProperty] private bool _isTextField5Visible;
+    [ObservableProperty] private string? _textField6;
+    [ObservableProperty] private string? _textField6Name;
+    [ObservableProperty] private bool _isTextField6Visible;
     [ObservableProperty] private bool _isArrhythmiaCheckBox;
     [ObservableProperty] private bool _isVisibleArrhythmiaCheckBox;
     [ObservableProperty] private bool _isError;
@@ -45,6 +49,7 @@ public partial class AddMeasurementsViewModel : ViewModelBase
     {
         HeartMChange();
         SelectedDate = DateTime.Now.Date;
+        SelectedTime = DateTime.Now.TimeOfDay;
         IsError = false;
         IsArrhythmiaCheckBox = false;
         _mainWindowViewModel = mainWindowViewModel;
@@ -81,15 +86,18 @@ public partial class AddMeasurementsViewModel : ViewModelBase
             var em = "Invalid Heart Measurement: Error in field \"Heart Rhythm\"!";
             throw new Exception(em);
         }
+        
+        var dateTime = $"{SelectedDate:yyyy'/'MM'/'dd} | {SelectedTime:HH:mm}";
 
         var hMeasurement = new HeartMeasurement(
             Constants.SelectedPersonId!.Value,
-            SelectedDate.ToString("yyyy'/'MM'/'dd"),
+            dateTime,
             int.Parse(TextField1),
             int.Parse(TextField2),
             int.Parse(TextField3),
             TextField4,
             TextField5,
+            double.Parse(TextField6 ?? string.Empty),
             IsArrhythmiaCheckBox
         );
 
@@ -97,7 +105,7 @@ public partial class AddMeasurementsViewModel : ViewModelBase
         hmdao.InsertRecord(hMeasurement);
     }
 
-    private void SubmitBodyMeasurements()
+    private void SubmitBodyMeasurements() // TO BE REMOVED
     {
         if (string.IsNullOrEmpty(SelectedDate.ToString()) || !DateTime.TryParse(SelectedDate.ToString(), out _))
         {
@@ -120,40 +128,21 @@ public partial class AddMeasurementsViewModel : ViewModelBase
         BodyMDao bodyMDao = new BodyMDao();
         bodyMDao.InsertRecord(bodyMeasurement);
     }
-
-    private void SubmitFeelingMeasurements()  // TO BE REMOVED
-    {
-        if (string.IsNullOrEmpty(SelectedDate.ToString()) || !DateTime.TryParse(SelectedDate.ToString(), out _))
-        {
-            var em = "Invalid Feeling Measurement: Error in field \"DATETIME\"!";
-            throw new Exception(em);
-        }
-
-        FeelingMeasurement feelingMeasurement = new FeelingMeasurement(
-            Constants.SelectedPersonId!.Value,
-            SelectedDate.ToString("yyyy'/'MM'/'dd"),
-            TextField1,
-            TextField2
-        );
-
-        FeelingMDao feelingMDao = new FeelingMDao();
-        feelingMDao.InsertRecord(feelingMeasurement);
-    }
-
+    
     [RelayCommand]
-    private void BodyMChange()
+    private void BodyMChange() // TO BE REMOVED
     {
-        ChangePage(EPageType.BodyMeasurement);
-        TextField1Name = "Temperature";
-        IsTextField2Visible = false;
-        TextField2Name = string.Empty;
-        IsTextField3Visible = false;
-        TextField3Name = string.Empty;
-        IsTextField4Visible = false;
-        TextField4Name = string.Empty;
-        IsTextField5Visible = false;
-        TextField5Name = string.Empty;
-        IsVisibleArrhythmiaCheckBox = false;
+        // ChangePage(EPageType.BodyMeasurement);
+        // TextField1Name = "Temperature";
+        // IsTextField2Visible = false;
+        // TextField2Name = string.Empty;
+        // IsTextField3Visible = false;
+        // TextField3Name = string.Empty;
+        // IsTextField4Visible = false;
+        // TextField4Name = string.Empty;
+        // IsTextField5Visible = false;
+        // TextField5Name = string.Empty;
+        // IsVisibleArrhythmiaCheckBox = false;
     }
 
     [RelayCommand]
@@ -169,21 +158,11 @@ public partial class AddMeasurementsViewModel : ViewModelBase
         TextField4Name = "Feeling";
         IsTextField5Visible = true;
         TextField5Name = "Medication";
+        IsTextField6Visible = true;
+        TextField6Name = "Temperature";
         IsVisibleArrhythmiaCheckBox = true;
     }
-
-    [RelayCommand]
-    private void FeelMChange() // TO BE REMOVED
-    {
-        // ChangePage(EPageType.FeelingMeasurement);
-        // TextField1Name = "Medication";
-        // IsTextField2Visible = true;
-        // TextField2Name = "Feeling";
-        // IsTextField3Visible = false;
-        // TextField3Name = " ";
-        // IsVisibleArrhythmiaCheckBox = false;
-    }
-
+    
     [RelayCommand]
     private void GoBack()
     {
@@ -218,23 +197,14 @@ public partial class AddMeasurementsViewModel : ViewModelBase
                     IsError = true;
                     break;
                 }
-            case EPageType.BodyMeasurement:
-                try
-                {
-                    SubmitBodyMeasurements();
-                    goto default;
-                }
-                catch (Exception ex)
-                {
-                    ErrorMessage = ex.Message;
-                    IsError = true;
-                    break;
-                }
             default:
                 SelectedDate = DateTime.Now.Date;
                 TextField1 = string.Empty;
                 TextField2 = string.Empty;
                 TextField3 = string.Empty;
+                TextField4 = string.Empty;
+                TextField5 = string.Empty;
+                TextField6 = string.Empty;
                 IsArrhythmiaCheckBox = false;
                 ErrorMessage = string.Empty;
                 break;

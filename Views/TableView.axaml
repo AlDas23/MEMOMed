@@ -16,7 +16,6 @@
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="10" Margin="0,0,0,10">
             <Button Command="{Binding GoBackCommand}" Content="Go Back" MinWidth="60" />
             <Button Command="{Binding HeartPChangeCommand}" Content="Heart Measurements" MinWidth="100" />
-            <Button Command="{Binding BodyPChangeCommand}" Content="Body Measurements" MinWidth="100" />
             <Button Command="{Binding MedicinePChangeCommand}" Content="Medicine List" MinWidth="100" />
         </StackPanel>
 
@@ -43,12 +42,13 @@
                             </DataTemplate>
                         </TableViewColumn.CellTemplate>
                     </TableViewColumn>
-                    <TableViewColumn Header="Date" Binding="{Binding Date}" Width="*" />
+                    <TableViewColumn Header="Date" Binding="{Binding DateTime}" Width="*" />
                     <TableViewColumn Header="Sys" Binding="{Binding Sys}" Width="*" />
                     <TableViewColumn Header="Dia" Binding="{Binding Dia}" Width="*" />
+                    <TableViewColumn Header="Heart Rhythm" Binding="{Binding HRhythm}" Width="*" />
                     <TableViewColumn Header="Feeling" Binding="{Binding Feeling}" Width="*" />
                     <TableViewColumn Header="Medication" Binding="{Binding Medication}" Width="*" />
-                    <TableViewColumn Header="Heart Rhythm" Binding="{Binding HRhythm}" Width="*" />
+                    <TableViewColumn Header="Temperature" Binding="{Binding Temperature}" Width="*" />
                     <TableViewColumn Header="Arrhythmia?"
                                      Width="*">
                         <TableViewColumn.CellTemplate>
@@ -60,27 +60,7 @@
                 </TableView.Columns>
             </TableView>
 
-            <!-- STATE 2: Body Measurements -->
-            <TableView Grid.Row="1"
-                       IsVisible="{Binding IsBodyPage}"
-                       ItemsSource="{Binding BodyMeasurements}"
-                       CanUserResizeColumns="True">
-                <TableView.Columns>
-                    <TableViewColumn Header="ID" Width="60">
-                        <TableViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Content="{Binding Id}"
-                                        Command="{Binding $parent[TableView].((vm:TableViewModel)DataContext).SelectBodyMeasurementCommand}"
-                                        CommandParameter="{Binding}" />
-                            </DataTemplate>
-                        </TableViewColumn.CellTemplate>
-                    </TableViewColumn>
-                    <TableViewColumn Header="Date" Binding="{Binding Date}" Width="*" />
-                    <TableViewColumn Header="Temperature" Binding="{Binding Temperature}" Width="*" />
-                </TableView.Columns>
-            </TableView>
-
-            <!-- STATE 3: Medicine -->
+            <!-- STATE 2: Medicine -->
             <TableView Grid.Row="1"
                        IsVisible="{Binding IsMedicinePage}"
                        ItemsSource="{Binding Medicines}"

@@ -2,7 +2,7 @@ namespace MEMOMed.Models.DataClasses.Enums;
 
 public enum EPageType
 {
-    BodyMeasurement,
+    // BodyMeasurement,
     HeartMeasurement,
     // FeelingMeasurement,
     Medicine,

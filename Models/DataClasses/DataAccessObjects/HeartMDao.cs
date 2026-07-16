@@ -16,15 +16,16 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
             using var cmd = conn.CreateCommand();
             cmd.CommandText = """
                               INSERT INTO HeartMeasurements
-                              VALUES (NULL, @PersonId, @Datetime, @Sys, @Dia, @HRhythm, @Feeling, @Medication, @IsArrhythmia)
+                              VALUES (NULL, @PersonId, @Datetime, @Sys, @Dia, @HRhythm, @Feeling, @Medication, @Temperature, @IsArrhythmia)
                               """;
             cmd.Parameters.AddWithValue("@PersonId", record.PersonId);
-            cmd.Parameters.AddWithValue("@Datetime", record.Date);
+            cmd.Parameters.AddWithValue("@Datetime", record.DateTime);
             cmd.Parameters.AddWithValue("@Sys", record.Sys);
             cmd.Parameters.AddWithValue("@Dia", record.Dia);
             cmd.Parameters.AddWithValue("@HRhythm", record.HRhythm);
             cmd.Parameters.AddWithValue("@Feeling", record.Feeling);
             cmd.Parameters.AddWithValue("@Medication", record.Medication);
+            cmd.Parameters.AddWithValue("@Temperature", record.Temperature);
             cmd.Parameters.AddWithValue("@IsArrhythmia", record.IsArrhythmia);
 
             cmd.ExecuteNonQuery();
@@ -63,7 +64,8 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
                         reader.GetInt32(5),
                         reader.GetString(6),
                         reader.GetString(7),
-                        reader.GetBoolean(8)
+                        reader.GetDouble(8),
+                        reader.GetBoolean(9)
                     );
             }
             else
@@ -109,7 +111,8 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
                         reader.GetInt32(5),
                         reader.GetString(6),
                         reader.GetString(7),
-                        reader.GetBoolean(8)
+                        reader.GetDouble(8),
+                        reader.GetBoolean(9)
                     );
                     hmList.Add(record);
                 }
@@ -152,7 +155,8 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
                         reader.GetInt32(5),
                         reader.GetString(6),
                         reader.GetString(7),
-                        reader.GetBoolean(8)
+                        reader.GetDouble(8),
+                        reader.GetBoolean(9)
                     );
                     hmList.Add(record);
                 }
@@ -186,15 +190,17 @@ public class HeartMDao : IMeasurementDao<HeartMeasurement>
                                   HRhythm = @HRhythm,
                                   Feeling = @Feeling,
                                   Medication = @Medication,
+                                  Temperature = @Temperature,
                                   IsArrhythmia = @IsArrhythmia
                               WHERE Id = @id
                               """;
-            cmd.Parameters.AddWithValue("@Datetime", newRecord.Date);
+            cmd.Parameters.AddWithValue("@Datetime", newRecord.DateTime);
             cmd.Parameters.AddWithValue("@Sys", newRecord.Sys);
             cmd.Parameters.AddWithValue("@Dia", newRecord.Dia);
             cmd.Parameters.AddWithValue("@HRhythm", newRecord.HRhythm);
             cmd.Parameters.AddWithValue("@Feeling", newRecord.Feeling);
             cmd.Parameters.AddWithValue("@Medication", newRecord.Medication);
+            cmd.Parameters.AddWithValue("@Temperature", newRecord.Temperature);
             cmd.Parameters.AddWithValue("@IsArrhythmia", newRecord.IsArrhythmia);
             cmd.Parameters.AddWithValue("@id", oldId);
 

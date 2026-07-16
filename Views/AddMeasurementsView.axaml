@@ -24,9 +24,9 @@
                     Margin="4" />
 
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" Margin="4">
-                <Button Content="Body measurement"
-                        Command="{Binding BodyMChangeCommand}"
-                        Margin="4,0" />
+                <!-- <Button Content="Body measurement" -->
+                <!--         Command="{Binding BodyMChangeCommand}" -->
+                <!--         Margin="4,0" /> TO BE REMOVED -->
                 <Button Content="Heart measurement"
                         Command="{Binding HeartMChangeCommand}"
                         Margin="4,0" />
@@ -40,17 +40,20 @@
         <Grid RowDefinitions="Auto,Auto">
             <Grid Grid.Row="0"
                   Margin="0,0,0,16"
-                  RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto"
-                  ColumnDefinitions="Auto,*">
+                  RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+                  ColumnDefinitions="Auto,*,*">
 
                 <!-- DatePicker -->
-                <TextBlock Text="Date:"
+                <TextBlock Text="DateTime:"
                            Grid.Row="0" Grid.Column="0"
                            VerticalAlignment="Center"
                            Margin="0,0,8,8" />
                 <DatePicker Grid.Row="0" Grid.Column="1"
                             SelectedDate="{Binding SelectedDate}"
                             Margin="0,0,0,8" />
+                <TimePicker Grid.Row="0" Grid.Column="2" 
+                            ClockIdentifier="24HourClock"
+                            SelectedTime="{Binding SelectedTime}"/>
 
                 <TextBlock Text="{Binding TextField1Name}"
                            Grid.Row="1" Grid.Column="0"
@@ -103,8 +106,17 @@
                          Height="60"
                          Margin="0,0,0,8" />
 
+                <TextBlock Text="{Binding TextField6Name}"
+                           Grid.Row="6" Grid.Column="0"
+                           IsVisible="{Binding IsTextField6Visible}"
+                           VerticalAlignment="Center"
+                           Margin="0,0,8,8" />
+                <TextBox Grid.Row="6" Grid.Column="1"
+                         IsVisible="{Binding IsTextField6Visible}"
+                         Text="{Binding TextField6}"
+                         Margin="0,0,0,8" />
                 
-                <CheckBox Grid.Row="6" Grid.Column="1"
+                <CheckBox Grid.Row="7" Grid.Column="1"
                           Content="Arrhythmia?"
                           IsVisible="{Binding IsVisibleArrhythmiaCheckBox}"
                           IsChecked="{Binding IsArrhythmiaCheckBox}"

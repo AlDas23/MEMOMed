@@ -10,7 +10,7 @@ public static class Constants
             "MEMOMed.db");
 
     public static readonly string DbConnectionString = $"Data Source={DbPath}";
-    public const int CurrentDbVersion = 2;
+    public const int CurrentDbVersion = 3;
 
     public static readonly string DbSchema = $"""
                                               CREATE TABLE IF NOT EXISTS System(
@@ -26,16 +26,10 @@ public static class Constants
                                                   HRhythm INTEGER NOT NULL,
                                                   Feeling TEXT, 
                                                   Medication TEXT,
+                                                  Temperature REAL,
                                                   IsArrhythmia BOOLEAN NOT NULL,
                                                   FOREIGN KEY (PersonId) REFERENCES Person (Id)
                                               );
-                                              CREATE TABLE IF NOT EXISTS BodyMeasurements (
-                                                  Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                                                  PersonId INTEGER,
-                                                  DateTime TEXT NOT NULL,
-                                                  Temperature REAL NOT NULL,
-                                                  FOREIGN KEY (PersonId) REFERENCES Person (Id)
-                                              ); 
                                               CREATE TABLE IF NOT EXISTS Medicine (
                                                   Id INTEGER PRIMARY KEY AUTOINCREMENT,
                                                   Name TEXT NOT NULL UNIQUE,

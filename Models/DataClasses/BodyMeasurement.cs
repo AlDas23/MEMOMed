@@ -9,7 +9,7 @@ public class BodyMeasurement : Measurement
     {
         Id = id;
         PersonId = personId;
-        Date = date;
+        DateTime = date;
         Temperature = temperature;
     }
     
@@ -17,7 +17,7 @@ public class BodyMeasurement : Measurement
     {
         Id = null;
         PersonId = personId;
-        Date = date;
+        DateTime = date;
         Temperature = temperature;
     }
 }

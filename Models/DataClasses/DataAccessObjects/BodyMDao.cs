@@ -19,7 +19,7 @@ public class BodyMDao : IMeasurementDao<BodyMeasurement>
                               VALUES (NULL, @PersonId, @Datetime, @Temperature)
                               """;
             cmd.Parameters.AddWithValue("@PersonId", record.PersonId);
-            cmd.Parameters.AddWithValue("@Datetime", record.Date);
+            cmd.Parameters.AddWithValue("@Datetime", record.DateTime);
             cmd.Parameters.AddWithValue("@Temperature", record.Temperature);
 
             cmd.ExecuteNonQuery();
@@ -163,7 +163,7 @@ public class BodyMDao : IMeasurementDao<BodyMeasurement>
                                   Temperature = @Temperature,
                               WHERE Id = @id
                               """;
-            cmd.Parameters.AddWithValue("@Datetime", newRecord.Date);
+            cmd.Parameters.AddWithValue("@Datetime", newRecord.DateTime);
             cmd.Parameters.AddWithValue("@Temperature", newRecord.Temperature);
 
             cmd.ExecuteNonQuery();

@@ -64,13 +64,7 @@ public partial class MainWindowViewModel : ViewModelBase
         CurrentViewModel = new TableViewModel(this);
         SetWindowSize(1100, 800);
     }
-
-    public void NavigateToEditMeasurementsPage(BodyMeasurement measurement)
-    {
-        CurrentViewModel = new EditMeasurementsViewModel(this, measurement);
-        SetWindowSize(600, 500);
-    }
-
+    
     public void NavigateToEditMeasurementsPage(HeartMeasurement measurement)
     {
         CurrentViewModel = new EditMeasurementsViewModel(this, measurement);

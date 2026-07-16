@@ -12,15 +12,9 @@ public partial class TableViewModel : ViewModelBase
 {
     private readonly MainWindowViewModel _mainWindowViewModel;
     [ObservableProperty] private ObservableCollection<HeartMeasurement>? _heartMeasurements;
-
-    [ObservableProperty] private ObservableCollection<BodyMeasurement>? _bodyMeasurements;
-
-    // [ObservableProperty] private ObservableCollection<FeelingMeasurement>? _feelingMeasurements; TO BE REMOVED
     [ObservableProperty] private ObservableCollection<Medicine>? _medicines;
     [ObservableProperty] private string? _title;
     [ObservableProperty] private bool _isHeartPage;
-    [ObservableProperty] private bool _isBodyPage;
-    [ObservableProperty] private bool _isFeelingPage;
     [ObservableProperty] private bool _isMedicinePage;
 
     // For designer ONLY
@@ -47,19 +41,14 @@ public partial class TableViewModel : ViewModelBase
             _mainWindowViewModel.NavigateToLoginPage();
         }
 
-        SelectHeartMeasurementCommand = new RelayCommand<HeartMeasurement>(OnSelectRecord);
-        SelectBodyMeasurementCommand = new RelayCommand<BodyMeasurement>(OnSelectRecord);
+        SelectHeartMeasurementCommand = new RelayCommand<HeartMeasurement>(OnSelectRecord!);
 
         var medDao = new MedicineDao();
         var heartDao = new HeartMDao();
-        var bodyDao = new BodyMDao();
 
         HeartMeasurements =
             new ObservableCollection<HeartMeasurement>(
                 heartDao.GrabRecordsByPersonId(Constants.SelectedPersonId!.Value) ?? []);
-        BodyMeasurements =
-            new ObservableCollection<BodyMeasurement>(
-                bodyDao.GrabRecordsByPersonId(Constants.SelectedPersonId.Value) ?? []);
         Medicines =
             new ObservableCollection<Medicine>(
                 medDao.GrabAllEntities());
@@ -68,25 +57,17 @@ public partial class TableViewModel : ViewModelBase
     }
 
     public ICommand SelectHeartMeasurementCommand { get; }
-    public ICommand SelectBodyMeasurementCommand { get; }
 
     private void OnSelectRecord(HeartMeasurement record)
     {
         _mainWindowViewModel.NavigateToEditMeasurementsPage(record);
     }
-
-    private void OnSelectRecord(BodyMeasurement record)
-    {
-        _mainWindowViewModel.NavigateToEditMeasurementsPage(record);
-    }
-
+    
     [RelayCommand]
     private void MedicinePChange()
     {
         Title = "Medicine list";
-        IsBodyPage = false;
         IsHeartPage = false;
-        IsFeelingPage = false;
         IsMedicinePage = true;
     }
 
@@ -94,29 +75,17 @@ public partial class TableViewModel : ViewModelBase
     private void HeartPChange()
     {
         Title = "Heart Measurements";
-        IsBodyPage = false;
         IsHeartPage = true;
-        IsFeelingPage = false;
         IsMedicinePage = false;
     }
 
-    [RelayCommand]
-    private void BodyPChange()
-    {
-        Title = "Body Measurements";
-        IsBodyPage = true;
-        IsHeartPage = false;
-        IsFeelingPage = false;
-        IsMedicinePage = false;
-    }
-
-    // [RelayCommand] TO BE REMOVED
-    // private void FeelingPChange()
+    // [RelayCommand]  TO BE REMOVED
+    // private void BodyPChange()
     // {
-    //     Title = "Feeling Measurements";
-    //     IsBodyPage = false;
+    //     Title = "Body Measurements";
+    //     IsBodyPage = true;
     //     IsHeartPage = false;
-    //     IsFeelingPage = true;
+    //     IsFeelingPage = false;
     //     IsMedicinePage = false;
     // }
 

@@ -14,6 +14,7 @@ public partial class EditMeasurementsViewModel : ViewModelBase
     private readonly int _oldId;
     private readonly EPageType _pageType;
     [ObservableProperty] private DateTimeOffset _selectedDate;
+    [ObservableProperty] private TimeSpan _selectedTime;
     [ObservableProperty] private string? _textField1;
     [ObservableProperty] private string? _textField1Name;
     [ObservableProperty] private string? _textField2;
@@ -28,23 +29,13 @@ public partial class EditMeasurementsViewModel : ViewModelBase
     [ObservableProperty] private string? _textField5;
     [ObservableProperty] private string? _textField5Name;
     [ObservableProperty] private bool _isTextField5Visible;
+    [ObservableProperty] private string? _textField6;
+    [ObservableProperty] private string? _textField6Name;
+    [ObservableProperty] private bool _isTextField6Visible;
     [ObservableProperty] private bool _isArrhythmiaCheckBox;
     [ObservableProperty] private bool _isVisibleArrhythmiaCheckBox;
     [ObservableProperty] private bool _isError;
     [ObservableProperty] private string? _errorMessage;
-
-    public EditMeasurementsViewModel(MainWindowViewModel mainWindowViewModel, BodyMeasurement bodyMeasurement)
-    {
-        _pageType = EPageType.BodyMeasurement;
-        BodyPageInit();
-        IsError = false;
-        _mainWindowViewModel = mainWindowViewModel;
-        _oldId = bodyMeasurement.Id!.Value;
-
-        // Populate fields with received data
-        SelectedDate = DateTimeOffset.Parse(bodyMeasurement.Date ?? string.Empty);
-        TextField1 = bodyMeasurement.Temperature.ToString(CultureInfo.CurrentCulture);
-    }
 
     public EditMeasurementsViewModel(MainWindowViewModel mainWindowViewModel, HeartMeasurement heartMeasurement)
     {
@@ -54,17 +45,36 @@ public partial class EditMeasurementsViewModel : ViewModelBase
         _mainWindowViewModel = mainWindowViewModel;
         _oldId = heartMeasurement.Id!.Value;
 
+        var parts = heartMeasurement.DateTime!.Split([" | "], StringSplitOptions.None);
+        var datePart = parts[0].Trim();
+        var timePart = parts[1].Trim();
+
+        // Parse the date part (yyyy/MM/dd)
+        if (!DateTime.TryParseExact(datePart, "yyyy/MM/dd", CultureInfo.InvariantCulture, DateTimeStyles.None,
+                out DateTime parsedDate))
+        {
+            throw new FormatException($"Unable to parse date part: '{datePart}'. Expected format: yyyy/MM/dd");
+        }
+
+        // Parse the time part (HH:mm)
+        if (!TimeSpan.TryParseExact(timePart, "hh\\:mm", CultureInfo.InvariantCulture, out TimeSpan parsedTime))
+        {
+            throw new FormatException($"Unable to parse time part: '{timePart}'. Expected format: HH:mm");
+        }
+
         // Populate fields with received data
-        SelectedDate = DateTimeOffset.Parse(heartMeasurement.Date ?? string.Empty);
+        SelectedDate = parsedDate;
+        SelectedTime = parsedTime;
         TextField1 = heartMeasurement.Sys.ToString();
         TextField2 = heartMeasurement.Dia.ToString();
         TextField3 = heartMeasurement.HRhythm.ToString();
         TextField4 = heartMeasurement.Feeling;
         TextField5 = heartMeasurement.Medication;
+        TextField6 = heartMeasurement.Temperature.ToString();
         IsArrhythmiaCheckBox = heartMeasurement.IsArrhythmia;
     }
 
-    private void BodyPageInit()
+    private void BodyPageInit() // TO BE REMOVED
     {
         TextField1Name = "Temperature";
         IsTextField2Visible = false;
@@ -89,20 +99,13 @@ public partial class EditMeasurementsViewModel : ViewModelBase
         TextField4Name = "Feeling";
         IsTextField5Visible = true;
         TextField5Name = "Medication";
+        IsTextField6Visible = true;
+        TextField6Name = "Temperature";
         IsVisibleArrhythmiaCheckBox = true;
     }
+    
 
-    // private void FeelPageInit() TO BE REMOVED
-    // {
-    //     TextField1Name = "Medication";
-    //     IsTextField2Visible = true;
-    //     TextField2Name = "Feeling";
-    //     IsTextField3Visible = false;
-    //     TextField3Name = " ";
-    //     IsVisibleArrhythmiaCheckBox = false;
-    // }
-
-    private void SubmitEditBodyMeasurement()
+    private void SubmitEditBodyMeasurement() // TO BE REMOVED
     {
         if (string.IsNullOrEmpty(SelectedDate.ToString()) || !DateTime.TryParse(SelectedDate.ToString(), out _))
         {
@@ -152,41 +155,25 @@ public partial class EditMeasurementsViewModel : ViewModelBase
             throw new Exception(em);
         }
 
+        var dateTime = $"{SelectedDate:yyyy'/'MM'/'dd} | {SelectedTime:HH:mm}";
+
         var hMeasurement = new HeartMeasurement(
             Constants.SelectedPersonId!.Value,
-            SelectedDate.ToString("yyyy'/'MM'/'dd"),
+            dateTime,
             int.Parse(TextField1),
             int.Parse(TextField2),
             int.Parse(TextField3),
             TextField4,
             TextField5,
+            double.Parse(TextField6 ?? string.Empty),
             IsArrhythmiaCheckBox
         );
 
         var heartMDao = new HeartMDao();
         heartMDao.UpdateRecord(hMeasurement, _oldId);
     }
-
-    // private void SubmitEditFeelingMeasurement() TO BE REMOVED
-    // {
-    //     if (string.IsNullOrEmpty(SelectedDate.ToString()) || !DateTime.TryParse(SelectedDate.ToString(), out _))
-    //     {
-    //         var em = "Invalid Feeling Measurement: Error in field \"DATETIME\"!";
-    //         throw new Exception(em);
-    //     }
-    //
-    //     var feelingMeasurement = new FeelingMeasurement(
-    //         Constants.SelectedPersonId!.Value,
-    //         SelectedDate.ToString("yyyy'/'MM'/'dd"),
-    //         TextField1,
-    //         TextField2
-    //     );
-    //
-    //     var feelingMDao = new FeelingMDao();
-    //     feelingMDao.UpdateRecord(feelingMeasurement, _oldId);
-    // }
-
-    private void DeleteBodyMeasurement()
+    
+    private void DeleteBodyMeasurement() // TO BE REMOVED
     {
         var bodyMDao = new BodyMDao();
         bodyMDao.DeleteRecord(_oldId);
@@ -198,12 +185,6 @@ public partial class EditMeasurementsViewModel : ViewModelBase
         heartMDao.DeleteRecord(_oldId);
     }
 
-    // private void DeleteFeelingMeasurement() TO BE REMOVED
-    // {
-    //     var feelingMDao = new FeelingMDao();
-    //     feelingMDao.DeleteRecord(_oldId);
-    // }
-
     [RelayCommand]
     private void Edit()
     {
@@ -211,9 +192,6 @@ public partial class EditMeasurementsViewModel : ViewModelBase
         {
             switch (_pageType)
             {
-                case EPageType.BodyMeasurement:
-                    SubmitEditBodyMeasurement();
-                    break;
                 case EPageType.HeartMeasurement:
                     SubmitEditHeartMeasurement();
                     break;
@@ -235,9 +213,6 @@ public partial class EditMeasurementsViewModel : ViewModelBase
         {
             switch (_pageType)
             {
-                case EPageType.BodyMeasurement:
-                    DeleteBodyMeasurement();
-                    break;
                 case EPageType.HeartMeasurement:
                     DeleteHeartMeasurement();
                     break;
