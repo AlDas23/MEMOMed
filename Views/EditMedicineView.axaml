@@ -1,0 +1,86 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:MEMOMed.ViewModels"
+             xmlns:components="clr-namespace:MEMOMed.Components"
+             mc:Ignorable="d" d:DesignWidth="550" d:DesignHeight="600"
+             x:Class="MEMOMed.Views.EditMedicineView"
+             x:DataType="vm:EditMedicineViewModel"
+             Width="550"
+             Height="600"
+             Padding="20">
+
+    <DockPanel LastChildFill="True">
+
+        <!-- Top Button Bar -->
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Spacing="10" Margin="10">
+            <Button Name="BtnGoBack" Content="Go Back"
+                    Width="80"
+                    Command="{Binding GoBackCommand}" />
+        </StackPanel>
+
+        <!-- State 1: Add Medicine Panel -->
+        <StackPanel Name="PanelAddMedicine" Margin="20">
+            <TextBlock Text="Add New Medicine" FontSize="18" FontWeight="Bold" Margin="0,0,0,15" />
+
+            <!-- Name Field -->
+            <StackPanel Margin="0,5">
+                <TextBlock Text="Name:" />
+                <TextBox Name="TxtMedicineName" PlaceholderText="Enter medicine name"
+                         Margin="0,5,0,10"
+                         Text="{Binding NameField}" />
+            </StackPanel>
+
+            <!-- Description Field -->
+            <StackPanel Margin="0,5">
+                <TextBlock Text="Description:" />
+                <TextBox Name="TxtMedicineDescription" PlaceholderText="Enter description" AcceptsReturn="True"
+                         Height="80"
+                         Margin="0,5,0,10"
+                         Text="{Binding DescriptionField}" />
+            </StackPanel>
+
+            <!-- Time Schedule Checkboxes -->
+            <Border BorderBrush="Gray" BorderThickness="1" Padding="10" Margin="0,10">
+                <StackPanel>
+                    <TextBlock Text="Time Schedule:" FontWeight="SemiBold" Margin="0,0,0,5" />
+                    <WrapPanel Orientation="Horizontal" ItemSpacing="10">
+                        <CheckBox Content="Morning" IsChecked="{Binding IsMorningSelected}" />
+                        <CheckBox Content="Afternoon" IsChecked="{Binding IsAfternoonSelected}" />
+                        <CheckBox Content="Evening" IsChecked="{Binding IsEveningSelected}" />
+                        <CheckBox Content="Night" IsChecked="{Binding IsNightSelected}" />
+                    </WrapPanel>
+                </StackPanel>
+            </Border>
+
+            <!-- Day Schedule Checkboxes -->
+            <Border BorderBrush="Gray" BorderThickness="1" Padding="10" Margin="0,10">
+                <StackPanel>
+                    <TextBlock Text="Day Schedule:" FontWeight="SemiBold" Margin="0,0,0,5" />
+                    <WrapPanel Orientation="Horizontal" ItemSpacing="10">
+                        <CheckBox Content="Mon" IsChecked="{Binding IsMondaySelected}" />
+                        <CheckBox Content="Tue" IsChecked="{Binding IsTuesdaySelected}" />
+                        <CheckBox Content="Wed" IsChecked="{Binding IsWednesdaySelected}" />
+                        <CheckBox Content="Thu" IsChecked="{Binding IsThursdaySelected}" />
+                        <CheckBox Content="Fri" IsChecked="{Binding IsFridaySelected}" />
+                        <CheckBox Content="Sat" IsChecked="{Binding IsSaturdaySelected}" />
+                        <CheckBox Content="Sun" IsChecked="{Binding IsSundaySelected}" />
+                    </WrapPanel>
+                </StackPanel>
+            </Border>
+
+            <StackPanel Orientation="Horizontal">
+                <components:ErrorMessage Message="{Binding ErrorMessage}"
+                                         IsError="{Binding IsError}" />
+                <Button Content="Edit Medicine" HorizontalAlignment="Right"
+                        Width="120" Margin="0,10,0,0" Foreground="DeepSkyBlue"
+                        Command="{Binding SubmitEditMedicineCommand}" />
+                <Button Content="Delete Medicine" HorizontalAlignment="Right"
+                        Width="120" Margin="0,10,0,0" Foreground="Crimson" 
+                        Command="{Binding SubmitDeleteMedicineCommand}" />
+            </StackPanel>
+        </StackPanel>
+
+    </DockPanel>
+</UserControl>

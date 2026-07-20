@@ -9,6 +9,7 @@
         <entry key="ViewModels/ProfileCreateViewModel.axaml" value="MEMOMed.csproj" />
         <entry key="Views/AddMeasurementsView.axaml" value="MEMOMed.csproj" />
         <entry key="Views/EditMeasurementsView.axaml" value="MEMOMed.csproj" />
+        <entry key="Views/EditMedicineView.axaml" value="MEMOMed.csproj" />
         <entry key="Views/LoginView.axaml" value="MEMOMed.csproj" />
         <entry key="Views/MainWindow.axaml" value="MEMOMed.csproj" />
         <entry key="Views/MedicineConfigurationView.axaml" value="MEMOMed.csproj" />

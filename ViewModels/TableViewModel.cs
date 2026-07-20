@@ -41,7 +41,8 @@ public partial class TableViewModel : ViewModelBase
             _mainWindowViewModel.NavigateToLoginPage();
         }
 
-        SelectHeartMeasurementCommand = new RelayCommand<HeartMeasurement>(OnSelectRecord!);
+        SelectHeartMeasurementCommand = new RelayCommand<HeartMeasurement>(OnSelectHeartRecord!);
+        SelectMedicineCommand = new RelayCommand<Medicine>(OnSelectMedicineRecord!);
 
         var medDao = new MedicineDao();
         var heartDao = new HeartMDao();
@@ -57,10 +58,15 @@ public partial class TableViewModel : ViewModelBase
     }
 
     public ICommand SelectHeartMeasurementCommand { get; }
+    public ICommand SelectMedicineCommand { get; }
 
-    private void OnSelectRecord(HeartMeasurement record)
+    private void OnSelectHeartRecord(HeartMeasurement record)
     {
         _mainWindowViewModel.NavigateToEditMeasurementsPage(record);
+    }
+    private void OnSelectMedicineRecord(Medicine record)
+    {
+        _mainWindowViewModel.NavigateToEditMedicinePage(record);
     }
     
     [RelayCommand]

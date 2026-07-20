@@ -104,47 +104,7 @@ public partial class AddMeasurementsViewModel : ViewModelBase
         var hmdao = new HeartMDao();
         hmdao.InsertRecord(hMeasurement);
     }
-
-    private void SubmitBodyMeasurements() // TO BE REMOVED
-    {
-        if (string.IsNullOrEmpty(SelectedDate.ToString()) || !DateTime.TryParse(SelectedDate.ToString(), out _))
-        {
-            var em = "Invalid Body Measurement: Error in field \"DATETIME\"!";
-            throw new Exception(em);
-        }
-
-        if (string.IsNullOrEmpty(TextField1) || !double.TryParse(TextField1, out _))
-        {
-            var em = "Invalid Body Measurement: Error in field \"TEMPERATURE\"!";
-            throw new Exception(em);
-        }
-
-        BodyMeasurement bodyMeasurement = new BodyMeasurement(
-            Constants.SelectedPersonId!.Value,
-            SelectedDate.ToString("yyyy'/'MM'/'dd"),
-            double.Parse(TextField1)
-        );
-
-        BodyMDao bodyMDao = new BodyMDao();
-        bodyMDao.InsertRecord(bodyMeasurement);
-    }
     
-    [RelayCommand]
-    private void BodyMChange() // TO BE REMOVED
-    {
-        // ChangePage(EPageType.BodyMeasurement);
-        // TextField1Name = "Temperature";
-        // IsTextField2Visible = false;
-        // TextField2Name = string.Empty;
-        // IsTextField3Visible = false;
-        // TextField3Name = string.Empty;
-        // IsTextField4Visible = false;
-        // TextField4Name = string.Empty;
-        // IsTextField5Visible = false;
-        // TextField5Name = string.Empty;
-        // IsVisibleArrhythmiaCheckBox = false;
-    }
-
     [RelayCommand]
     private void HeartMChange()
     {

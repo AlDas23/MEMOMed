@@ -139,7 +139,7 @@ public partial class MedicineConfigurationViewModel : ViewModelBase
         var timeSchedule = TimeSchedule;
         var daySchedule = DaySchedule;
 
-        Medicine medicine = new Medicine(null, NameField, DescriptionField, timeSchedule, daySchedule);
+        Medicine medicine = new Medicine(null, NameField, DescriptionField, daySchedule, timeSchedule);
         _medicineDao = new MedicineDao();
         _medicineDao.InsertEntity(medicine);
     }

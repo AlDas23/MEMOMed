@@ -54,8 +54,8 @@ public class MedicineDao : IGenericDao<Medicine>
                         null,
                         reader.GetString(1),
                         reader.GetString(2),
-                        Medicine.TimeScheduleFromString(reader.GetString(3)),
-                        Medicine.DayScheduleFromString(reader.GetString(4)));
+                        Medicine.DayScheduleFromString(reader.GetString(4)),
+                        Medicine.TimeScheduleFromString(reader.GetString(3)));
                 }
             }
             else
@@ -92,8 +92,8 @@ public class MedicineDao : IGenericDao<Medicine>
                     reader.GetInt32(0),
                     reader.GetString(1),
                     reader.GetString(2),
-                    Medicine.TimeScheduleFromString(reader.GetString(3)),
-                    Medicine.DayScheduleFromString(reader.GetString(4)));
+                    Medicine.DayScheduleFromString(reader.GetString(4)),
+                    Medicine.TimeScheduleFromString(reader.GetString(3)));
                 entityList.Add(medicine);
             }
 
@@ -158,8 +158,8 @@ public class MedicineDao : IGenericDao<Medicine>
                         reader.GetInt32(0),
                         reader.GetString(1),
                         reader.GetString(2),
-                        Medicine.TimeScheduleFromString(reader.GetString(3)),
-                        Medicine.DayScheduleFromString(reader.GetString(4))
+                        Medicine.DayScheduleFromString(reader.GetString(3)),
+                        Medicine.TimeScheduleFromString(reader.GetString(4))
                     );
                     entityList.Add(entity);
                 }
@@ -185,8 +185,8 @@ public class MedicineDao : IGenericDao<Medicine>
                               UPDATE Medicine
                               SET Name = @Name,
                                   Description = @Description,
-                                  DaySchedule = @DaySchedule,
-                                  TimeSchedule = @TimeSchedule
+                                  ScheduleDays = @DaySchedule,
+                                  ScheduleDayTime = @TimeSchedule
                               WHERE Id = @id
                               """;
             cmd.Parameters.AddWithValue("@Name", newEntity.Name);

@@ -73,21 +73,7 @@ public partial class EditMeasurementsViewModel : ViewModelBase
         TextField6 = heartMeasurement.Temperature.ToString();
         IsArrhythmiaCheckBox = heartMeasurement.IsArrhythmia;
     }
-
-    private void BodyPageInit() // TO BE REMOVED
-    {
-        TextField1Name = "Temperature";
-        IsTextField2Visible = false;
-        TextField2Name = string.Empty;
-        IsTextField3Visible = false;
-        TextField3Name = string.Empty;
-        IsTextField4Visible = false;
-        TextField4Name = string.Empty;
-        IsTextField5Visible = false;
-        TextField5Name = string.Empty;
-        IsVisibleArrhythmiaCheckBox = false;
-    }
-
+    
     private void HeartPageInit()
     {
         TextField1Name = "Sys";
@@ -102,31 +88,6 @@ public partial class EditMeasurementsViewModel : ViewModelBase
         IsTextField6Visible = true;
         TextField6Name = "Temperature";
         IsVisibleArrhythmiaCheckBox = true;
-    }
-    
-
-    private void SubmitEditBodyMeasurement() // TO BE REMOVED
-    {
-        if (string.IsNullOrEmpty(SelectedDate.ToString()) || !DateTime.TryParse(SelectedDate.ToString(), out _))
-        {
-            var em = "Invalid Body Measurement: Error in field \"DATETIME\"!";
-            throw new Exception(em);
-        }
-
-        if (string.IsNullOrEmpty(TextField1) || !double.TryParse(TextField1, out _))
-        {
-            var em = "Invalid Body Measurement: Error in field \"TEMPERATURE\"!";
-            throw new Exception(em);
-        }
-
-        var bodyMeasurement = new BodyMeasurement(
-            Constants.SelectedPersonId!.Value,
-            SelectedDate.ToString("yyyy'/'MM'/'dd"),
-            double.Parse(TextField1)
-        );
-
-        var bodyMDao = new BodyMDao();
-        bodyMDao.UpdateRecord(bodyMeasurement, _oldId);
     }
 
     private void SubmitEditHeartMeasurement()
@@ -171,12 +132,6 @@ public partial class EditMeasurementsViewModel : ViewModelBase
 
         var heartMDao = new HeartMDao();
         heartMDao.UpdateRecord(hMeasurement, _oldId);
-    }
-    
-    private void DeleteBodyMeasurement() // TO BE REMOVED
-    {
-        var bodyMDao = new BodyMDao();
-        bodyMDao.DeleteRecord(_oldId);
     }
 
     private void DeleteHeartMeasurement()

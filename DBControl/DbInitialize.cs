@@ -8,8 +8,9 @@ namespace MEMOMed.DBControl;
 
 public static class DbInitialize
 {
-    public static async Task InitializeAsync(string connectionPath, string dbSchema)
+    public static async Task InitializeAsync(string connectionPath)
     {
+        var isNewDb = false;
         var directory = Path.GetDirectoryName(Constants.DbPath);
         if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
         {
@@ -18,15 +19,21 @@ public static class DbInitialize
         else if (File.Exists(Constants.DbPath) &&
                  !IsDbVersionCorrect(await GetExistingDbSchema(connectionPath), Constants.CurrentDbVersion))
         {
-            File.Delete(Constants.DbPath); // Temporary solution
+            await using (var fs = new FileStream(Constants.DbPath, FileMode.Truncate)) {} // Temporary solution
+            isNewDb = true;
         }
 
         await using var conn = new SqliteConnection(connectionPath);
         await conn.OpenAsync();
 
         await using var cmd = conn.CreateCommand();
-        cmd.CommandText = dbSchema;
+        cmd.CommandText = Constants.DbSchema;
         await cmd.ExecuteNonQueryAsync();
+        if (isNewDb)
+        {
+            cmd.CommandText = Constants.DbInit;
+            await cmd.ExecuteNonQueryAsync();
+        }
     }
 
     private static async Task<int> GetExistingDbSchema(string connectionPath)

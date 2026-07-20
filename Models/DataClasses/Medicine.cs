@@ -16,7 +16,7 @@ public class Medicine
     public string TimeScheduleString => GetTimeScheduleString();
 
     // Full constructor
-    public Medicine(int? id, string name, string description, List<EDayTime> timeSchedule, List<EWeekday> daySchedule)
+    public Medicine(int? id, string name, string description, List<EWeekday> daySchedule, List<EDayTime> timeSchedule)
     {
         this.Id = id;
         this.Name = name;
